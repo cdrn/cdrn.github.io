@@ -73,10 +73,10 @@ export default class Messenger extends Component {
   render() {
     return (
       <div className="messenger BreakingNewsLine">
-        <span
+        <div
           onMouseEnter={this.cycleText}
           onMouseLeave={this.cycleText}
-        >{this.state.mainMessage}</span>
+        >{this.state.mainMessage}</div>
       </div>
     )
   }

@@ -9,7 +9,8 @@ const Header = ({ siteTitle }) => (
       marginBottom: `1.45rem`,
       display: `flex`,
       paddingLeft: `5rem`,
-      paddingRight: `5rem`
+      paddingRight: `5rem`,
+      height: `5rem`,
     }}
   >
     <h2>
