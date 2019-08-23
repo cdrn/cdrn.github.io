@@ -9,15 +9,23 @@ h1 {
   font-size: 4rem;
 }
 h2 {
-  font-size: 1.5rem;
+  font-size: 2rem;
 }
 p {
   font-size: 1.2rem;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+  font-size: inherit;
 }
 
 /* Mobile styles */
 @media only screen and (max-width: 600px) {
   h1 {
-    font-size: 2rem
+    font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.5rem;
   }
 }
