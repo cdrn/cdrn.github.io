@@ -1,8 +1,29 @@
 /* Body styles which should persist throughout the page */
+
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
 html {
   font-family: 'lato', sans-serif;
   font-size: 10px;
-  background-color: #4e5a65;
+  background: linear-gradient(230deg, #4e5a65, #4e5465, #4e6065) 0% 0% / 300% 300%;
+  -webkit-animation: AnimationName 30s ease infinite;
+  -moz-animation: AnimationName 30s ease infinite;
+  animation: AnimationName 30s ease infinite;
   color: #eaedef;
 }
 h1 {
