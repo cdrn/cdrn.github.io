@@ -15,7 +15,7 @@ const IndexPage = () => (
     flexDirection: `column`,
     height: `70vh`,
   }}>
-    <SEO title="Home" />
+    <SEO title="cdrn" titleTemplate={`%s`}/>
     <h1 className="braille-name">
       <Messenger news={[`⠠⠡⠗⠊⠌⠕⠏⠓⠻⠀⠠⠙⠕⠗⠁⠝`, `Christopher Doran`]}/>
     </h1>
