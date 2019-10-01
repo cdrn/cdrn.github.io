@@ -3,7 +3,9 @@
   Chris' blog
 </h1>
 
-This is my GH pages blog. It was hacked with haste using Gatsby.
+This is my GH pages blog. It was hacked together with haste using Gatsby.
+
+You can find it [here](https://cdrn.io)
 
 ## Run
 
