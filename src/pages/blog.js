@@ -2,7 +2,8 @@ import React from "react"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import { Link, graphql } from "gatsby"
+import BlogPreview from "../components/blog-preview"
+import { graphql } from "gatsby"
 
 const BlogIndex = (props) => {
   const postList = props.data.allMarkdownRemark
@@ -12,19 +13,21 @@ const BlogIndex = (props) => {
         display: `flex`,
         alignItems: `center`,
         flexDirection: `column`,
-        height: `70vh`,
+        height: `70vh`
       }}>
         <SEO title="cdrn - Blog" titleTemplate={`%s`}/>
-        <h1>This is the blog</h1>
+        <h1>Blog</h1>
         {postList.edges.map(({ node }, i) => (
-        <Link to={node.frontmatter.slug} key={i} className="link" >
-          <div className="post-list">
-            <h1>{node.frontmatter.title}</h1>
-            <span>{node.frontmatter.date}</span>
-            <p>{node.excerpt}</p>
-          </div>
-        </Link>
-      ))}
+          <BlogPreview 
+            index={i}
+            slug={node.slug}
+            title={node.frontmatter.title}
+            date={node.frontmatter.date}
+            author={node.frontmatter.author}
+            tags={node.frontmatter.tags}
+            excerpt={node.excerpt}
+          />
+        ))}
       </div>
     </Layout>
   )
@@ -37,7 +40,7 @@ export const listQuery = graphql`
     allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___date] }) {
       edges {
         node {
-          excerpt(pruneLength: 250)
+          excerpt(pruneLength: 550)
           frontmatter {
             date
             title

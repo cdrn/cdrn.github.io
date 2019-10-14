@@ -1,0 +1,14 @@
+.blog-post {
+  border-radius: 25px;
+  padding: 20px;
+  box-shadow: 0px 10px 82px -19px rgba(0,0,0,0.75);
+  transition: box-shadow 0.2s ease-in-out;
+}
+.blog-post:hover {
+  box-shadow: 0px 10px 82px -19px rgba(0,0,0,0.33);
+}
+
+p {
+  font-size: 1.6rem;
+  line-height: 1.6rem;
+}
