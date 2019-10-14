@@ -20,7 +20,7 @@ const BlogIndex = (props) => {
         {postList.edges.map(({ node }, i) => (
           <BlogPreview 
             index={i}
-            slug={node.slug}
+            slug={node.frontmatter.slug}
             title={node.frontmatter.title}
             date={node.frontmatter.date}
             author={node.frontmatter.author}

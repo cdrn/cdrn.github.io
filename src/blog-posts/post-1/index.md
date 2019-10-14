@@ -31,6 +31,7 @@ their holding it against us by force? what of the siege of Potidaea?-
 places one of which lies most conveniently for any action against the
 Thracian towns; while the other would have contributed a very large
 navy to the Peloponnesians?
+
 For all this you are responsible. You it was who first allowed them
 to fortify their city after the Median war, and afterwards to erect the
 long walls- you who, then and now, are always depriving of freedom
@@ -67,7 +68,8 @@ was himself, and that if our present enemy Athens has not again and
 again annihilated us, we owe it more to her blunders than to your
 protection; Indeed, expectations from you have before now been the
 ruin of some, whose faith induced them to omit preparation.
-"We hope that none of you will consider these words of
+
+We hope that none of you will consider these words of
 remonstrance to be rather words of hostility; men remonstrate with
 friends who are in error, accusations they reserve for enemies who
 have wronged them. Besides, we consider that we have as good a
@@ -103,6 +105,7 @@ demands, and to them laborious occupation is less of a misfortune
 than the peace of a quiet life. To describe their character in a word,
 one might truly say that they were born into the world to take no rest
 themselves and to give none to others.
+
 Such is Athens, your antagonist. And yet, Lacedaemonians, you
 still delay, and fail to see that peace stays longest with those, who
 are not more careful to use their power justly than to show their
@@ -118,6 +121,7 @@ undisturbed communities, constant necessities of action must be
 accompanied by the constant improvement of methods. Thus it
 happens that the vast experience of Athens has carried her further
 than you on the path of innovation.
+
 Here, at least, let your procrastination end. For the present, assist
 your allies and Potidaea in particular, as you promised, by a speedy
 invasion of Attica, and do not sacrifice friends and kindred to their
