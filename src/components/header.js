@@ -19,17 +19,30 @@ const Header = ({ siteTitle }) => (
     width: '50%',
   }}>  
     <h2 className='header-item'>
-        {/* Note, this goes to the file hosted in the static folder */}
-        <a href="/curriculum-vitae-christopher-doran.pdf">
-          <Messenger news={['⠠⠠⠉⠧', 'Curriculum Vitae']}/>
-        </a>
-      </h2>
-    </div>
-    <div style={{
-      display: 'flex',
-      justifyContent: 'flex-end',
-      width: '50%',
-    }}>
+      {/* Note, this goes to the file hosted in the static folder */}
+      <Link to="/">
+        Home
+      </Link>
+    </h2>
+    <h2 className='header-item'>
+      {/* Note, this goes to the file hosted in the static folder */}
+      <Link to="/blog/">
+        Blog
+      </Link>
+    </h2>
+  </div>
+  <div style={{
+    display: 'flex',
+    justifyContent: 'flex-end',
+    width: '50%',
+  }}>
+
+    <h2 className='header-item'>
+      {/* Note, this goes to the file hosted in the static folder */}
+      <a href="/curriculum-vitae-christopher-doran.pdf">
+        <Messenger news={['⠠⠠⠉⠧', 'Curriculum Vitae']}/>
+      </a>
+    </h2>
 
     <h2 className='header-item'>
       <a href="https://linkedin.com/in/cdrn/" target="_blank">
@@ -42,9 +55,8 @@ const Header = ({ siteTitle }) => (
         <Messenger news={['⠛⠊⠹⠥⠃', 'GitHub']}/>
       </a> 
     </h2>
-
+    
     </div>
-  
   </header>
 )
 
