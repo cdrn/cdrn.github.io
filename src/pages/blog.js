@@ -43,7 +43,10 @@ export const listQuery = graphql`
           excerpt(pruneLength: 550)
           frontmatter {
             date
+            author
             title
+            tags
+            slug
           }
         }
       }

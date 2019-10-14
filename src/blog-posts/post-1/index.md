@@ -1,9 +1,10 @@
 ---
-slug: "/debate-at-sparta/"
+slug: "debate-at-sparta"
 title: "Debate at Sparta"
 date: "431-09-01"
 image: ""
 author: "Corinthian Delegate"
+tags: ['Greeks', 'War']
 ---
 
 Lacedaemonians! the confidence which you feel in your
