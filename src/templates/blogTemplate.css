@@ -1,0 +1,9 @@
+.blog-post-container {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 30px;
+}
+p {
+  font-size: 2rem;
+  line-height: 2.2rem;
+}

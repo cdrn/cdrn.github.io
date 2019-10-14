@@ -1,6 +1,8 @@
 import React from "react"
-import { graphql } from "gatsby"
+import { graphql, Link } from "gatsby"
 import Layout from "../components/layout"
+
+import "./blogTemplate.css"
 
 export default function Template({
   data, // this prop will be injected by the GraphQL query below.
@@ -18,6 +20,7 @@ export default function Template({
             dangerouslySetInnerHTML={{ __html: html }}
           />
         </div>
+        <Link to="/blog/">Back to Blogs</Link>
       </div>
     </Layout>
   )
