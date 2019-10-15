@@ -26,6 +26,7 @@ const BlogIndex = (props) => {
             author={node.frontmatter.author}
             tags={node.frontmatter.tags}
             excerpt={node.excerpt}
+            image={node.frontmatter.image}
           />
         ))}
       </div>
@@ -47,6 +48,16 @@ export const listQuery = graphql`
             title
             tags
             slug
+            image {
+              id
+              absolutePath
+              relativePath
+              childImageSharp {
+                fluid(maxWidth: 500) {
+                  ...GatsbyImageSharpFluid
+                }
+              }
+            }
           }
         }
       }

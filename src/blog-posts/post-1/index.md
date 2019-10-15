@@ -2,7 +2,7 @@
 slug: "debate-at-sparta"
 title: "Debate at Sparta"
 date: "431-09-01"
-image: ""
+image: ./parthenon.jpg
 author: "Corinthian Delegate"
 tags: ['Greeks', 'War']
 ---

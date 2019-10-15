@@ -2,7 +2,6 @@
 slug: "debate-at-testing"
 title: "Debate at Testing"
 date: "431-09-01"
-image: ""
 author: "Corinthian Delegate"
 tags: ['Greeks', 'War']
 ---
