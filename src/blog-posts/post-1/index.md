@@ -32,6 +32,8 @@ places one of which lies most conveniently for any action against the
 Thracian towns; while the other would have contributed a very large
 navy to the Peloponnesians?
 
+![alt text](./parthenon.jpg)
+
 For all this you are responsible. You it was who first allowed them
 to fortify their city after the Median war, and afterwards to erect the
 long walls- you who, then and now, are always depriving of freedom

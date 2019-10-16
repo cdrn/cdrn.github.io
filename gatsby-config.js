@@ -20,9 +20,21 @@ module.exports = {
         path: `${__dirname}/src/blog-posts/`,
       },
     },
-    `gatsby-transformer-remark`,
-    `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    `gatsby-transformer-sharp`,
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 500,
+            }
+          }
+        ]
+      }
+    },
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
