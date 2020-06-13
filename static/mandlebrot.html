@@ -1,0 +1,82 @@
+<html>
+  <body>
+    <div class="slidecontainer" style="padding: 10px;">
+      <button onclick="updateMagnifierValue(1000)" id="magnifySet">+</button>
+      <button onclick="updateMagnifierValue(-1000)" id="deMagnifyingSet">-</button>
+
+    </div>
+
+    <script>
+      // Create canvas and bind the context
+      const createCanvas = () => {
+        const canvas = document.createElement('canvas')
+        // TODO: Change this shit later
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight - 50
+        document.body.appendChild(canvas)
+        const ctx = canvas.getContext('2d')
+        return [canvas, ctx]
+      }
+
+
+      // Now it's mandlebrot time
+      const isMandlebrotty = (x, y) => {
+        let realComponentOfResult = x
+        let imaginaryComponentOfResult = y
+        const maxIterations = 100 // This is where we cap our infinity check i guess
+        for (let i = 0; i < maxIterations; i++) {
+          let tempRealComponent = realComponentOfResult * realComponentOfResult - imaginaryComponentOfResult * imaginaryComponentOfResult + x
+          let tempImaginaryComponent = 2 * realComponentOfResult * imaginaryComponentOfResult + y
+          // Reassign our values for the next iteration of our check
+          realComponentOfResult = tempRealComponent
+          imaginaryComponentOfResult = tempImaginaryComponent
+          
+          // Return the percentage as the iteration in which we exceeded our threshold
+          if (realComponentOfResult * imaginaryComponentOfResult > 5) {
+            return (i/maxIterations * 100)
+          }
+        }
+        // Else we do not trend toward infinity, therefore return 0
+        return 0
+      }
+
+      const [canvas, ctx] = createCanvas()
+      let magnifyingFactor = 100
+      let panX = 0
+      let panY = 0
+
+
+      // Listen to our mangification slider
+      const updateMagnifierValue= (value) => {
+        magnifyingFactor += value
+        drawMandlebrotSet()
+      }
+
+      const drawMandlebrotSet = () => {
+        ctx.clearRect(0, 0, 5000, 5000)
+        // Iterate over every pixelin the canvas and apply isMandlebrot with the mangification factor
+        for (let x = 0; x< canvas.width; x++ ) {
+          for (let y = 0; y < canvas.height; y++) {
+            // Dividing by magnifying factor simply implies that one pixel is responsible for a different part of the set?
+            // TODO: work this shit out
+            const belongsToSet = isMandlebrotty(x / magnifyingFactor - panX, y / magnifyingFactor - panY)
+            if (belongsToSet === 0) {
+              ctx.fillStyle='#000'
+              ctx.fillRect(x, y, 1, 1)
+            } else {
+              ctx.fillStyle=`hsl(50, 100%, ${belongsToSet}%)`
+              ctx.fillRect(x, y, 1, 1)
+            }
+          }
+        }
+      }
+
+      drawMandlebrotSet()
+    </script>
+    <style>
+      html, body {
+        margin: 0px !important
+      }
+    </style>
+  </body>
+</html>
