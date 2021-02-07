@@ -22,7 +22,7 @@
       // Now it's mandlebrot time
       const isMandlebrotty = (x, y) => {
         let realComponentOfResult = x
-        let imaginaryComponentOfResult = y
+        let imaginaryComponentOfResult = y // This is our "imaginary" number, sqrt-1
         const maxIterations = 100 // This is where we cap our infinity check i guess
         for (let i = 0; i < maxIterations; i++) {
           let tempRealComponent = realComponentOfResult * realComponentOfResult - imaginaryComponentOfResult * imaginaryComponentOfResult + x

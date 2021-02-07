@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+  </head>
+  <body>
+
+  </body>
+  <script>
+    // We're going on a random walk
+
+    function setup() {
+      createCanvas(800, 800)
+      background(127)
+    }
+
+    function draw() {
+      const walker = new Walker(800, 800)
+      walker.step()
+      walker.display()
+    }
+  
+
+    class Walker {
+      constructor (width, height) {
+        this.x = width/2;
+        this.y = height/2;
+      }
+
+      display () {
+        stroke(1)
+        point(this.x, this.y)
+      }
+      step () {
+        const stepX = random(-1, 1)
+        const stepY = random(-1, 1)
+        this.x += stepX
+        this.y += stepY
+
+        }
+      }
+
+  </script>
+</html>
