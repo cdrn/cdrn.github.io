@@ -2,24 +2,11 @@ import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
 import Messenger from "../components/messenger"
+import headerStyles from "../css/header.module.css"
 
 const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      marginBottom: `1.45rem`,
-      paddingLeft: `5rem`,
-      paddingRight: `5rem`,
-      height: `5rem`,
-      display: `flex`,
-    }}
-  >
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "flex-start",
-        width: "50%",
-      }}
-    >
+  <header className={headerStyles.header}>
+    <div className={headerStyles.leftContent}>
       <h2 className="header-item">
         {/* Note, this goes to the file hosted in the static folder */}
         <Link to="/">Home</Link>
@@ -33,13 +20,7 @@ const Header = ({ siteTitle }) => (
         <Link to="/projects/">Projects</Link>
       </h2>
     </div>
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "flex-end",
-        width: "50%",
-      }}
-    >
+    <div className={headerStyles.rightContent}>
       <h2 className="header-item">
         {/* Note, this goes to the file hosted in the static folder */}
         <a href="/curriculum-vitae-christopher-doran.pdf">

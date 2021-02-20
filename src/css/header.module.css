@@ -1,0 +1,31 @@
+.header {
+  margin-bottom: 1.45rem;
+  padding-left: 5rem;
+  padding-right: 5rem;
+  height: 5rem;
+  display: flex;
+}
+
+.leftContent {
+  display: flex;
+  justify-content: flex-start;
+  width: 50%;
+}
+
+.rightContent {
+  display: flex;
+  justify-content: flex-end;
+  width: 50%;
+}
+
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+  }
+  .leftContent {
+    width: 100%;
+  }
+  .rightContent {
+    width: 100%;
+  }
+}
