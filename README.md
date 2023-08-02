@@ -1,5 +1,5 @@
 ## What?
-Blog/persoal site static generated with eleventy
+Blog/personal site static generated with eleventy
 
 ## Getting Started
 
