@@ -11,13 +11,7 @@
 		"benchmark": "DEBUG=Eleventy:Benchmark* npx @11ty/eleventy"
 	},
 	"repository": {
-		"type": "git",
-		"url": "git://github.com/11ty/eleventy-base-blog.git"
-	},
-	"author": {
-		"name": "Zach Leatherman",
-		"email": "zachleatherman@gmail.com",
-		"url": "https://zachleat.com/"
+		"type": "git"
 	},
 	"license": "MIT",
 	"engines": {
