@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+	
+	<url>
+		<loc>https://cdrn.github.io/eleventy-gh-demo/blog/firstpost/</loc>
+		<lastmod>2018-05-01</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://cdrn.github.io/eleventy-gh-demo/blog/secondpost/</loc>
+		<lastmod>2018-07-04</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://cdrn.github.io/eleventy-gh-demo/blog/thirdpost/</loc>
+		<lastmod>2018-08-24</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://cdrn.github.io/eleventy-gh-demo/blog/fourthpost/</loc>
+		<lastmod>2018-09-30</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://cdrn.github.io/eleventy-gh-demo/about/</loc>
+		<lastmod>2023-08-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://cdrn.github.io/eleventy-gh-demo/blog/</loc>
+		<lastmod>2023-08-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://cdrn.github.io/eleventy-gh-demo/</loc>
+		<lastmod>2023-08-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://cdrn.github.io/eleventy-gh-demo/tags/</loc>
+		<lastmod>2023-08-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://cdrn.github.io/eleventy-gh-demo/tags/another-tag/</loc>
+		<lastmod>2023-08-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://cdrn.github.io/eleventy-gh-demo/tags/number-2/</loc>
+		<lastmod>2023-08-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://cdrn.github.io/eleventy-gh-demo/tags/second-tag/</loc>
+		<lastmod>2023-08-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://cdrn.github.io/eleventy-gh-demo/tags/posts-with-two-tags/</loc>
+		<lastmod>2023-08-03</lastmod>
+	</url>
+</urlset>
