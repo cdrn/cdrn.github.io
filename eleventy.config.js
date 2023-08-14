@@ -88,7 +88,8 @@ module.exports = function(eleventyConfig) {
 				ariaHidden: false,
 			}),
 			level: [1,2,3,4],
-			slugify: eleventyConfig.getFilter("slugify")
+			slugify: eleventyConfig.getFilter("slugify"),
+			linkify: true,
 		});
 	});
 
