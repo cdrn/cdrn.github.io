@@ -11,7 +11,7 @@ I recently gave a talk at [eth melbourne](https://ethmelbourne.co/) in which i g
 First of all, if you're not really familiar with what a smart contract is on Ethereum (and in general), there are plenty of resources out there to get up to speed. I won't be covering that in this post, but you can look [here](https://ethereum.org/en/smart-contracts/#:~:text=Smart%20contracts%20are%20the%20fundamental,if%20this%20then%20that%20structure) for a choose your own difficulty explanation. What I want to talk about specifically is what we mean by _contract data_ and talk a little bit about how the EVM handles memory, but more specifically _storage_
 
 ### Great, so what is contract storage?
-All of the data in Ethereum is held in a global state tree, in the form of a *Patricia Merkle Tree*. We'll talk a little bit more about this later, but for an ethereum smart contract developer it essenitally functions as a key value store.
+All of the data in Ethereum is held in a global state tree, in the form of a *Patricia Merkle Tree*. We'll talk a little bit more about this later, but for an ethereum smart contract developer it essentially functions as a key value store.
 
 From the perspective of said developer, `storage` is just a data store that can be used to persist state between block/contract calls. Storage is often used judiciously as it becomes very expensive very quickly. In fact, evm.codes indicates that calls to `SSTORE` and `SLOAD` are justifiably [30 times more expensive](https://www.evm.codes/#54?fork=shanghai) than their in memory counterparts. Thus, as of the time of writing, storage is reserved for memory that absolutely must be persisted in ethereum state.
 
