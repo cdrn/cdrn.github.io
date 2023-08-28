@@ -4,12 +4,42 @@
 	<subtitle>I am writing about my experiences as a naval navel-gazer.</subtitle>
 	<link href="https://cdrn.github.io/feed/feed.xml" rel="self"/>
 	<link href="https://cdrn.github.io/"/>
-	<updated>2023-08-03T00:00:00Z</updated>
+	<updated>2023-08-28T00:00:00Z</updated>
 	<id>https://cdrn.github.io</id>
 	<author>
 		<name>Chris</name>
 		<email>chrisdoran@protonmail.com</email>
 	</author>
+	
+	<entry>
+		<title>Eth contract data pt 2. Storage tree, cast and RPC</title>
+		<link href="https://cdrn.github.io/blog/slurpingcontractdatapt2/"/>
+		<updated>2023-08-28T00:00:00Z</updated>
+		<id>https://cdrn.github.io/blog/slurpingcontractdatapt2/</id>
+		<content type="html">&lt;p&gt;I recently gave a talk at &lt;a href=&quot;https://ethmelbourne.co/&quot;&gt;eth melbourne&lt;/a&gt; in which i gave some tips and tricks for indexing eth contract data, as well as a brief overview of exactly &lt;em&gt;what&lt;/em&gt; contract data is on ethereum and a quick dive into the EVM. This is part two of a two part blog post - you can find the first part &lt;a href=&quot;https://cdrn.github.io/blog/slurpingcontractdatapt1/&quot;&gt;here&lt;/a&gt;. In this part, I want to cover some of your best options for getting into the yummy stuff (contract data) in both scalable and unscalable ways.&lt;/p&gt;
+&lt;h2 id=&quot;what-is-the-storage-tree&quot; tabindex=&quot;-1&quot;&gt;What is the storage tree &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/slurpingcontractdatapt2/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;In our last post, we talked a little bit about how contract data is stored in a &amp;quot;patricia merkle&amp;quot; tree called the ethereum storage tree. In order to demystify this a little, I want to get into the nitty gritty of manually grabbing items off of this trie so you can see how both accessible it is and how we can build up our own state database over time&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://cdrn.github.io/img/WdB1jpd5US-300.avif 300w, https://cdrn.github.io/img/WdB1jpd5US-600.avif 600w&quot; sizes=&quot;(max-width: 991px) 193px, 278px&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://cdrn.github.io/img/WdB1jpd5US-300.webp 300w, https://cdrn.github.io/img/WdB1jpd5US-600.webp 600w&quot; sizes=&quot;(max-width: 991px) 193px, 278px&quot;&gt;&lt;source type=&quot;image/png&quot; srcset=&quot;https://cdrn.github.io/img/WdB1jpd5US-300.png 300w, https://cdrn.github.io/img/WdB1jpd5US-600.png 600w&quot; sizes=&quot;(max-width: 991px) 193px, 278px&quot;&gt;&lt;img alt=&quot;A great explanation of how the ethereum state tree works [credit here](https://ethereum.stackexchange.com/questions/6415/eli5-how-does-a-merkle-patricia-trie-tree-work)&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://cdrn.github.io/img/WdB1jpd5US-300.png&quot; width=&quot;600&quot; height=&quot;423&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;Ethereum in it&#39;s current implementation (as of 2023) actually utilises &lt;a href=&quot;https://ethereum.org/en/developers/docs/data-structures-and-encoding/patricia-merkle-trie/#tries-in-ethereum&quot;&gt;3 patricia merkle trees&lt;/a&gt; which have the following useful properties:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Their lookup and retrieval time is O(k) where k is key length -- in Ethereum always 20 bytes.&lt;/li&gt;
+&lt;li&gt;Leaf nodes are cryptographically verifiable by only needing to store the state of the path to the root node (the state root) - this means clients do not need the entire state of the tree to verify whether a piece of data is legitimate or not.
+For this reason, storage in eth is more or less treated as a hashmap which is especially good news for us if we are interested in mass retrieval - we can be sure it will be relatively fast and we will will also be able to parallelize it (should we so choose)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The storage tree is just the Patricia Merkle Tree that stores all of the &amp;quot;storage&amp;quot; data from the execution of Eth smart contracts. If a contract requires between block, between call memory storage, this is the data structure it lives in&lt;/p&gt;
+&lt;h2 id=&quot;interrogating-the-storage-state-tree&quot; tabindex=&quot;-1&quot;&gt;Interrogating the storage/state tree &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/slurpingcontractdatapt2/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;For first time ethereum users, the best way to get a handle on the structure and operation of contract data on the chain is using foundry&#39;s &lt;a href=&quot;https://github.com/foundry-rs/foundry/tree/master/crates/cast&quot;&gt;&lt;code&gt;cast&lt;/code&gt; tool&lt;/a&gt;. Cast provides a lot of convenience and hides some of the ugliest parts of interacting with ethereum&#39;s &lt;a href=&quot;https://ethereum.org/en/developers/docs/apis/json-rpc/&quot;&gt;underlying RPC methods&lt;/a&gt; which will become obvious later in this post.&lt;/p&gt;
+&lt;p&gt;Foundry is easy to install by &lt;a href=&quot;https://book.getfoundry.sh/getting-started/installation&quot;&gt;following these docs&lt;/a&gt; which I&#39;ve paraphrased below for convenience. In your terminal, run:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;curl&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-L&lt;/span&gt; https://foundry.paradigm.xyz &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;bash&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Once foundry is installed simply run&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;foundryup&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;and you should have access to the &lt;code&gt;cast&lt;/code&gt; command in your command line. You can type in &lt;code&gt;cast&lt;/code&gt; to see the subcommands available to you. This also comes with &lt;code&gt;forge&lt;/code&gt;, &lt;code&gt;anvil&lt;/code&gt;, and &lt;code&gt;chisel&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;You&#39;re going to need an ethereum node to talk to. Either you can set up and run your own locally, or more conveniently &lt;a href=&quot;https://app.infura.io/dashboard&quot;&gt;grab a free infura API key&lt;/a&gt;. Once you&#39;ve got an API URL, set the env var in your console like so&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token assign-left variable&quot;&gt;ETH_RPC_URL&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;YOUR_INFURA_URL&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For now, let&#39;s try inspecting the state of a live smart contract to hopefully demystify the inner workings of the eth chain. The contract for the now ancient Uniswap v2 Router lives &lt;a href=&quot;https://etherscan.io/address/0x7a250d5630b4cf539739df2c5dacb4c659f2488d&quot;&gt;here&lt;/a&gt;. Let&#39;s grab it and see what it looks like.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;/code&gt;&lt;/pre&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Eth contract data pt 1.</title>

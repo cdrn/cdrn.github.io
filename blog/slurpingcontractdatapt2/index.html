@@ -3,9 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Eth contract data pt 1.</title>
+        <title>Eth contract data pt 2. Storage tree, cast and RPC</title>
         <meta
-        name="description" content="Basic overview of where contract data lives in ethereum">
+        name="description" content="Let&#39;s investigate a command line tool to help us understand the storage tree">
         <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Chris&#39; blog">
         <link rel="alternate" href="/feed/feed.json" type="application/json" title="Chris&#39; blog">
         
@@ -471,38 +471,41 @@ h2 + .header-anchor {
         </header>
         <main id="skip">
             
-<h1>Eth contract data pt 1.</h1>
+<h1>Eth contract data pt 2. Storage tree, cast and RPC</h1>
 
 <ul class="post-metadata">
-	<li><time datetime="2023-08-03">03 August 2023</time></li>
+	<li><time datetime="2023-08-28">28 August 2023</time></li>
 	<li><a href="/tags/ethereum-thegraph-forge-contract-data-mempool-storage/" class="post-tag">ethereum, thegraph, forge, contract data, mempool, storage</a></li>
 </ul>
 
-<p>I recently gave a talk at <a href="https://ethmelbourne.co/">eth melbourne</a> in which i gave some tips and tricks for indexing eth contract data, as well as a brief overview of exactly <em>what</em> contract data is on ethereum and a quick dive into the EVM. In the interest of sharing, I'd like to condense my talk down into a series of blog posts.</p>
-<h3 id="what-is-contract-data" tabindex="-1">What is contract data? <a class="header-anchor" href="#what-is-contract-data">#</a></h3>
-<p>First of all, if you're not really familiar with what a smart contract is on Ethereum (and in general), there are plenty of resources out there to get up to speed. I won't be covering that in this post, but you can look <a href="https://ethereum.org/en/smart-contracts/#:~:text=Smart%20contracts%20are%20the%20fundamental,if%20this%20then%20that%20structure">here</a> for a choose your own difficulty explanation. What I want to talk about specifically is what we mean by <em>contract data</em> and talk a little bit about how the EVM handles memory, but more specifically <em>storage</em></p>
-<h3 id="great-so-what-is-contract-storage" tabindex="-1">Great, so what is contract storage? <a class="header-anchor" href="#great-so-what-is-contract-storage">#</a></h3>
-<p>All of the data in Ethereum is held in a global state tree, in the form of a <em>Patricia Merkle Tree</em>. We'll talk a little bit more about this later, but for an ethereum smart contract developer it essentially functions as a key value store.</p>
-<p>From the perspective of said developer, <code>storage</code> is just a data store that can be used to persist state between block/contract calls. Storage is often used judiciously as it becomes very expensive very quickly. In fact, evm.codes indicates that calls to <code>SSTORE</code> and <code>SLOAD</code> are justifiably <a href="https://www.evm.codes/#54?fork=shanghai">30 times more expensive</a> than their in memory counterparts. Thus, as of the time of writing, storage is reserved for memory that absolutely must be persisted in ethereum state.</p>
-<p>In solidity, calls to storage are obvious and look like the following:</p>
-<pre class="language-solidity" tabindex="0"><code class="language-solidity"><span class="token builtin">uint</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token keyword">storage</span> _arr<span class="token punctuation">,</span></code></pre>
-<p>You can find about a million examples of this online, but suffice to say if you are declaring a variable as <code>storage</code>, operating on it will be expensive!</p>
-<h3 id="ethereum-state-tree" tabindex="-1">Ethereum state tree <a class="header-anchor" href="#ethereum-state-tree">#</a></h3>
-<p>So, we know that our <code>storage</code> calls are being persisted somewhere on the blockchain consistently between all clients, but we don't yet know how ethereum handles said state. As alluded to earlier, all of Ethereum's state is bound up in a Patricia Merkle tree which we can dive a little deeper into to further our understanding of the system.</p>
-<p>Like all good tree implementations, the Patricia Merkle Tree is about balancing retrieval, insertion and traversal time. As the word <em>merkle</em> implies however, this data structure has a fourth important property <em>cryptographic verifiability</em>. Essentially what it boils down to is this: Given a piece of state and a <code>state root hash</code>, any node can verify the integrity of that state by computing the chain of hashes along the branch of the patricia merkle tree which connects that transaction all the way back to the state root. Powerfully, this means a couple of things:</p>
+<p>I recently gave a talk at <a href="https://ethmelbourne.co/">eth melbourne</a> in which i gave some tips and tricks for indexing eth contract data, as well as a brief overview of exactly <em>what</em> contract data is on ethereum and a quick dive into the EVM. This is part two of a two part blog post - you can find the first part <a href="https://cdrn.github.io/blog/slurpingcontractdatapt1/">here</a>. In this part, I want to cover some of your best options for getting into the yummy stuff (contract data) in both scalable and unscalable ways.</p>
+<h2 id="what-is-the-storage-tree" tabindex="-1">What is the storage tree <a class="header-anchor" href="#what-is-the-storage-tree">#</a></h2>
+<p>In our last post, we talked a little bit about how contract data is stored in a &quot;patricia merkle&quot; tree called the ethereum storage tree. In order to demystify this a little, I want to get into the nitty gritty of manually grabbing items off of this trie so you can see how both accessible it is and how we can build up our own state database over time</p>
+<p><picture><source type="image/avif" srcset="/img/WdB1jpd5US-300.avif 300w, /img/WdB1jpd5US-600.avif 600w" sizes="(max-width: 991px) 193px, 278px"><source type="image/webp" srcset="/img/WdB1jpd5US-300.webp 300w, /img/WdB1jpd5US-600.webp 600w" sizes="(max-width: 991px) 193px, 278px"><source type="image/png" srcset="/img/WdB1jpd5US-300.png 300w, /img/WdB1jpd5US-600.png 600w" sizes="(max-width: 991px) 193px, 278px"><img alt="A great explanation of how the ethereum state tree works [credit here](https://ethereum.stackexchange.com/questions/6415/eli5-how-does-a-merkle-patricia-trie-tree-work)" loading="lazy" decoding="async" src="/img/WdB1jpd5US-300.png" width="600" height="423"></picture></p>
+<p>Ethereum in it's current implementation (as of 2023) actually utilises <a href="https://ethereum.org/en/developers/docs/data-structures-and-encoding/patricia-merkle-trie/#tries-in-ethereum">3 patricia merkle trees</a> which have the following useful properties:</p>
 <ol>
-<li>Clients can be sure that a state such as the balance of their account is authentic without having to hold the entire state of the ethereum blockchain on their local machine (To date over 100GB including merkle proofs).</li>
-<li>Clients can efficiently enough retrieve and insert new states to the state tree while preserving the above principal. As we recall from our leetcodes, trie insertion time and look up is o(k) (very fast!) where K is the input size  -- in this case, clipped at 20 bytes which is the size of an ethereum address! Pretty genius!</li>
+<li>Their lookup and retrieval time is O(k) where k is key length -- in Ethereum always 20 bytes.</li>
+<li>Leaf nodes are cryptographically verifiable by only needing to store the state of the path to the root node (the state root) - this means clients do not need the entire state of the tree to verify whether a piece of data is legitimate or not.
+For this reason, storage in eth is more or less treated as a hashmap which is especially good news for us if we are interested in mass retrieval - we can be sure it will be relatively fast and we will will also be able to parallelize it (should we so choose)</li>
 </ol>
-<p>The actual implementation of the state tree is quite inspired, and i'd recommend you look <a href="https://blog.ethereum.org/2015/11/15/merkling-in-ethereum">here</a> if you're interested in finding out more. For the purposes of this post however, all you need to understand is that in Ethereum it's functioning as a key value store with some very interesting properties, where all the keys are 20 byte ethereum contract addresses, and some of the values are the contract data we're interested in. Neat!</p>
-<h3 id="part-2-coming-soon" tabindex="-1">Part 2 (Coming soon) <a class="header-anchor" href="#part-2-coming-soon">#</a></h3>
-<p>In part two we'll discuss your options for stealing all of that yummy free contract data, why you'd want to and how your approach might change depending on what you're building.</p>
+<p>The storage tree is just the Patricia Merkle Tree that stores all of the &quot;storage&quot; data from the execution of Eth smart contracts. If a contract requires between block, between call memory storage, this is the data structure it lives in</p>
+<h2 id="interrogating-the-storage-state-tree" tabindex="-1">Interrogating the storage/state tree <a class="header-anchor" href="#interrogating-the-storage-state-tree">#</a></h2>
+<p>For first time ethereum users, the best way to get a handle on the structure and operation of contract data on the chain is using foundry's <a href="https://github.com/foundry-rs/foundry/tree/master/crates/cast"><code>cast</code> tool</a>. Cast provides a lot of convenience and hides some of the ugliest parts of interacting with ethereum's <a href="https://ethereum.org/en/developers/docs/apis/json-rpc/">underlying RPC methods</a> which will become obvious later in this post.</p>
+<p>Foundry is easy to install by <a href="https://book.getfoundry.sh/getting-started/installation">following these docs</a> which I've paraphrased below for convenience. In your terminal, run:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">curl</span> <span class="token parameter variable">-L</span> https://foundry.paradigm.xyz <span class="token operator">|</span> <span class="token function">bash</span></code></pre>
+<p>Once foundry is installed simply run</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">foundryup</code></pre>
+<p>and you should have access to the <code>cast</code> command in your command line. You can type in <code>cast</code> to see the subcommands available to you. This also comes with <code>forge</code>, <code>anvil</code>, and <code>chisel</code>.</p>
+<p>You're going to need an ethereum node to talk to. Either you can set up and run your own locally, or more conveniently <a href="https://app.infura.io/dashboard">grab a free infura API key</a>. Once you've got an API URL, set the env var in your console like so</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token builtin class-name">export</span> <span class="token assign-left variable">ETH_RPC_URL</span><span class="token operator">=</span><span class="token operator">&lt;</span>YOUR_INFURA_URL<span class="token operator">></span></code></pre>
+<p>For now, let's try inspecting the state of a live smart contract to hopefully demystify the inner workings of the eth chain. The contract for the now ancient Uniswap v2 Router lives <a href="https://etherscan.io/address/0x7a250d5630b4cf539739df2c5dacb4c659f2488d">here</a>. Let's grab it and see what it looks like.</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"></code></pre>
 
-<ul class="links-nextprev"><li>Next: <a href="/blog/slurpingcontractdatapt2/">Eth contract data pt 2. Storage tree, cast and RPC</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/blog/slurpingcontractdatapt1/">Eth contract data pt 1.</a></li>
 </ul>
 
         </main>
         <footer></footer>
-        <!-- Current page: /blog/slurpingcontractdatapt1/ -->
+        <!-- Current page: /blog/slurpingcontractdatapt2/ -->
     </body>
 </html>
