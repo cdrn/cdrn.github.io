@@ -4,24 +4,12 @@
 	<subtitle>I am writing about my experiences as a naval navel-gazer.</subtitle>
 	<link href="https://cdrn.github.io/feed/feed.xml" rel="self"/>
 	<link href="https://cdrn.github.io/"/>
-	<updated>2023-08-18T00:00:00Z</updated>
+	<updated>2023-08-03T00:00:00Z</updated>
 	<id>https://cdrn.github.io</id>
 	<author>
 		<name>Chris</name>
 		<email>chrisdoran@protonmail.com</email>
 	</author>
-	
-	<entry>
-		<title>Indexing ethereum contract data pt 2.</title>
-		<link href="https://cdrn.github.io/blog/slupringcontractdatapt2/slurpingcontractdatapt2/"/>
-		<updated>2023-08-18T00:00:00Z</updated>
-		<id>https://cdrn.github.io/blog/slupringcontractdatapt2/slurpingcontractdatapt2/</id>
-		<content type="html">&lt;p&gt;I recently gave a talk at &lt;a href=&quot;https://ethmelbourne.co/&quot;&gt;eth melbourne&lt;/a&gt; in which i gave some tips and tricks for indexing eth contract data, as well as a brief overview of exactly &lt;em&gt;what&lt;/em&gt; contract data is on ethereum and a quick dive into the EVM. This is part two of a two part blog post - you can find the first part &lt;a href=&quot;https://cdrn.github.io/blog/slurpingcontractdatapt1/&quot;&gt;here&lt;/a&gt;. In this part, I want to cover some of your best options for getting into the yummy stuff (contract data) in both scalable and unscalable ways.&lt;/p&gt;
-&lt;h2 id=&quot;interrogating-the-ethereum-state-tree&quot; tabindex=&quot;-1&quot;&gt;Interrogating the ethereum state tree &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/slupringcontractdatapt2/slurpingcontractdatapt2/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;In our last post, we talked a little bit about how contract data is stored in a &amp;quot;patricia merkle&amp;quot; tree called the ethereum state tree. In order to demystify this a little, I want to get into the nitty gritty of manually grabbing items off of this trie so you can see how both accessible it is and how we can build up our own state database over time
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://cdrn.github.io/img/WdB1jpd5US-3072.avif 3072w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://cdrn.github.io/img/WdB1jpd5US-3072.webp 3072w&quot;&gt;&lt;img alt=&quot;A great explanation of how the ethereum state tree works [credit here](https://ethereum.stackexchange.com/questions/6415/eli5-how-does-a-merkle-patricia-trie-tree-work)&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://cdrn.github.io/img/WdB1jpd5US-3072.png&quot; width=&quot;3072&quot; height=&quot;2170&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
-</content>
-	</entry>
 	
 	<entry>
 		<title>Indexing ethereum contract data pt 1.</title>
