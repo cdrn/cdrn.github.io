@@ -1,6 +1,6 @@
 ---
-title: Indexing ethereum contract data pt 1.
-description: How to index ethereum contract data at scale + tips and tricks
+title: Eth contract data pt 1.
+description: Basic overview of where contract data lives in ethereum
 date: 2023-08-03
 tags: ethereum, thegraph, forge, contract data, mempool, storage
 ---
