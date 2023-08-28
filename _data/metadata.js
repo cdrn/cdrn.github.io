@@ -1,8 +1,8 @@
 module.exports = {
-	title: "Chris' blog",
+	title: "Chris Doran",
 	url: "https://cdrn.github.io",
 	language: "en",
-	description: "I am writing about my experiences as a naval navel-gazer.",
+	description: "blög",
 	author: {
 		name: "Chris",
 		email: "chrisdoran@protonmail.com",
