@@ -47,7 +47,7 @@ cast storage 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984
 ```
 
 Your output should look something like the following:
-```
+```bash
 | Name                | Type                                                         | Slot | Offset | Bytes | Value                                            | Contract             |
 |---------------------|--------------------------------------------------------------|------|--------|-------|--------------------------------------------------|----------------------|
 | totalSupply         | uint256                                                      | 0    | 0      | 32    | 1000000000000000000000000000                     | Uni/Contract.sol:Uni |
