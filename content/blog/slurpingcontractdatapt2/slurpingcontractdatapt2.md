@@ -2,7 +2,6 @@
 title: Eth contract data pt 2. Storage tree, cast and RPC
 description: Let's investigate a command line tool to help us understand the storage tree
 date: 2023-08-28
-draft: true
 tags: ethereum, thegraph, forge, contract data, mempool, storage
 ---
 I recently gave a talk at [eth melbourne](https://ethmelbourne.co/) in which i gave some tips and tricks for indexing eth contract data, as well as a brief overview of exactly _what_ contract data is on ethereum and a quick dive into the EVM. This is part two of a two part blog post - you can find the first part [here](https://cdrn.github.io/blog/slurpingcontractdatapt1/). In this part, I want to cover some of your best options for getting into the yummy stuff (contract data) in both scalable and unscalable ways.
@@ -36,5 +35,15 @@ foundryup
 ```
 and you should have access to the `cast` command in your command line. You can type in `cast` to see the subcommands available to you. This also comes with `forge`, `anvil`, and `chisel`.
 
-For now, let's try inspecting the state of a live smart contract to hopefully demystify the inner workings of the eth chain. 
+You're going to need an ethereum node to talk to. Either you can set up and run your own locally, or more conveniently [grab a free infura API key](https://app.infura.io/dashboard). Once you've got an API URL, set the env var in your console like so
+```bash
+export ETH_RPC_URL=<YOUR_INFURA_URL>
+```
+
+For now, let's try inspecting the state of a live smart contract to hopefully demystify the inner workings of the eth chain. The contract for the now ancient Uniswap v2 Router lives [here](https://etherscan.io/address/0x7a250d5630b4cf539739df2c5dacb4c659f2488d). Let's grab it and see what it looks like.
+
+```bash
+
+```
+
 
