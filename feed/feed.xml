@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:base="en">
-	<title>Chris&#39; blog</title>
-	<subtitle>I am writing about my experiences as a naval navel-gazer.</subtitle>
+	<title>Chris Doran</title>
+	<subtitle>blög</subtitle>
 	<link href="https://cdrn.github.io/feed/feed.xml" rel="self"/>
 	<link href="https://cdrn.github.io/"/>
 	<updated>2023-08-28T00:00:00Z</updated>
