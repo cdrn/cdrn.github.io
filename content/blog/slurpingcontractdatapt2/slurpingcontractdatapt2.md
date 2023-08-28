@@ -61,7 +61,7 @@ Your output should look something like the following:
 | nonces              | mapping(address => uint256)                                  | 8    | 0      | 32    | 0                                                | Uni/Contract.sol:Uni |
 ```
 
-This is showing us the values stored at a given storage address in the ethereum storage tree. Neat! We can even see the values in decimal here - although keep in mind for things like `totalSupply` this is in base units - to get the whole unit value you have to divide by `10^18`. Cast is, however, doing a lot behind the scenes to get us here. Cast first does the following:
+This is showing us the values stored at a given storage address in the ethereum storage tree. Neat! We can even see the values in decimal here - although keep in mind for things like `totalSupply` this is in base units - to get the whole unit value you have to divide by `10^18`. Cast is doing a lot behind the scenes to get us here. Something like this is taking place:
 1. Goes to etherscan to retrieve the ABIs or Application Binary Interfaces required to interpret the deployed contracts. Without the ABIs, it's impossible to interpret the data correctly. Etherscan, Blockscout and other block explorers allow contract writers to upload [verified versions of contracts](https://etherscan.io/token/0x1f9840a85d5af5bf1d1762f925bdaddc4201f984#code)
 2. Makes the required RPC calls which take and receive arguments in hex
 3. Translates the received RPC responses from hex to decimal (You can also use cast's build in `hex-to-dec`)
