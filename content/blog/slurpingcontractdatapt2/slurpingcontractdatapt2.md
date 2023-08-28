@@ -40,10 +40,35 @@ You're going to need an ethereum node to talk to. Either you can set up and run 
 export ETH_RPC_URL=<YOUR_INFURA_URL>
 ```
 
-For now, let's try inspecting the state of a live smart contract to hopefully demystify the inner workings of the eth chain. The contract for the now ancient Uniswap v2 Router lives [here](https://etherscan.io/address/0x7a250d5630b4cf539739df2c5dacb4c659f2488d). Let's grab it and see what it looks like.
+For now, let's try inspecting the state of a live smart contract to hopefully demystify the inner workings of the eth chain. The contract for the uniswap governance token lives [here](https://etherscan.io/token/0x1f9840a85d5af5bf1d1762f925bdaddc4201f984). Let's grab it and see what it looks like. We can introspect the storage attached to the contract super easily with the following cast command:
 
 ```bash
-
+cast storage 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984
 ```
 
+Your output should look something like the following:
+```
+| Name                | Type                                                         | Slot | Offset | Bytes | Value                                            | Contract             |
+|---------------------|--------------------------------------------------------------|------|--------|-------|--------------------------------------------------|----------------------|
+| totalSupply         | uint256                                                      | 0    | 0      | 32    | 1000000000000000000000000000                     | Uni/Contract.sol:Uni |
+| minter              | address                                                      | 1    | 0      | 20    | 151923958270022490478906441731290990705404425660 | Uni/Contract.sol:Uni |
+| mintingAllowedAfter | uint256                                                      | 2    | 0      | 32    | 1704067200                                       | Uni/Contract.sol:Uni |
+| allowances          | mapping(address => mapping(address => uint96))               | 3    | 0      | 32    | 0                                                | Uni/Contract.sol:Uni |
+| balances            | mapping(address => uint96)                                   | 4    | 0      | 32    | 0                                                | Uni/Contract.sol:Uni |
+| delegates           | mapping(address => address)                                  | 5    | 0      | 32    | 0                                                | Uni/Contract.sol:Uni |
+| checkpoints         | mapping(address => mapping(uint32 => struct Uni.Checkpoint)) | 6    | 0      | 32    | 0                                                | Uni/Contract.sol:Uni |
+| numCheckpoints      | mapping(address => uint32)                                   | 7    | 0      | 32    | 0                                                | Uni/Contract.sol:Uni |
+| nonces              | mapping(address => uint256)                                  | 8    | 0      | 32    | 0                                                | Uni/Contract.sol:Uni |
+```
+
+This is showing us the values stored at a given storage address in the ethereum storage tree. Neat! We can even see the values in decimal here - although keep in mind for things like `totalSupply` this is in base units - to get the whole unit value you have to divide by `10^18`. Cast is, however, doing a lot behind the scenes to get us here. Cast first does the following:
+1. Goes to etherscan to retrieve the ABIs or Application Binary Interfaces required to interpret the deployed contracts. Without the ABIs, it's impossible to interpret the data correctly. Etherscan, Blockscout and other block explorers allow contract writers to upload [verified versions of contracts](https://etherscan.io/token/0x1f9840a85d5af5bf1d1762f925bdaddc4201f984#code)
+2. Makes the required RPC calls which take and receive arguments in hex
+3. Translates the received RPC responses from hex to decimal (You can also use cast's build in `hex-to-dec`)
+
+These are a few extra steps, but hypothetically anyone could go directly to the requisite ethereum RPCs and grab the data!
+
+## Next Steps
+
+Woof, that was a lot! In the next post i'll quickly go over your best and quickest ways to index ethereum contract data at scale. I'll also upload the slide deck from the talk.
 
