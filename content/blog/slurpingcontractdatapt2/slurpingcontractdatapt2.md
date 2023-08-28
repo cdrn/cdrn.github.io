@@ -1,5 +1,5 @@
 ---
-title: Indexing ethereum contract data pt 2 - Storage trees, on chain inspection
+title: Eth contract data pt 2. Storage tree, cast and RPC
 description: Let's investigate a command line tool to help us understand the storage tree
 date: 2023-08-28
 draft: true
