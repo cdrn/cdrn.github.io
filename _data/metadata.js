@@ -5,7 +5,7 @@ module.exports = {
 	description: "blög",
 	author: {
 		name: "Chris",
-		email: "chrisdoran@protonmail.com",
+		email: "chrisdoran at protonmail",
 		url: "https://cdrn.github.io/about-me/"
 	}
 }
