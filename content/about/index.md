@@ -10,4 +10,4 @@ I am a human person who writes about human type concerns. You can find me at [gi
 
 Here is a very cool picture of me with my [favourite statue](https://en.wikipedia.org/wiki/Laoco%C3%B6n_and_His_Sons), which is also very cool.
 
-{% image "./chris_w_the_homie_lacoon.jpg", "a very cool pic of me with my [favourite statue](https://en.wikipedia.org/wiki/Laoco%C3%B6n_and_His_Sons)", ["600px", "900px"], "(max-width: 991px) 193px, 278px" %}
+{% image "./chris_w_the_homie_lacoon.jpg", "a very cool pic of me with my [favourite statue](https://en.wikipedia.org/wiki/Laoco%C3%B6n_and_His_Sons)", ["300px", "600px"], "(max-width: 991px) 300px, 600px" %}

@@ -10,7 +10,7 @@ I recently gave a talk at [eth melbourne](https://ethmelbourne.co/) in which i g
 In our last post, we talked a little bit about how contract data is stored in a "patricia merkle" tree called the ethereum storage tree. In order to demystify this a little, I want to get into the nitty gritty of manually grabbing items off of this trie so you can see how both accessible it is and how we can build up our own state database over time
 
 
-{% image "./worldstatetrie.png", "A great explanation of how the ethereum state tree works [credit here](https://ethereum.stackexchange.com/questions/6415/eli5-how-does-a-merkle-patricia-trie-tree-work)", ["600px", "900px"], "(max-width: 991px) 193px, 278px" %}
+{% image "./worldstatetrie.png", "A great explanation of how the ethereum state tree works [credit here](https://ethereum.stackexchange.com/questions/6415/eli5-how-does-a-merkle-patricia-trie-tree-work)", ["300px", "600px"], "(max-width: 991px) 300px, 600px" %}
 
 
 Ethereum in it's current implementation (as of 2023) actually utilises [3 patricia merkle trees](https://ethereum.org/en/developers/docs/data-structures-and-encoding/patricia-merkle-trie/#tries-in-ethereum) which have the following useful properties:
