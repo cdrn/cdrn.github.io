@@ -2,7 +2,7 @@
 title: Eth contract data pt 1.
 description: Basic overview of where contract data lives in ethereum
 date: 2023-08-03
-tags: ethereum, thegraph, forge, contract data, mempool, storage
+tags: ethereum thegraph forge contract data mempool storage
 ---
 I recently gave a talk at [eth melbourne](https://ethmelbourne.co/) in which i gave some tips and tricks for indexing eth contract data, as well as a brief overview of exactly _what_ contract data is on ethereum and a quick dive into the EVM. In the interest of sharing, I'd like to condense my talk down into a series of blog posts.
 
