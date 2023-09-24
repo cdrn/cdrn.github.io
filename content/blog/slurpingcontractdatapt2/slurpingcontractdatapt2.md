@@ -2,7 +2,7 @@
 title: Eth contract data pt 2. Storage tree, cast and RPC
 description: Let's investigate a command line tool to help us understand the storage tree
 date: 2023-08-28
-tags: ethereum, thegraph, forge, contract data, mempool, storage
+tags: [ethereum, thegraph, forge, contract data, mempool, storage]
 ---
 I recently gave a talk at [eth melbourne](https://ethmelbourne.co/) in which i gave some tips and tricks for indexing eth contract data, as well as a brief overview of exactly _what_ contract data is on ethereum and a quick dive into the EVM. This is part two of a two part blog post - you can find the first part [here](https://cdrn.github.io/blog/slurpingcontractdatapt1/). In this part, I want to cover some of your best options for getting into the yummy stuff (contract data) in both scalable and unscalable ways.
 
