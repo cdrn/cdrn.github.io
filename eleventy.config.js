@@ -78,6 +78,13 @@ module.exports = function(eleventyConfig) {
 		return (tags || []).filter(tag => ["all", "nav", "post", "posts"].indexOf(tag) === -1);
 	});
 
+	// Add reading time filter
+	eleventyConfig.addFilter("readingTime", (content) => {
+		const wordsPerMinute = 200;
+		const words = content.trim().split(/\s+/).length;
+		return Math.ceil(words / wordsPerMinute);
+	});
+
 	// Customize Markdown library settings:
 	eleventyConfig.amendLibrary("md", mdLib => {
 		mdLib.use(markdownItAnchor, {
