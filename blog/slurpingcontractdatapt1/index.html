@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Eth contract data pt 1.</title>
-        <meta
-        name="description" content="Basic overview of where contract data lives in ethereum">
-        <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Chris Doran">
-        <link rel="alternate" href="/feed/feed.json" type="application/json" title="Chris Doran">
-        
-        <style>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eth contract data pt 1.</title>
+    <meta
+    name="description" content="Basic overview of where contract data lives in ethereum">
+    <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Chris Doran">
+    <link rel="alternate" href="/feed/feed.json" type="application/json" title="Chris Doran">
+    
+    <style>
     /**
  * okaidia theme for JavaScript, CSS and HTML
  * Loosely based on Monokai textmate theme by http://www.monokai.nl/
@@ -181,41 +181,62 @@ pre[class*="language-diff-"] {
 * { box-sizing: border-box; }
 /* Defaults */
 :root {
-	--font-family: -apple-system, system-ui, sans-serif;
-	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
-}
+	--font-family: "Fira Mono", "DejaVu Sans Mono", "Liberation Mono", Menlo, monospace;
+	--font-size-base: 1rem;
+	--line-height-base: 1.6;
 
-/* Theme colors */
-:root {
+	/* Light theme */
 	--color-gray-20: #e0e0e0;
-	--color-gray-50: #C0C0C0;
-	--color-gray-90: #333;
+	--color-gray-50: #666666;
+	--color-gray-90: #111111;
 
-	--background-color: #fff;
-
+	--background-color: #ffffff;
+	--container-background: #f0f0f0;
+	
 	--text-color: var(--color-gray-90);
-	--text-color-link: #082840;
-	--text-color-link-active: #5f2b48;
-	--text-color-link-visited: #17050F;
+	--text-color-link: #000000;
+	--text-color-link-active: #000000;
+	--text-color-link-visited: #000000;
 
-	--syntax-tab-size: 2;
+	--border-color: #000000;
+	--border-width: 2px;
 }
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		--color-gray-20: #e0e0e0;
-		--color-gray-50: #C0C0C0;
-		--color-gray-90: #dad8d8;
+[data-theme="dark"] {
+	--color-gray-20: #333333;
+	--color-gray-50: #999999;
+	--color-gray-90: #ffffff;
 
-		/* --text-color is assigned to --color-gray-_ above */
-		--text-color-link: #1493fb;
-		--text-color-link-active: #6969f7;
-		--text-color-link-visited: #a6a6f8;
+	--background-color: #111111;
+	--container-background: #1a1a1a;
+	
+	--text-color: var(--color-gray-90);
+	--text-color-link: #00ff00;
+	--text-color-link-active: #00ff00;
+	--text-color-link-visited: #00bb00;
 
-		--background-color: #15202b;
-	}
+	--border-color: #ffffff;
 }
 
+/* Add these specific link styles after your existing link styles */
+[data-theme="dark"] a[href] {
+	color: var(--text-color-link);
+}
+
+[data-theme="dark"] a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+[data-theme="dark"] a[href]:hover,
+[data-theme="dark"] a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+/* Make sure navigation links stay white */
+[data-theme="dark"] .nav-item a,
+[data-theme="dark"] .home-link {
+	color: var(--text-color);
+}
 
 /* Global stylesheet */
 * {
@@ -225,252 +246,225 @@ pre[class*="language-diff-"] {
 html,
 body {
 	padding: 0;
-	margin: 0 auto;
+	margin: 0;
 	font-family: var(--font-family);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
 	color: var(--text-color);
 	background-color: var(--background-color);
 }
-html {
-	overflow-y: scroll;
-}
+
 body {
-	max-width: 40em;
-}
-
-/* https://www.a11yproject.com/posts/how-to-hide-content/ */
-.visually-hidden {
-	clip: rect(0 0 0 0);
-	clip-path: inset(50%);
-	height: 1px;
-	overflow: hidden;
-	position: absolute;
-	white-space: nowrap;
-	width: 1px;
-}
-
-p:last-child {
-	margin-bottom: 0;
-}
-p {
-	line-height: 1.6em;
-}
-
-li {
-	line-height: 1.6em;
-}
-
-a[href] {
-	color: var(--text-color-link);
-}
-a[href]:visited {
-	color: var(--text-color-link-visited);
-}
-a[href]:hover,
-a[href]:active {
-	color: var(--text-color-link-active);
-}
-
-main {
-	padding: 1rem;
-}
-main :first-child {
-	margin-top: 0;
-}
-
-header {
-	border-bottom: 1px dashed var(--color-gray-20);
-}
-header:after {
-	content: "";
-	display: table;
-	clear: both;
-}
-
-.links-nextprev {
-	list-style: none;
-	border-top: 1px dashed var(--color-gray-20);
-	padding: 1em 0;
-}
-
-table {
-	margin: 1em 0;
-}
-table td,
-table th {
-	padding-right: 1em;
-}
-
-pre,
-code {
-	font-family: var(--font-family-monospace);
-}
-pre:not([class*="language-"]) {
-	margin: .5em 0;
-	line-height: 1.375; /* 22px /16 */
-	-moz-tab-size: var(--syntax-tab-size);
-	-o-tab-size: var(--syntax-tab-size);
-	tab-size: var(--syntax-tab-size);
-	-webkit-hyphens: none;
-	-ms-hyphens: none;
-	hyphens: none;
-	direction: ltr;
-	text-align: left;
-	white-space: pre;
-	word-spacing: normal;
-	word-break: normal;
-}
-code {
-	word-break: break-all;
+	max-width: 65ch;
+	margin: 0 auto;
+	padding: 0 1rem;
 }
 
 /* Header */
 header {
-	display: flex;
-	gap: 1em .5em;
-	flex-wrap: wrap;
-	align-items: center;
-	padding: 1em;
-}
-.home-link {
-	font-size: 1em; /* 16px /16 */
-	font-weight: 700;
-	margin-right: 2em;
-}
-.home-link:link:not(:hover) {
-	text-decoration: none;
+	margin: 2rem -1rem;
+	padding: 1rem;
+	border: var(--border-width) solid var(--border-color);
+	background: var(--container-background);
 }
 
-/* Nav */
+header > div {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+
+.home-link {
+	font-size: 1.25rem;
+	font-weight: bold;
+	color: var(--text-color);
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+.home-link:hover {
+	text-decoration: underline;
+	text-decoration-thickness: var(--border-width);
+}
+
+/* Navigation */
 .nav {
 	display: flex;
-	padding: 0;
+	gap: 1.5rem;
+	align-items: center;
 	margin: 0;
+	padding: 0;
 	list-style: none;
-}
-.nav-item {
-	display: inline-block;
-	margin-right: 1em;
-}
-.nav-item a[href]:not(:hover) {
-	text-decoration: none;
-}
-.nav a[href][aria-current="page"] {
-	text-decoration: underline;
 }
 
-/* Posts list */
-.postlist {
-	list-style: none;
-	padding: 0;
-	padding-left: 1.5rem;
+.nav-item a {
+	color: var(--text-color);
+	text-decoration: none;
+	text-transform: uppercase;
 }
-.postlist-item {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: baseline;
-	counter-increment: start-from -1;
-	margin-bottom: 1em;
+
+.nav-item a:hover {
+	text-decoration: underline;
+	text-decoration-thickness: var(--border-width);
 }
-.postlist-item:before {
-	display: inline-block;
-	pointer-events: none;
-	content: "" counter(start-from, decimal-leading-zero) ". ";
-	line-height: 100%;
-	text-align: right;
-	margin-left: -1.5rem;
+
+.nav-item a[aria-current="page"] {
+	text-decoration: underline;
+	text-decoration-thickness: var(--border-width);
 }
-.postlist-date,
-.postlist-item:before {
-	font-size: 0.8125em; /* 13px /16 */
-	color: var(--color-gray-90);
-}
-.postlist-date {
-	word-spacing: -0.5px;
-}
-.postlist-link {
-	font-size: 1.1875em; /* 19px /16 */
-	font-weight: 700;
-	flex-basis: calc(100% - 1.5rem);
-	padding-left: .25em;
-	padding-right: .5em;
-	text-underline-position: from-font;
-	text-underline-offset: 0;
-	text-decoration-thickness: 1px;
-}
-.postlist-item-active .postlist-link {
+
+/* Theme toggle */
+.theme-toggle {
+	font-family: var(--font-family);
+	padding: 0.5rem;
+	border: var(--border-width) solid var(--border-color);
+	background: var(--container-background);
+	color: var(--text-color);
+	cursor: pointer;
+	text-transform: uppercase;
 	font-weight: bold;
 }
 
-/* Tags */
-.post-tag {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	text-transform: capitalize;
-	font-style: italic;
-}
-.postlist-item > .post-tag {
-	align-self: center;
+.theme-toggle:hover {
+	background: var(--text-color);
+	color: var(--background-color);
 }
 
-/* Tags list */
-.post-metadata {
-	display: inline-flex;
-	flex-wrap: wrap;
-	gap: .5em;
+/* Main content */
+main {
+	padding: 2rem 0;
+}
+
+/* Post list */
+.postlist {
 	list-style: none;
 	padding: 0;
-	margin: 0;
-}
-.post-metadata time {
-	margin-right: 1em;
+	display: grid;
+	gap: 2rem;
 }
 
-/* Direct Links / Markdown Headers */
-.header-anchor {
+.postlist-item {
+	padding: 1.5rem;
+	border: var(--border-width) solid var(--border-color);
+	background: var(--container-background);
+}
+
+.postlist-item:hover {
+	background: var(--text-color);
+	color: var(--background-color);
+}
+
+.postlist-item:hover * {
+	color: var(--background-color);
+}
+
+.postlist-date {
+	font-size: 0.9rem;
+	color: var(--color-gray-50);
+	text-transform: uppercase;
+}
+
+.postlist-link {
+	display: block;
+	margin: 0.5rem 0;
+	font-size: 1.25rem;
+	font-weight: bold;
+	color: var(--text-color);
 	text-decoration: none;
-	font-style: normal;
-	font-size: 1em;
-	margin-left: .1em;
-}
-a[href].header-anchor,
-a[href].header-anchor:visited {
-	color: transparent;
-}
-a[href].header-anchor:focus,
-a[href].header-anchor:hover {
-	text-decoration: underline;
-}
-a[href].header-anchor:focus,
-:hover > a[href].header-anchor {
-	color: #aaa;
+	text-transform: uppercase;
 }
 
-h2 + .header-anchor {
-	font-size: 1.5em;
-}</style>
-    </head>
-    <body>
-        <a href="#skip" class="visually-hidden">Skip to main content</a>
-        <header>
-            <a href="/" class="home-link">Chris Doran</a>
-            <nav>
-                <h2 class="visually-hidden">Top level navigation menu</h2>
-                <ul class="nav">
-                        <li class="nav-item">
-                            <a href="/" >Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/blog/" >Archive</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/about/" >About Me</a>
-                        </li>
-                </ul>
-            </nav>
-        </header>
-        <main id="skip">
-            
+/* Article */
+article {
+	padding: 2rem;
+	border: var(--border-width) solid var(--border-color);
+	background: var(--container-background);
+}
+
+/* Reading time */
+.reading-time {
+	display: inline-block;
+	padding: 0.5rem;
+	margin-bottom: 2rem;
+	border: var(--border-width) solid var(--border-color);
+	text-transform: uppercase;
+	font-size: 0.9rem;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+	text-transform: uppercase;
+	line-height: 1.2;
+}
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+
+/* Code blocks */
+pre {
+	padding: 1rem;
+	margin: 1.5rem 0;
+	border: var(--border-width) solid var(--border-color);
+	background: var(--container-background);
+	overflow-x: auto;
+}
+
+code {
+	padding: 0.2em 0.4em;
+	background: var(--container-background);
+	border: 1px solid var(--border-color);
+}
+
+/* Links */
+a[href] {
+	text-decoration-thickness: var(--border-width);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+	header > div {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.nav {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 1rem;
+	}
+
+	.theme-toggle {
+		width: 100%;
+	}
+}</style><script src="/js/theme-toggle.js"> </script>
+  </head>
+  <body>
+    <a href="#skip" class="visually-hidden">Skip to main content</a>
+    <header>
+      <div>
+        <a href="/" class="home-link">Chris Doran</a>
+        <nav>
+          <ul class="nav">
+              <li class="nav-item">
+                <a href="/" >Home</a>
+              </li>
+              <li class="nav-item">
+                <a href="/blog/" >Archive</a>
+              </li>
+              <li class="nav-item">
+                <a href="/about/" >About Me</a>
+              </li>
+          </ul>
+        </nav>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">DARK</button>
+      </div>
+    </header>
+    <main id="skip">
+      
+      
 <h1>Eth contract data pt 1.</h1>
 
 <ul class="post-metadata">
@@ -507,8 +501,8 @@ h2 + .header-anchor {
 <ul class="links-nextprev"><li>Next: <a href="/blog/slurpingcontractdatapt2/">Eth contract data pt 2. Storage tree, cast and RPC</a></li>
 </ul>
 
-        </main>
-        <footer></footer>
-        <!-- Current page: /blog/slurpingcontractdatapt1/ -->
-    </body>
+    </main>
+    <footer></footer>
+    <!-- Current page: /blog/slurpingcontractdatapt1/ -->
+  </body>
 </html>

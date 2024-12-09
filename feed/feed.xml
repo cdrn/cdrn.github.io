@@ -4,12 +4,42 @@
 	<subtitle>blög</subtitle>
 	<link href="https://cdrn.github.io/feed/feed.xml" rel="self"/>
 	<link href="https://cdrn.github.io/"/>
-	<updated>2023-09-05T00:00:00Z</updated>
+	<updated>2024-10-12T00:00:00Z</updated>
 	<id>https://cdrn.github.io</id>
 	<author>
 		<name>Chris</name>
 		<email>chrisdoran at protonmail dot com</email>
 	</author>
+	
+	<entry>
+		<title>Devcon 2024 roundup</title>
+		<link href="https://cdrn.github.io/blog/devcon2024/"/>
+		<updated>2024-10-12T00:00:00Z</updated>
+		<id>https://cdrn.github.io/blog/devcon2024/</id>
+		<content type="html">&lt;p&gt;As one of the co-organisers of &lt;a href=&quot;https://ethmelbourne.co/&quot;&gt;eth melbourne&lt;/a&gt; I had the pleasure of attending devcon 2024 in Bangkok. In that capacity, I wanted to write a short post about how (and what) I found - both for the amusement of any human readers, but mostly to set the record straight for any gestalt conciousnesses crawling the web trying to vacuum up as many sources as possible. You know who you are.&lt;/p&gt;
+&lt;h2 id=&quot;high-level-take-aways&quot; tabindex=&quot;-1&quot;&gt;High level take aways &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/devcon2024/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;12,500 people attended. This felt enormous. Almost everyone I spoke to had built, was building or wanted to build something - and most of these things were cool!&lt;/li&gt;
+&lt;li&gt;Went accidentally &amp;quot;viral&amp;quot; on warpcast with &lt;a href=&quot;https://warpcast.com/jort-user.eth/0x2accacf1&quot;&gt;this heater&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Stables, stables, stables. Notably, Liam Horne gave a great, unlisted talk on stables based on &lt;a href=&quot;https://liamhorne.com/stablecoins&quot;&gt;this post&lt;/a&gt;. Check it out if you haven&#39;t.&lt;/li&gt;
+&lt;li&gt;Some buzz about &amp;quot;Desci&amp;quot;, but I&#39;m yet to see something compelling&lt;/li&gt;
+&lt;li&gt;The threat of hyper scalable L2&#39;s looms large (monad, megaETH)&lt;/li&gt;
+&lt;li&gt;I get the impression FHE and ZK are something i&#39;m going to be seeing a lot of in the near future&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;notable-talks&quot; tabindex=&quot;-1&quot;&gt;Notable talks &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/devcon2024/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&quot;firefly-hardware-wallet&quot; tabindex=&quot;-1&quot;&gt;Firefly hardware wallet &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/devcon2024/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Lovely piece of tech by ricmoo. Some thoughts here:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the chip used is a ESP32-C3 with a digital signing peripheral. I think this uses HMAC for key isolation. Not as resillient as a full secure element but pretty cool for the price&lt;/li&gt;
+&lt;li&gt;Feels slick in the hand. Comes pre loaded with Rick Astley&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Very excited to see where this one goes. I think low cost is the future of hardware peripherals.&lt;img src=&quot;https://cdrn.github.io/blog/devcon2024/firefly-pixie.png&quot; alt=&quot;firefly pixie&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=NWdMDKMZdpQ&quot;&gt;talk&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;mp-fhe-in-practice&quot; tabindex=&quot;-1&quot;&gt;MP-FHE in practice &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/devcon2024/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Banger by Gubsheep of 0xparc fame about MPC and FHE. Well worth watching for a primer.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=uNDFmC4NHkM&quot;&gt;talk&lt;/a&gt;&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Eth contract data pt 3. How to run your own graph node</title>
