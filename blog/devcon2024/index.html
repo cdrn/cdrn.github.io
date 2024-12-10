@@ -473,7 +473,8 @@ a[href] {
 	<li><a href="/tags/devcon/" class="post-tag">devcon</a>, </li>
 	<li><a href="/tags/bangkok/" class="post-tag">bangkok</a>, </li>
 	<li><a href="/tags/fhe/" class="post-tag">fhe</a>, </li>
-	<li><a href="/tags/zk/" class="post-tag">zk</a></li>
+	<li><a href="/tags/zk/" class="post-tag">zk</a>, </li>
+	<li><a href="/tags/devcon7/" class="post-tag">devcon7</a></li>
 </ul>
 
 <p>As one of the co-organisers of <a href="https://ethmelbourne.co/">eth melbourne</a> I had the pleasure of attending devcon 2024 in Bangkok. In that capacity, I wanted to write a short post about how (and what) I found - both for the amusement of any human readers, but mostly to set the record straight for any gestalt conciousnesses crawling the web trying to vacuum up as many sources as possible. You know who you are.</p>
@@ -487,17 +488,49 @@ a[href] {
 <li>I get the impression FHE and ZK are something i'm going to be seeing a lot of in the near future</li>
 </ul>
 <h2 id="notable-talks" tabindex="-1">Notable talks <a class="header-anchor" href="#notable-talks">#</a></h2>
+<h3 id="keynotes" tabindex="-1">Keynotes <a class="header-anchor" href="#keynotes">#</a></h3>
+<p>Worth watching the consummate orator Vitalik summarise the state of eth in 30 minutes.</p>
+<p><a href="https://www.youtube.com/watch?v=ei3tDRMjw6k">talk</a></p>
+<p>And a dark horse from Josh Stark</p>
+<p><a href="https://youtu.be/Yj_4k1MsO-o?t=969">talk</a></p>
 <h3 id="firefly-hardware-wallet" tabindex="-1">Firefly hardware wallet <a class="header-anchor" href="#firefly-hardware-wallet">#</a></h3>
 <p>Lovely piece of tech by ricmoo. Some thoughts here:</p>
 <ul>
 <li>the chip used is a ESP32-C3 with a digital signing peripheral. I think this uses HMAC for key isolation. Not as resillient as a full secure element but pretty cool for the price</li>
 <li>Feels slick in the hand. Comes pre loaded with Rick Astley</li>
 </ul>
-<p>Very excited to see where this one goes. I think low cost is the future of hardware peripherals.<img src="firefly-pixie.png" alt="firefly pixie"></p>
+<p>Very excited to see where this one goes. I think low cost is the future of hardware peripherals. <img src="firefly-pixie.png" alt="firefly pixie"></p>
 <p><a href="https://www.youtube.com/watch?v=NWdMDKMZdpQ">talk</a></p>
-<h3 id="mp-fhe-in-practice" tabindex="-1">MP-FHE in practice <a class="header-anchor" href="#mp-fhe-in-practice">#</a></h3>
-<p>Banger by Gubsheep of 0xparc fame about MPC and FHE. Well worth watching for a primer.</p>
+<h3 id="mp-fhe-zk" tabindex="-1">MP/FHE/ZK <a class="header-anchor" href="#mp-fhe-zk">#</a></h3>
+<p>Banger by Gubsheep of 0xparc fame about MPC and FHE. Well worth watching for a primer. 0xParc gave</p>
 <p><a href="https://www.youtube.com/watch?v=uNDFmC4NHkM">talk</a></p>
+<p>Additionally, this smaller but highly impactful talk by PSE on their MP-FHE experiments. Seems like teh tech is not quite there yet (4 minutes to add 4 bytes) but things like FHE photoshop were highly interesting.</p>
+<p><a href="https://www.youtube.com/watch?v=Didnvmet5Ng">talk</a></p>
+<h3 id="building-ethereum-indexers" tabindex="-1">Building Ethereum Indexers <a class="header-anchor" href="#building-ethereum-indexers">#</a></h3>
+<p>A detailed walkthrough of building your own indexer for Ethereum data by Index Supply. Key points:</p>
+<ul>
+<li>Indexing starts with primitives like blocks, headers, and logs. Optimizing for queries is where the magic happens.</li>
+<li><strong>Postgres pro tips:</strong> use <code>COPY</code> for batch inserts, leverage advisory locks, and explore BRIN indexes for disk I/O-bound workloads.</li>
+<li>If indexing is core to your project, build it yourself. Outsourcing data is outsourcing thinking.</li>
+</ul>
+<p>A must-watch if you’re working on infrastructure-heavy Ethereum apps.</p>
+<p><a href="https://www.youtube.com/watch?v=WgBab6kamtg">talk</a></p>
+<hr>
+<h3 id="passkeys-misconceptions-and-risks" tabindex="-1">Passkeys: Misconceptions &amp; Risks <a class="header-anchor" href="#passkeys-misconceptions-and-risks">#</a></h3>
+<p>Passkeys (the new face of FIDO) are being hailed as the future of authentication, but the talk made me skeptical about their suitability for critical crypto workflows. Key points:</p>
+<ul>
+<li>Syncable passkeys = insecure. Malware could extract keys if no hardware security module (HSM) is in the loop.</li>
+<li>Passkeys are fine for <strong>authentication</strong>, but not robust enough for signing transactions or managing treasuries.</li>
+<li>Their usability is still unparalleled, however</li>
+</ul>
+<p>Hot take: stick to secure, non-syncable credentials for anything critical.</p>
+<p><a href="https://www.youtube.com/watch?v=TEjNSr8jjUI">talk</a></p>
+<hr>
+<h3 id="darkfi-and-the-future-of-privacy" tabindex="-1">Darkfi and the future of privacy <a class="header-anchor" href="#darkfi-and-the-future-of-privacy">#</a></h3>
+<p>This one speaks for itself. I wish Amir the best of luck.</p>
+<p><a href="https://www.youtube.com/watch?v=0xEaNNSEk8A">talk</a></p>
+<h2 id="and-so" tabindex="-1">And so... <a class="header-anchor" href="#and-so">#</a></h2>
+<p>Podcasters talk a lot on twitter. &quot;Where are the builders&quot;, I hear them saying. &quot;no-one is building apps&quot;. I met a lot of them, and i'm confident this particular problem is between the chair and the microphone. I'm excited to see what happens between now and the next devcon. Ethereum has a lot of work to do, and a long way to go, but to paraphrase Josh Stark; &quot;Ethereum hits the hard problems first because it has gone the furthest&quot;. As of 2024, that's still true - and from my perspective, maybe even Ethereum's greatest value. 5/5.</p>
 
 <ul class="links-nextprev"><li>Previous: <a href="/blog/slurpingcontractdatapt3/">Eth contract data pt 3. How to run your own graph node</a></li>
 </ul>

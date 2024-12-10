@@ -23,81 +23,86 @@
 	
 	<url>
 		<loc>https://cdrn.github.io/about/</loc>
-		<lastmod>2024-12-09</lastmod>
+		<lastmod>2024-12-10</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://cdrn.github.io/blog/</loc>
-		<lastmod>2024-12-09</lastmod>
+		<lastmod>2024-12-10</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://cdrn.github.io/</loc>
-		<lastmod>2024-12-09</lastmod>
+		<lastmod>2024-12-10</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://cdrn.github.io/tags/</loc>
-		<lastmod>2024-12-09</lastmod>
+		<lastmod>2024-12-10</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://cdrn.github.io/tags/ethereum/</loc>
-		<lastmod>2024-12-09</lastmod>
+		<lastmod>2024-12-10</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://cdrn.github.io/tags/devcon/</loc>
-		<lastmod>2024-12-09</lastmod>
+		<lastmod>2024-12-10</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://cdrn.github.io/tags/bangkok/</loc>
-		<lastmod>2024-12-09</lastmod>
+		<lastmod>2024-12-10</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://cdrn.github.io/tags/fhe/</loc>
-		<lastmod>2024-12-09</lastmod>
+		<lastmod>2024-12-10</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://cdrn.github.io/tags/zk/</loc>
-		<lastmod>2024-12-09</lastmod>
+		<lastmod>2024-12-10</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://cdrn.github.io/tags/devcon7/</loc>
+		<lastmod>2024-12-10</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://cdrn.github.io/tags/thegraph/</loc>
-		<lastmod>2024-12-09</lastmod>
+		<lastmod>2024-12-10</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://cdrn.github.io/tags/forge/</loc>
-		<lastmod>2024-12-09</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/contract/</loc>
-		<lastmod>2024-12-09</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/data/</loc>
-		<lastmod>2024-12-09</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/mempool/</loc>
-		<lastmod>2024-12-09</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/storage/</loc>
-		<lastmod>2024-12-09</lastmod>
+		<lastmod>2024-12-10</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://cdrn.github.io/tags/contract-data/</loc>
-		<lastmod>2024-12-09</lastmod>
+		<lastmod>2024-12-10</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://cdrn.github.io/tags/mempool/</loc>
+		<lastmod>2024-12-10</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://cdrn.github.io/tags/storage/</loc>
+		<lastmod>2024-12-10</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://cdrn.github.io/tags/contract/</loc>
+		<lastmod>2024-12-10</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://cdrn.github.io/tags/data/</loc>
+		<lastmod>2024-12-10</lastmod>
 	</url>
 </urlset>
