@@ -43,7 +43,7 @@ Very excited to see where this one goes. I think low cost is the future of hardw
 
 ### MP/FHE/ZK
 
-Banger by Gubsheep of 0xparc fame about MPC and FHE. Well worth watching for a primer. 0xParc gave 
+Banger by Gubsheep of 0xparc fame about MPC and FHE. Well worth watching for a primer. 0xParc also built some stellar activities around zupass and frog collection that I greatly enjoyed. Excited to dive into their book, "Programmable cryptography".
 
 [talk](https://www.youtube.com/watch?v=uNDFmC4NHkM)
 
