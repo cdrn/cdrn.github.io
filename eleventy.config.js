@@ -11,6 +11,17 @@ const pluginDrafts = require("./eleventy.config.drafts.js");
 const pluginImages = require("./eleventy.config.images.js");
 
 module.exports = function(eleventyConfig) {
+	// Add reading time filter (move this up, before other template configurations)
+	eleventyConfig.addFilter("readingTime", function(content) {
+		if (!content) {
+			return 0;
+		}
+		const wordsPerMinute = 180;
+		const words = content.toString().trim().split(/\s+/).length;
+		const minutes = Math.ceil(words / wordsPerMinute);
+		return minutes;
+	});
+
 	// Copy the contents of the `public` folder to the output folder
 	// For example, `./public/css/` ends up in `_site/css/`
 	eleventyConfig.addPassthroughCopy({
@@ -76,13 +87,6 @@ module.exports = function(eleventyConfig) {
 
 	eleventyConfig.addFilter("filterTagList", function filterTagList(tags) {
 		return (tags || []).filter(tag => ["all", "nav", "post", "posts"].indexOf(tag) === -1);
-	});
-
-	// Add reading time filter
-	eleventyConfig.addFilter("readingTime", (content) => {
-		const wordsPerMinute = 200;
-		const words = content.trim().split(/\s+/).length;
-		return Math.ceil(words / wordsPerMinute);
 	});
 
 	// Customize Markdown library settings:

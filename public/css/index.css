@@ -179,7 +179,14 @@ main {
 	color: var(--background-color);
 }
 
-.postlist-date {
+.postlist-meta {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	margin-bottom: 0.5rem;
+}
+
+.postlist-reading-time {
 	font-size: 0.9rem;
 	color: var(--color-gray-50);
 	text-transform: uppercase;
