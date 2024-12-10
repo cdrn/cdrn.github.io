@@ -10,7 +10,8 @@
     <link rel="alternate" href="/feed/feed.json" type="application/json" title="Chris Doran">
     
     <style>
-    .postlist { counter-reset: start-from 2 }
+    .postlist { counter-reset: start-from 2
+  }
 * { box-sizing: border-box; }
 /* Defaults */
 :root {
@@ -193,7 +194,14 @@ main {
 	color: var(--background-color);
 }
 
-.postlist-date {
+.postlist-meta {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	margin-bottom: 0.5rem;
+}
+
+.postlist-reading-time {
 	font-size: 0.9rem;
 	color: var(--color-gray-50);
 	text-transform: uppercase;
@@ -303,14 +311,41 @@ a[href] {
 
 
 <ol reversed class="postlist">
-
-	<li class="postlist-item">
-		<a href="/blog/devcon2024/" class="postlist-link">Devcon 2024 roundup</a>
-		<time class="postlist-date" datetime="2024-10-12">October 2024</time>
-	</li>
-
+  
+    <li class="postlist-item">
+      <div class="postlist-meta">
+        <time class="postlist-date" datetime="2024-10-12">12 October 2024</time>
+        
+          <span class="postlist-reading-time">4 MIN READ</span>
+        
+      </div>
+      <a href="/blog/devcon2024/" class="postlist-link">
+        
+          Devcon 2024 roundup
+        
+      </a>
+      
+        
+        <a href="/tags/ethereum/" class="post-tag">ethereum</a>
+      
+        
+        <a href="/tags/devcon/" class="post-tag">devcon</a>
+      
+        
+        <a href="/tags/bangkok/" class="post-tag">bangkok</a>
+      
+        
+        <a href="/tags/fhe/" class="post-tag">fhe</a>
+      
+        
+        <a href="/tags/zk/" class="post-tag">zk</a>
+      
+        
+        <a href="/tags/devcon7/" class="post-tag">devcon7</a>
+      
+    </li>
+  
 </ol>
-
 
 <p>See <a href="/tags/">all tags</a>.</p>
 
