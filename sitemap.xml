@@ -1,108 +1,79 @@
+
 <?xml version="1.0" encoding="utf-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-	
-	<url>
-		<loc>https://cdrn.github.io/blog/slurpingcontractdatapt1/</loc>
-		<lastmod>2023-08-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/blog/slurpingcontractdatapt2/</loc>
-		<lastmod>2023-08-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/blog/slurpingcontractdatapt3/</loc>
-		<lastmod>2023-09-05</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/blog/devcon2024/</loc>
-		<lastmod>2024-10-12</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/about/</loc>
-		<lastmod>2024-12-10</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/blog/</loc>
-		<lastmod>2024-12-10</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/</loc>
-		<lastmod>2024-12-10</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/</loc>
-		<lastmod>2024-12-10</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/ethereum/</loc>
-		<lastmod>2024-12-10</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/devcon/</loc>
-		<lastmod>2024-12-10</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/bangkok/</loc>
-		<lastmod>2024-12-10</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/fhe/</loc>
-		<lastmod>2024-12-10</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/zk/</loc>
-		<lastmod>2024-12-10</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/devcon7/</loc>
-		<lastmod>2024-12-10</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/thegraph/</loc>
-		<lastmod>2024-12-10</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/forge/</loc>
-		<lastmod>2024-12-10</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/contract/</loc>
-		<lastmod>2024-12-10</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/data/</loc>
-		<lastmod>2024-12-10</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/mempool/</loc>
-		<lastmod>2024-12-10</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/storage/</loc>
-		<lastmod>2024-12-10</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://cdrn.github.io/tags/contract-data/</loc>
-		<lastmod>2024-12-10</lastmod>
-	</url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/</loc>
+        <lastmod>2025-02-06</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/projects/</loc>
+        <lastmod>2025-02-06</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/ethereum/</loc>
+        <lastmod>2025-02-06</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/devcon/</loc>
+        <lastmod>2025-02-06</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/bangkok/</loc>
+        <lastmod>2025-02-06</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/fhe/</loc>
+        <lastmod>2025-02-06</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/zk/</loc>
+        <lastmod>2025-02-06</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/devcon7/</loc>
+        <lastmod>2025-02-06</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/thegraph/</loc>
+        <lastmod>2025-02-06</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/forge/</loc>
+        <lastmod>2025-02-06</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/contract/</loc>
+        <lastmod>2025-02-06</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/data/</loc>
+        <lastmod>2025-02-06</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/mempool/</loc>
+        <lastmod>2025-02-06</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/storage/</loc>
+        <lastmod>2025-02-06</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/contract-data/</loc>
+        <lastmod>2025-02-06</lastmod>
+      </url>
 </urlset>

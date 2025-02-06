@@ -115,7 +115,7 @@ header > div {
 	font-weight: bold;
 	color: var(--text-color);
 	text-decoration: none;
-	text-transform: uppercase;
+	text-transform: none;
 }
 
 .home-link:hover {
@@ -136,7 +136,7 @@ header > div {
 .nav-item a {
 	color: var(--text-color);
 	text-decoration: none;
-	text-transform: uppercase;
+	text-transform: none;
 }
 
 .nav-item a:hover {
@@ -157,7 +157,7 @@ header > div {
 	background: var(--container-background);
 	color: var(--text-color);
 	cursor: pointer;
-	text-transform: uppercase;
+	text-transform: none;
 	font-weight: bold;
 }
 
@@ -182,7 +182,7 @@ main {
 .postlist-item {
 	padding: 1.5rem;
 	border: var(--border-width) solid var(--border-color);
-	background: var(--container-background);
+	background: var(--background-color);
 }
 
 .postlist-item:hover {
@@ -204,7 +204,7 @@ main {
 .postlist-reading-time {
 	font-size: 0.9rem;
 	color: var(--color-gray-50);
-	text-transform: uppercase;
+	text-transform: none;
 }
 
 .postlist-link {
@@ -214,7 +214,7 @@ main {
 	font-weight: bold;
 	color: var(--text-color);
 	text-decoration: none;
-	text-transform: uppercase;
+	text-transform: none;
 }
 
 /* Article */
@@ -230,13 +230,13 @@ article {
 	padding: 0.5rem;
 	margin-bottom: 2rem;
 	border: var(--border-width) solid var(--border-color);
-	text-transform: uppercase;
+	text-transform: none;
 	font-size: 0.9rem;
 }
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
-	text-transform: uppercase;
+	text-transform: none;
 	line-height: 1.2;
 }
 
@@ -280,6 +280,158 @@ a[href] {
 	.theme-toggle {
 		width: 100%;
 	}
+}
+
+/* Add styles for projects */
+.projects-grid {
+	display: grid;
+	gap: 1.5rem;
+}
+
+.project-card {
+	border: var(--border-width) solid var(--border-color);
+	background: var(--background-color);
+	padding: 1.5rem;
+}
+
+.project-card:hover {
+	background: var(--text-color);
+	color: var(--background-color);
+}
+
+.project-card:hover * {
+	color: var(--background-color);
+}
+
+.project-preview {
+	width: 100%;
+	height: 150px;
+	object-fit: cover;
+	border: var(--border-width) solid var(--border-color);
+	margin-bottom: 1rem;
+}
+
+.project-title {
+	font-size: 1.25rem;
+	font-weight: bold;
+	margin: 0 0 1rem 0;
+}
+
+.project-description {
+	margin-bottom: 1rem;
+	font-size: 0.9rem;
+}
+
+.project-links {
+	display: flex;
+	gap: 1rem;
+}
+
+.project-link {
+	text-decoration: none;
+	border-bottom: var(--border-width) solid var(--border-color);
+}
+
+/* Add these styles to your existing CSS */
+.home-layout {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 2rem;
+	margin: 2rem 0;
+}
+
+.home-section {
+	border: var(--border-width) solid var(--border-color);
+	padding: 1.5rem;
+	background: var(--container-background);
+}
+
+.home-section h1 {
+	margin-top: 0;
+	font-size: 1.5rem;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+	.home-layout {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Add these styles for tabs */
+.tabs {
+	margin: 2rem 0;
+}
+
+.tab-buttons {
+	display: flex;
+	gap: -2px;
+	margin-bottom: -2px;
+	position: relative;
+}
+
+.tab-button {
+	font-family: var(--font-family);
+	padding: 0.75rem 1.5rem;
+	border: var(--border-width) solid var(--border-color);
+	background: var(--background-color);
+	color: var(--text-color);
+	cursor: pointer;
+	font-weight: bold;
+	position: relative;
+	z-index: 1;
+}
+
+.tab-button:hover {
+	background: var(--container-background);
+}
+
+.tab-button.active {
+	background: var(--container-background);
+	border-bottom: var(--border-width) solid var(--container-background);
+	z-index: 3;
+}
+
+.tab-content {
+	display: none;
+	border: var(--border-width) solid var(--border-color);
+	padding: 2rem;
+	background: var(--container-background);
+	position: relative;
+	z-index: 2;
+}
+
+.tab-content.active {
+	display: block;
+}
+
+/* Update project cards for better contrast */
+.project-card {
+	border: var(--border-width) solid var(--border-color);
+	background: var(--background-color);
+	padding: 1.5rem;
+}
+
+.project-card:hover {
+	background: var(--text-color);
+	color: var(--background-color);
+}
+
+/* Update postlist items for better contrast */
+.postlist-item {
+	background: var(--background-color);
+}
+
+/* Add a subtle shadow to make the cards pop more */
+.project-card,
+.postlist-item {
+	box-shadow: 4px 4px 0 var(--border-color);
+}
+
+.project-card:hover,
+.postlist-item:hover {
+	box-shadow: none;
+	transform: translate(2px, 2px);
 }</style><script src="/js/theme-toggle.js"> </script>
   </head>
   <body>
@@ -307,9 +459,78 @@ a[href] {
       
       
 
-<h1>Latest Posts</h1>
+<div class="tabs">
+  <div class="tab-buttons">
+    <button class="tab-button active" data-tab="projects">Projects</button>
+    <button class="tab-button" data-tab="posts">Latest Posts</button>
+  </div>
+  <div class="tab-content active" id="projects">
+    <div class="projects-grid">
+  
+    <div class="project-card">
+      <img src="/img/placeholder.png" alt="Altcoin.watch preview" class="project-preview">
+        <h2 class="project-title">Altcoin.watch</h2>
+        <p class="project-description">
+          <p>I once tried to aggregate and find new tokens surfaced through popular social media. I built this dashboard in a few days, in a cold empty apartment in Berlin during covid. It worked really well, but I wasnt sure and sold some of the suggested buys. It led to the most regretful transaction of my life so far.</p>
 
+          
+            <br>
+              <br>
+                <em>Typescript, mongo, react</em>
+              
+            </p>
+            <div class="project-links">
+              
+                <a href="https://github.com/cdrn/altcoin-watch" class="project-link">GitHub</a>
+              
+            </div>
+          </div>
+        
+    <div class="project-card">
+      <img src="/img/eth-melb.png" alt="Eth Melbourne preview" class="project-preview">
+        <h2 class="project-title">Eth Melbourne</h2>
+        <p class="project-description">
+          <p>I help out co-organising the Ethereum meet up in Melboure, along with a motley crew. The meetup covers non Eth topics (Bitcoin? Farcaster?) and is more a technical meetup for blockchain developers and enthusiasts. We've fielded speakers from paradigm, nethermind, railgun and others. I gave a few talks as well - one on blockchain indexers and another on the lightning network's flood and loot vuln.</p>
 
+          
+            <br>
+              <br>
+                <em>eye contact, peer to peer communication</em>
+              
+            </p>
+            <div class="project-links">
+              
+                <a href="https://ethmelbourne.co/" class="project-link">Website</a>
+              
+            </div>
+          </div>
+        
+    <div class="project-card">
+      <img src="/img/placeholder.png" alt="Gauloi preview" class="project-preview">
+        <h2 class="project-title">Gauloi</h2>
+        <p class="project-description">
+          <p>Hacked out in anger over a few weekends with a good friend, we did some Eth &lt;&gt; BTC atomic swaps. We came up with a plan to try and create a decentralised orderbook for the swaps where they would be priced as options. The goal was to sidestep the pitfalls of traditional &quot;collateralised multisig&quot; approaches to cross chain exchange and create a more truly peer to peer ecosystem. Credit goes to 0x33a for persisting beyond reason with BDK and P2WSH.</p>
+
+          
+            <br>
+              <br>
+                <em>Rust, BDK, TS.</em>
+              
+            </p>
+            <div class="project-links">
+              
+                <a href="https://github.com/0x330a-public/gauloi-cli-rs" class="project-link">GitHub (reupload)</a>
+              
+                <a href="https://nifty-novel-3d0.notion.site/Gauloi-overview-start-here-46c173bf028b42c985d7a6138d8d515e?pvs=4" class="project-link">Documentation</a>
+              
+            </div>
+          </div>
+        
+      </div>
+  </div>
+  <div class="tab-content" id="posts">
+    
+    
 <ol reversed class="postlist">
   
     <li class="postlist-item">
@@ -448,6 +669,26 @@ a[href] {
     </li>
   
 </ol>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+        button.classList.add('active');
+        const tabId = button.dataset.tab;
+        document
+          .getElementById(tabId)
+          .classList
+          .add('active');
+      });
+    });
+  });
+</script>
 
     </main>
     <footer></footer>
