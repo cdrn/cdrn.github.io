@@ -1,5 +1,5 @@
 <div class="projects-grid">
-  {% for project in collections.projects %}
+  {% for project in collections.projects | reverse %}
     <div class="project-card">
       <img src="{{ project.data.preview }}" alt="{{ project.data.title }} preview" class="project-preview">
         <h2 class="project-title">{{ project.data.title }}</h2>
