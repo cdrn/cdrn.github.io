@@ -15,9 +15,10 @@
 * { box-sizing: border-box; }
 /* Defaults */
 :root {
-	--font-family: "Fira Mono", "DejaVu Sans Mono", "Liberation Mono", Menlo, monospace;
-	--font-size-base: 1rem;
-	--line-height-base: 1.6;
+	--font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+	--mono-font: "Fira Mono", "DejaVu Sans Mono", "Liberation Mono", Menlo, monospace;
+	--font-size-base: 1.125rem;
+	--line-height-base: 1.7;
 
 	/* Light theme */
 	--color-gray-20: #e0e0e0;
@@ -25,15 +26,17 @@
 	--color-gray-90: #111111;
 
 	--background-color: #ffffff;
-	--container-background: #f0f0f0;
+	--container-background: #f8f8f8;
 	
 	--text-color: var(--color-gray-90);
-	--text-color-link: #000000;
+	--text-color-link: #333333;
 	--text-color-link-active: #000000;
-	--text-color-link-visited: #000000;
+	--text-color-link-visited: #555555;
 
 	--border-color: #000000;
 	--border-width: 2px;
+	
+	--max-width: 70ch;
 }
 
 [data-theme="dark"] {
@@ -77,6 +80,33 @@
 	box-sizing: border-box;
 }
 
+/* Skip to content styling */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Make the skip link visible when focused */
+.visually-hidden:focus {
+	clip: auto;
+	clip-path: none;
+	height: auto;
+	width: auto;
+	background-color: var(--background-color);
+	color: var(--text-color);
+	outline: var(--border-width) solid var(--border-color);
+	padding: 0.5rem 1rem;
+	position: fixed;
+	top: 1rem;
+	left: 1rem;
+	z-index: 9999;
+}
+
 html,
 body {
 	padding: 0;
@@ -89,14 +119,16 @@ body {
 }
 
 body {
-	max-width: 65ch;
+	max-width: var(--max-width);
 	margin: 0 auto;
-	padding: 0 1rem;
+	padding: 0 1.5rem;
+	font-kerning: normal;
+	text-rendering: optimizeLegibility;
 }
 
 /* Header */
 header {
-	margin: 2rem -1rem;
+	margin: 1rem -1rem;
 	padding: 1rem;
 	border: var(--border-width) solid var(--border-color);
 	background: var(--container-background);
@@ -108,6 +140,19 @@ header > div {
 	justify-content: space-between;
 	flex-wrap: wrap;
 	gap: 1rem;
+}
+
+.header-main {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.spacer {
+	flex-grow: 1;
+	min-width: 1rem;
 }
 
 .home-link {
@@ -168,7 +213,7 @@ header > div {
 
 /* Main content */
 main {
-	padding: 2rem 0;
+	padding: 1rem 0;
 }
 
 /* Post list */
@@ -176,22 +221,33 @@ main {
 	list-style: none;
 	padding: 0;
 	display: grid;
-	gap: 2rem;
+	gap: 1.5rem;
 }
 
 .postlist-item {
-	padding: 1.5rem;
+	padding: 1.25rem;
 	border: var(--border-width) solid var(--border-color);
 	background: var(--background-color);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .postlist-item:hover {
-	background: var(--text-color);
-	color: var(--background-color);
+	transform: translateY(-3px);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-.postlist-item:hover * {
-	color: var(--background-color);
+.postlist-link {
+	display: block;
+	margin: 0 0 0.5rem 0;
+	font-size: 1.3rem;
+	font-weight: 600;
+	color: var(--text-color);
+	text-decoration: none;
+	line-height: 1.3;
+}
+
+.postlist-link:hover {
+	opacity: 0.75;
 }
 
 .postlist-meta {
@@ -199,22 +255,37 @@ main {
 	gap: 1rem;
 	align-items: center;
 	margin-bottom: 0.5rem;
+	font-size: 0.875rem;
+	color: var(--color-gray-50);
 }
 
 .postlist-reading-time {
-	font-size: 0.9rem;
+	font-size: 0.875rem;
 	color: var(--color-gray-50);
-	text-transform: none;
 }
 
-.postlist-link {
-	display: block;
+.postlist-excerpt {
 	margin: 0.5rem 0;
-	font-size: 1.25rem;
-	font-weight: bold;
-	color: var(--text-color);
+	font-size: 1rem;
+	line-height: 1.5;
+	color: var(--color-gray-50);
+}
+
+.postlist-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.post-tag {
+	display: inline-block;
+	padding: 0.2rem 0.5rem;
+	font-size: 0.75rem;
+	background: var(--color-gray-20);
+	color: var(--color-gray-90);
+	border-radius: 3px;
 	text-decoration: none;
-	text-transform: none;
+	font-family: var(--mono-font);
 }
 
 /* Article */
@@ -222,6 +293,8 @@ article {
 	padding: 2rem;
 	border: var(--border-width) solid var(--border-color);
 	background: var(--container-background);
+	line-height: 1.8;
+	font-size: 1.125rem;
 }
 
 /* Reading time */
@@ -238,48 +311,95 @@ article {
 h1, h2, h3, h4, h5, h6 {
 	text-transform: none;
 	line-height: 1.2;
+	margin-top: 2.5rem;
+	margin-bottom: 1rem;
 }
 
-h1 { font-size: 2rem; }
-h2 { font-size: 1.5rem; }
-h3 { font-size: 1.25rem; }
+h1 { 
+	font-size: 2.25rem; 
+	font-weight: 700;
+}
+h2 { 
+	font-size: 1.75rem; 
+	font-weight: 600;
+}
+h3 { 
+	font-size: 1.4rem; 
+	font-weight: 600;
+}
+
+p {
+	margin-bottom: 1.5rem;
+}
 
 /* Code blocks */
 pre {
-	padding: 1rem;
+	padding: 1.25rem;
 	margin: 1.5rem 0;
 	border: var(--border-width) solid var(--border-color);
 	background: var(--container-background);
 	overflow-x: auto;
+	border-radius: 3px;
+	font-family: var(--mono-font);
+	font-size: 0.9rem;
 }
 
 code {
 	padding: 0.2em 0.4em;
 	background: var(--container-background);
 	border: 1px solid var(--border-color);
+	border-radius: 3px;
+	font-family: var(--mono-font);
+	font-size: 0.9em;
 }
 
 /* Links */
 a[href] {
-	text-decoration-thickness: var(--border-width);
+	color: var(--text-color-link);
+	text-decoration: none;
+	transition: opacity 0.15s ease;
+}
+
+a[href]:hover {
+	opacity: 0.8;
 }
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
+	html {
+		font-size: 16px;
+	}
+
+	body {
+		padding: 0 1rem;
+	}
+
+	header {
+		margin: 1rem 0;
+		width: 100%;
+	}
+
 	header > div {
 		flex-direction: column;
 		align-items: flex-start;
+		gap: 0.75rem;
 	}
 
 	.nav {
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 1rem;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.75rem;
 	}
 
-	.theme-toggle {
-		width: 100%;
+	article {
+		padding: 1.25rem;
 	}
+
+	h1 { font-size: 1.75rem; }
+	h2 { font-size: 1.5rem; }
+	h3 { font-size: 1.25rem; }
 }
 
 /* Add styles for projects */
@@ -355,6 +475,20 @@ a[href] {
 @media (max-width: 768px) {
 	.home-layout {
 		grid-template-columns: 1fr;
+	}
+	
+	.projects-grid {
+		grid-template-columns: 1fr;
+	}
+	
+	.tab-buttons {
+		display: flex;
+		width: 100%;
+	}
+	
+	.tab-button {
+		flex: 1;
+		text-align: center;
 	}
 }
 
@@ -435,10 +569,14 @@ a[href] {
 }</style><script src="/js/theme-toggle.js"> </script>
   </head>
   <body>
-    <a href="#skip" class="visually-hidden">Skip to main content</a>
+    <a href="#skip" class="visually-hidden">Skip to content</a>
     <header>
       <div>
-        <a href="/" class="home-link">Chris Doran</a>
+        <div class="header-main">
+          <a href="/" class="home-link">Chris Doran</a>
+          <div class="spacer"></div>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">DARK</button>
+        </div>
         <nav>
           <ul class="nav">
               <li class="nav-item">
@@ -452,7 +590,6 @@ a[href] {
               </li>
           </ul>
         </nav>
-        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">DARK</button>
       </div>
     </header>
     <main id="skip">
@@ -462,144 +599,164 @@ a[href] {
 
 
 
-<ol reversed class="postlist">
+<ul class="postlist">
   
     <li class="postlist-item">
+      <a href="/blog/devcon2024/" class="postlist-link">
+        
+          Devcon 2024 roundup
+        
+      </a>
       <div class="postlist-meta">
         <time class="postlist-date" datetime="2024-10-12">12 October 2024</time>
         
           <span class="postlist-reading-time">4 MIN READ</span>
         
       </div>
-      <a href="/blog/devcon2024/" class="postlist-link">
-        
-          Devcon 2024 roundup
-        
-      </a>
       
-        
-        <a href="/tags/ethereum/" class="post-tag">ethereum</a>
+        <p class="postlist-excerpt">Highlights and musings</p>
       
+      <div class="postlist-tags">
         
-        <a href="/tags/devcon/" class="post-tag">devcon</a>
-      
+          
+          <a href="/tags/ethereum/" class="post-tag">ethereum</a>
         
-        <a href="/tags/bangkok/" class="post-tag">bangkok</a>
-      
+          
+          <a href="/tags/devcon/" class="post-tag">devcon</a>
         
-        <a href="/tags/fhe/" class="post-tag">fhe</a>
-      
+          
+          <a href="/tags/bangkok/" class="post-tag">bangkok</a>
         
-        <a href="/tags/zk/" class="post-tag">zk</a>
-      
+          
+          <a href="/tags/fhe/" class="post-tag">fhe</a>
         
-        <a href="/tags/devcon7/" class="post-tag">devcon7</a>
-      
+          
+          <a href="/tags/zk/" class="post-tag">zk</a>
+        
+          
+          <a href="/tags/devcon7/" class="post-tag">devcon7</a>
+        
+      </div>
     </li>
   
     <li class="postlist-item">
+      <a href="/blog/slurpingcontractdatapt3/" class="postlist-link">
+        
+          Eth contract data pt 3. How to run your own graph node
+        
+      </a>
       <div class="postlist-meta">
         <time class="postlist-date" datetime="2023-09-05">05 September 2023</time>
         
           <span class="postlist-reading-time">3 MIN READ</span>
         
       </div>
-      <a href="/blog/slurpingcontractdatapt3/" class="postlist-link">
-        
-          Eth contract data pt 3. How to run your own graph node
-        
-      </a>
       
-        
-        <a href="/tags/ethereum/" class="post-tag">ethereum</a>
+        <p class="postlist-excerpt">Let&#39;s investigate a command line tool to help us understand the storage tree</p>
       
+      <div class="postlist-tags">
         
-        <a href="/tags/thegraph/" class="post-tag">thegraph</a>
-      
+          
+          <a href="/tags/ethereum/" class="post-tag">ethereum</a>
         
-        <a href="/tags/forge/" class="post-tag">forge</a>
-      
+          
+          <a href="/tags/thegraph/" class="post-tag">thegraph</a>
         
-        <a href="/tags/contract-data/" class="post-tag">contract data</a>
-      
+          
+          <a href="/tags/forge/" class="post-tag">forge</a>
         
-        <a href="/tags/mempool/" class="post-tag">mempool</a>
-      
+          
+          <a href="/tags/contract-data/" class="post-tag">contract data</a>
         
-        <a href="/tags/storage/" class="post-tag">storage</a>
-      
+          
+          <a href="/tags/mempool/" class="post-tag">mempool</a>
+        
+          
+          <a href="/tags/storage/" class="post-tag">storage</a>
+        
+      </div>
     </li>
   
     <li class="postlist-item">
+      <a href="/blog/slurpingcontractdatapt2/" class="postlist-link">
+        
+          Eth contract data pt 2. Storage tree, cast and RPC
+        
+      </a>
       <div class="postlist-meta">
         <time class="postlist-date" datetime="2023-08-28">28 August 2023</time>
         
           <span class="postlist-reading-time">8 MIN READ</span>
         
       </div>
-      <a href="/blog/slurpingcontractdatapt2/" class="postlist-link">
-        
-          Eth contract data pt 2. Storage tree, cast and RPC
-        
-      </a>
       
-        
-        <a href="/tags/ethereum/" class="post-tag">ethereum</a>
+        <p class="postlist-excerpt">Let&#39;s investigate a command line tool to help us understand the storage tree</p>
       
+      <div class="postlist-tags">
         
-        <a href="/tags/thegraph/" class="post-tag">thegraph</a>
-      
+          
+          <a href="/tags/ethereum/" class="post-tag">ethereum</a>
         
-        <a href="/tags/forge/" class="post-tag">forge</a>
-      
+          
+          <a href="/tags/thegraph/" class="post-tag">thegraph</a>
         
-        <a href="/tags/contract-data/" class="post-tag">contract data</a>
-      
+          
+          <a href="/tags/forge/" class="post-tag">forge</a>
         
-        <a href="/tags/mempool/" class="post-tag">mempool</a>
-      
+          
+          <a href="/tags/contract-data/" class="post-tag">contract data</a>
         
-        <a href="/tags/storage/" class="post-tag">storage</a>
-      
+          
+          <a href="/tags/mempool/" class="post-tag">mempool</a>
+        
+          
+          <a href="/tags/storage/" class="post-tag">storage</a>
+        
+      </div>
     </li>
   
     <li class="postlist-item">
+      <a href="/blog/slurpingcontractdatapt1/" class="postlist-link">
+        
+          Eth contract data pt 1.
+        
+      </a>
       <div class="postlist-meta">
         <time class="postlist-date" datetime="2023-08-03">03 August 2023</time>
         
           <span class="postlist-reading-time">4 MIN READ</span>
         
       </div>
-      <a href="/blog/slurpingcontractdatapt1/" class="postlist-link">
-        
-          Eth contract data pt 1.
-        
-      </a>
       
-        
-        <a href="/tags/ethereum/" class="post-tag">ethereum</a>
+        <p class="postlist-excerpt">Basic overview of where contract data lives in ethereum</p>
       
+      <div class="postlist-tags">
         
-        <a href="/tags/thegraph/" class="post-tag">thegraph</a>
-      
+          
+          <a href="/tags/ethereum/" class="post-tag">ethereum</a>
         
-        <a href="/tags/forge/" class="post-tag">forge</a>
-      
+          
+          <a href="/tags/thegraph/" class="post-tag">thegraph</a>
         
-        <a href="/tags/contract/" class="post-tag">contract</a>
-      
+          
+          <a href="/tags/forge/" class="post-tag">forge</a>
         
-        <a href="/tags/data/" class="post-tag">data</a>
-      
+          
+          <a href="/tags/contract/" class="post-tag">contract</a>
         
-        <a href="/tags/mempool/" class="post-tag">mempool</a>
-      
+          
+          <a href="/tags/data/" class="post-tag">data</a>
         
-        <a href="/tags/storage/" class="post-tag">storage</a>
-      
+          
+          <a href="/tags/mempool/" class="post-tag">mempool</a>
+        
+          
+          <a href="/tags/storage/" class="post-tag">storage</a>
+        
+      </div>
     </li>
   
-</ol>
+</ul>
 
 <p>See <a href="/tags/">all tags</a>.</p>
 
