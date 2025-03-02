@@ -7,15 +7,15 @@ eleventyNavigation:
 
 <div class="tabs">
   <div class="tab-buttons">
-    <button class="tab-button active" data-tab="projects">Projects</button>
-    <button class="tab-button" data-tab="posts">Latest Posts</button>
+    <button class="tab-button active" data-tab="posts">Latest Posts</button>
+    <button class="tab-button" data-tab="projects">Projects</button>
   </div>
-  <div class="tab-content active" id="projects">
-    {% include "projects-grid.njk" %}
-  </div>
-  <div class="tab-content" id="posts">
-    {% set postslist = collections.posts | head(-5) %}
+  <div class="tab-content active" id="posts">
+    {% set postslist = collections.posts | head(-7) %}
     {% include "postslist.njk" %}
+  </div>
+  <div class="tab-content" id="projects">
+    {% include "projects-grid.njk" %}
   </div>
 </div>
 <script>

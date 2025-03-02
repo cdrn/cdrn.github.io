@@ -1,14 +1,8 @@
 {%- css %}.postlist { counter-reset: start-from {{ (postslistCounter or postslist.length) + 1 }}
   }{% endcss %}
-<ol reversed class="postlist">
+<ul class="postlist">
   {% for post in postslist | reverse %}
     <li class="postlist-item{% if post.url == url %} postlist-item-active{% endif %}">
-      <div class="postlist-meta">
-        <time class="postlist-date" datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate }}</time>
-        {% if post.templateContent %}
-          <span class="postlist-reading-time">{{ post.templateContent | readingTime }} MIN READ</span>
-        {% endif %}
-      </div>
       <a href="{{ post.url }}" class="postlist-link">
         {% if post.data.title %}
           {{ post.data.title }}
@@ -16,10 +10,21 @@
           <code>{{ post.url }}</code>
         {% endif %}
       </a>
-      {% for tag in post.data.tags | filterTagList %}
-        {% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
-        <a href="{{ tagUrl }}" class="post-tag">{{ tag }}</a>
-      {% endfor %}
+      <div class="postlist-meta">
+        <time class="postlist-date" datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate }}</time>
+        {% if post.templateContent %}
+          <span class="postlist-reading-time">{{ post.templateContent | readingTime }} MIN READ</span>
+        {% endif %}
+      </div>
+      {% if post.data.description %}
+        <p class="postlist-excerpt">{{ post.data.description }}</p>
+      {% endif %}
+      <div class="postlist-tags">
+        {% for tag in post.data.tags | filterTagList %}
+          {% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
+          <a href="{{ tagUrl }}" class="post-tag">{{ tag }}</a>
+        {% endfor %}
+      </div>
     </li>
   {% endfor %}
-</ol>
+</ul>
