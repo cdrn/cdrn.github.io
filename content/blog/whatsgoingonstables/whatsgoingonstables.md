@@ -5,8 +5,6 @@ date: 2025-03-27
 tags: [thonk, stablecoins, DEFI, USD, bonds]
 ---
 
-# Stablecoins: What happens when the risk free rate is money
-
 ## What the hell is going on with stables?
 
 A spectre is haunting DEFI -- the spectre of treasury bills.
