@@ -1,6 +1,6 @@
 ---
 title: Devcon 2024 roundup
-description: Highlights and musings
+description: Just the highlights
 date: 2024-10-12
 tags: [ethereum, devcon, bangkok, fhe, zk, devcon7]
 ---

@@ -43,6 +43,6 @@ In this new stablecoin regime, issuers with organic orderflow have an opportunit
 
 ## So, what?
 
-In a world where money itself yields 5%+, the stablecoin game becomes one of distribution, risk management, and network effects. survival means offering actual utility beyond mere existence. The winners will be those who build moats through real transaction volume rather than regulatory arbitrage or trying to nickel and dime yield from users. The cost will be 5%, but the prize could be the world's transaction volume.
+In a world where money itself yields 5%+, the stablecoin game becomes one of distribution, risk management, and network effects. Survival means offering actual utility beyond mere existence. The winners will be those who build moats through real transaction volume rather than regulatory arbitrage or trying to nickel and dime yield from users. The cost will be 5%, but the prize could be the world's transaction volume.
 
 Ultimately, this should evolve toward free-er, fairer money. In the long draw, after the dust has settled, capital efficient, yield bearing collateralised debt protocols like MakerDao, Ethena, or LST backed stablecoins have an opportunity to shine here, but only after the institutions do battle over treasury bonds.
