@@ -43,11 +43,6 @@
       </url>
       
       <url>
-        <loc>https://cdrn.github.io/tags/thonk/</loc>
-        <lastmod>2025-03-27</lastmod>
-      </url>
-      
-      <url>
         <loc>https://cdrn.github.io/tags/thegraph/</loc>
         <lastmod>2025-03-27</lastmod>
       </url>
@@ -79,6 +74,11 @@
       
       <url>
         <loc>https://cdrn.github.io/tags/contract-data/</loc>
+        <lastmod>2025-03-27</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/thonk/</loc>
         <lastmod>2025-03-27</lastmod>
       </url>
       
