@@ -1,7 +1,7 @@
 ---
 title: "Stablecoins: What happens when the risk free rate is money"
 description: a quick run down on the coming war for your yield
-date: 2025-3-27
+date: 2025-03-27
 tags: [thonk, stablecoins, DEFI, USD, bonds]
 ---
 
