@@ -3,15 +3,181 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tagged “thonk”</title>
+    <title>A short history of coercion</title>
     <meta
-    name="description" content="blög">
+    name="description" content="Concepts to consider">
     <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Chris Doran">
     <link rel="alternate" href="/feed/feed.json" type="application/json" title="Chris Doran">
     
     <style>
-    .postlist { counter-reset: start-from 3
-  }
+    /**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
 * { box-sizing: border-box; }
 /* Defaults */
 :root {
@@ -604,78 +770,31 @@ a[href]:hover {
     <main id="skip">
       
       
-<h1>Tagged “thonk”</h1>
+<h1>A short history of coercion</h1>
 
-
-
-<ul class="postlist">
-  
-    <li class="postlist-item">
-      <a href="/blog/whatsgoingonstables/" class="postlist-link">
-        
-          Stablecoins: What happens when the risk free rate is money
-        
-      </a>
-      <div class="postlist-meta">
-        <time class="postlist-date" datetime="2025-03-27">27 March 2025</time>
-        
-          <span class="postlist-reading-time">7 MIN READ</span>
-        
-      </div>
-      
-        <p class="postlist-excerpt">a quick run down on the coming war for your yield</p>
-      
-      <div class="postlist-tags">
-        
-          
-          <a href="/tags/thonk/" class="post-tag">thonk</a>
-        
-          
-          <a href="/tags/stablecoins/" class="post-tag">stablecoins</a>
-        
-          
-          <a href="/tags/defi/" class="post-tag">DEFI</a>
-        
-          
-          <a href="/tags/usd/" class="post-tag">USD</a>
-        
-          
-          <a href="/tags/bonds/" class="post-tag">bonds</a>
-        
-      </div>
-    </li>
-  
-    <li class="postlist-item">
-      <a href="/blog/shorthistoryofcoercion/" class="postlist-link">
-        
-          A short history of coercion
-        
-      </a>
-      <div class="postlist-meta">
-        <time class="postlist-date" datetime="2024-10-12">12 October 2024</time>
-        
-          <span class="postlist-reading-time">4 MIN READ</span>
-        
-      </div>
-      
-        <p class="postlist-excerpt">Concepts to consider</p>
-      
-      <div class="postlist-tags">
-        
-          
-          <a href="/tags/thonk/" class="post-tag">thonk</a>
-        
-      </div>
-    </li>
-  
+<ul class="post-metadata">
+	<li><time datetime="2024-10-12">12 October 2024</time></li>
+	<li><a href="/tags/thonk/" class="post-tag">thonk</a></li>
 </ul>
 
-<p>See <a href="/tags/">all tags</a>.</p>
+<p>I visited Port Arthur in Tasmania recently. It has been described as &quot;... the best surviving examples of large-scale convict transportation and the colonial expansion of European powers through the presence and labour of convicts.&quot;. A reshuffling British empire, after losing the key territory of America mass exports convicts from It's overcrowded prisons in order to secure it from a rival power. It made me want to write, in order to practice how to think about it.</p>
+<p>All successful societies rely on coercion of some type or another in order to align parties with disparate interests to achieve shared goals. This is the fundamental premise of (<em>Das Unbehagen in der Kultur</em>)[https://en.wikipedia.org/wiki/Civilization_and_Its_Discontents] - and is the most useful model for this agreement of which i'm aware. I would like to briefly explore some of the greatest metas in the history of the game and, perhaps, speculate briefly on which strategies will be strong in the future.</p>
+<h3 id="1-slave-economies" tabindex="-1">1. Slave Economies <a class="header-anchor" href="#1-slave-economies">#</a></h3>
+<p>Slave economies were the fundmanetal unit of the ancient world. Classical societies were, in some sense, fundamentally an answer to the question: <em>what configuration allows me to successfully keep the most slaves</em>. Slaves were involved in every facet of life - agriculture, labour, tutoring, scribes - and formed a fundamental, easily coercible labour force that could be deployed to do anything the &quot;free&quot; did not want to do, at no &quot;cost&quot;.</p>
+<p>The utility here is twofold: one - the labour can be deployed without expending capital, and two, the labour can be deployed <em>at will</em>. We can imagine how this makes economies not just more effective, but also more efficient when you can mobilise your labour force to plug any gaps without renegotiation.</p>
+<p>Slave economies were primarily perpetuated by the threat of, or actual violence. (Kagan)[https://oyc.yale.edu/classics/clcv-205/lecture-9] argues that Sparta's warlike society and increasingly stringent rules and rituals around soldiery (eugenics?) eventually became neccessary in order to enforce their prodigious citizen to slave ratio. At it's height, the ratio may have been 10:1.</p>
+<p>As Kagan points out, there are a number of fundamental weaknesses of this model. If the violence against the subjugated becomes too great, or the governing society too weak, the slaves will revolt. This happens (over)[https://en.wikipedia.org/wiki/Conspiracy_of_Cinadon] and over (over)[https://en.wikipedia.org/wiki/Spartacus] and (over)[https://en.wikipedia.org/wiki/Servile_Wars]. Power gained through the continued application of violence is highly fragile, and each of these revolts reveals a different failure mode of this agreement. Despite this, the agreement is strong enough to survive thousands of years. It is sadly resurrected more than once. It is the most basic form of coercive structure and can be bootstrapped with minimal organisation, and as such, persists in pockets of low complexity. It is eventually superseded by</p>
+<h3 id="2-feudal-style-economies" tabindex="-1">2. Feudal-style economies <a class="header-anchor" href="#2-feudal-style-economies">#</a></h3>
+<p>Structuting a society around the repression of slave revolts in a non-automated system (i.e, a system where all actors are human), while simple to implement is complex and fragile to maintain. Feudalism builds on the fundamental coercive properties of the slave-based economy, but adds some complexity in order to achieve some measure of robustness.</p>
+<p>Feudalism introduces two very important social technologies that increase the resillience and scale of the system. These are &quot;Reciprocity&quot; and &quot;Decentralisation&quot;. Taken together, these reduce the systemic risk of slave uprising.</p>
+<p>Serfs owe labour to their lord, but in return receive &quot;protection&quot; from outside threats and some credible promise of order. To revolt is to risk discarding your protection and may just result in a worse lord. There is a barter system here between the value of each parties' service.</p>
 
+<ul class="links-nextprev"><li>Previous: <a href="/blog/devcon2024/">Devcon 2024 roundup</a></li><li>Next: <a href="/blog/whatsgoingonstables/">Stablecoins: What happens when the risk free rate is money</a></li>
+</ul>
 
     </main>
     <footer></footer>
-    <!-- Current page: /tags/thonk/ -->
+    <!-- Current page: /blog/shorthistoryofcoercion/ -->
     <!-- 100% privacy-first analytics -->
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
   </body>
