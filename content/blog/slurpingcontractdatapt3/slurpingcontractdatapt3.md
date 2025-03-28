@@ -1,6 +1,6 @@
 ---
 title: Eth contract data pt 3. How to run your own graph node
-description: Let's investigate a command line tool to help us understand the storage tree
+description: Why buy when you can fork?
 date: 2023-09-05
 tags: [ethereum, thegraph, forge, contract data, mempool, storage]
 ---
