@@ -1,6 +1,6 @@
 /* Minimal but readable styling */
 :root {
-	--font-family: Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
+	--font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
 	--font-size-base: 17px;
 	--line-height-base: 1.7;
 
