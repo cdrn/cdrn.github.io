@@ -5,36 +5,16 @@ eleventyNavigation:
   order: 1
 ---
 
-<div class="content-container">
-<div class="tabs">
-  <div class="tab-buttons">
-    <button class="tab-button active" data-tab="posts">Latest Posts</button>
-    <button class="tab-button" data-tab="projects">Projects</button>
-  </div>
-  <div class="tab-content active" id="posts">
-    {% set postslist = collections.posts | head(-7) %}
+<div class="two-column-layout">
+  <div class="column">
+    <h2>Recent Posts</h2>
+    {% set postslist = collections.posts | head(-5) %}
     {% include "postslist.njk" %}
+    <p><a href="/blog/">View all posts →</a></p>
   </div>
-  <div class="tab-content" id="projects">
+
+  <div class="column">
+    <h2>Projects</h2>
     {% include "projects-grid.njk" %}
   </div>
-</div>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const tabContents = document.querySelectorAll('.tab-content');
-    tabButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        tabButtons.forEach(btn => btn.classList.remove('active'));
-        tabContents.forEach(content => content.classList.remove('active'));
-        button.classList.add('active');
-        const tabId = button.dataset.tab;
-        document
-          .getElementById(tabId)
-          .classList
-          .add('active');
-      });
-    });
-  });
-</script>
 </div>
