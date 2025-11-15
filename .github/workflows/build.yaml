@@ -3,34 +3,30 @@ name: Build Eleventy
 on:
   push:
     branches:
-      - main 
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     permissions:
       contents: write
 
-    strategy:
-      matrix:
-        node-version: [18.17.x]
-
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '18'
+          cache: 'npm'
 
       - name: Install dependencies & build
         run: |
           npm ci
-          npm run build 
+          npm run build
 
       - name: Deploy
-
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           publish_dir: ./_site
           github_token: ${{ secrets.GITHUB_TOKEN }}
