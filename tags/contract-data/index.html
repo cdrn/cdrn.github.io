@@ -6,6 +6,8 @@
     <title>Tagged “contract data”</title>
     <meta
     name="description" content="blög">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Chris Doran">
     <link rel="alternate" href="/feed/feed.json" type="application/json" title="Chris Doran">
     
@@ -13,98 +15,33 @@
     .postlist { counter-reset: start-from 3
   }
 * { box-sizing: border-box; }
-/* Defaults */
+/* Minimal but readable styling */
 :root {
-	--font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-	--mono-font: "Fira Mono", "DejaVu Sans Mono", "Liberation Mono", Menlo, monospace;
-	--font-size-base: 1.125rem;
+	--font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+	--font-size-base: 17px;
 	--line-height-base: 1.7;
 
 	/* Light theme */
-	--color-gray-20: #e0e0e0;
-	--color-gray-50: #666666;
-	--color-gray-90: #111111;
-
 	--background-color: #ffffff;
-	--container-background: #f8f8f8;
-	
-	--text-color: var(--color-gray-90);
-	--text-color-link: #13116c;
-	--text-color-link-active: #171584;
-	--text-color-link-visited: #555555;
+	--text-color: #000000;
+	--text-color-link: #0000ee;
+	--text-color-link-visited: #551a8b;
+	--text-color-muted: #666666;
 
-	--border-color: #000000;
-	--border-width: 2px;
-	
-	--max-width: 70ch;
+	--max-width: 90ch;
 }
 
 [data-theme="dark"] {
-	--color-gray-20: #333333;
-	--color-gray-50: #999999;
-	--color-gray-90: #ffffff;
-
-	--background-color: #111111;
-	--container-background: #1a1a1a;
-	
-	--text-color: var(--color-gray-90);
+	--background-color: #000000;
+	--text-color: #00ff00;
 	--text-color-link: #00ff00;
-	--text-color-link-active: #00ff00;
-	--text-color-link-visited: #00bb00;
-
-	--border-color: #ffffff;
+	--text-color-link-visited: #00cc00;
+	--text-color-muted: #00cc00;
 }
 
-/* Add these specific link styles after your existing link styles */
-[data-theme="dark"] a[href] {
-	color: var(--text-color-link);
-}
-
-[data-theme="dark"] a[href]:visited {
-	color: var(--text-color-link-visited);
-}
-
-[data-theme="dark"] a[href]:hover,
-[data-theme="dark"] a[href]:active {
-	color: var(--text-color-link-active);
-}
-
-/* Make sure navigation links stay white */
-[data-theme="dark"] .nav-item a,
-[data-theme="dark"] .home-link {
-	color: var(--text-color);
-}
-
-/* Global stylesheet */
+/* Basic reset */
 * {
 	box-sizing: border-box;
-}
-
-/* Skip to content styling */
-.visually-hidden {
-	clip: rect(0 0 0 0);
-	clip-path: inset(50%);
-	height: 1px;
-	overflow: hidden;
-	position: absolute;
-	white-space: nowrap;
-	width: 1px;
-}
-
-/* Make the skip link visible when focused */
-.visually-hidden:focus {
-	clip: auto;
-	clip-path: none;
-	height: auto;
-	width: auto;
-	background-color: var(--background-color);
-	color: var(--text-color);
-	outline: var(--border-width) solid var(--border-color);
-	padding: 0.5rem 1rem;
-	position: fixed;
-	top: 1rem;
-	left: 1rem;
-	z-index: 9999;
 }
 
 html,
@@ -116,465 +53,326 @@ body {
 	line-height: var(--line-height-base);
 	color: var(--text-color);
 	background-color: var(--background-color);
+	font-weight: 500;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 body {
 	max-width: var(--max-width);
 	margin: 0 auto;
-	padding: 0 1.5rem;
-	font-kerning: normal;
-	text-rendering: optimizeLegibility;
+	padding: 1em;
 }
 
-/* Header */
+/* Header - minimal */
 header {
-	margin: 1rem -1rem;
-	padding: 1rem;
-	border: var(--border-width) solid var(--border-color);
-	background: var(--container-background);
-}
-
-header > div {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	flex-wrap: wrap;
-	gap: 1rem;
+	margin-bottom: 2em;
+	padding-bottom: 1em;
+	border-bottom: 1px solid var(--text-color);
 }
 
 .header-main {
-	display: flex;
-	align-items: center;
-	width: 100%;
-	justify-content: space-between;
-	gap: 1rem;
+	margin-bottom: 0.5em;
 }
 
 .spacer {
-	flex-grow: 1;
-	min-width: 1rem;
+	display: none;
 }
 
 .home-link {
-	font-size: 1.25rem;
 	font-weight: bold;
 	color: var(--text-color);
 	text-decoration: none;
-	text-transform: none;
 }
 
 .home-link:hover {
 	text-decoration: underline;
-	text-decoration-thickness: var(--border-width);
 }
 
-/* Navigation */
+/* Navigation - simple list */
 .nav {
-	display: flex;
-	gap: 1.5rem;
-	align-items: center;
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
+.nav-item {
+	display: inline;
+	margin-right: 1em;
+}
+
 .nav-item a {
 	color: var(--text-color);
 	text-decoration: none;
-	text-transform: none;
 }
 
-.nav-item a:hover {
-	text-decoration: underline;
-	text-decoration-thickness: var(--border-width);
-}
-
+.nav-item a:hover,
 .nav-item a[aria-current="page"] {
 	text-decoration: underline;
-	text-decoration-thickness: var(--border-width);
 }
 
-/* Theme toggle */
+/* Theme toggle - minimal button */
 .theme-toggle {
 	font-family: var(--font-family);
-	padding: 0.5rem;
-	border: var(--border-width) solid var(--border-color);
-	background: var(--container-background);
+	padding: 2px 8px;
+	margin-left: 1em;
+	border: 1px solid var(--text-color);
+	background: var(--background-color);
 	color: var(--text-color);
 	cursor: pointer;
-	text-transform: none;
-	font-weight: bold;
-}
-
-.theme-toggle:hover {
-	background: var(--text-color);
-	color: var(--background-color);
+	font-size: var(--font-size-base);
 }
 
 /* Main content */
 main {
-	padding: 1rem 0;
+	padding: 0;
 }
 
-.content-container {
-	padding-top: 0;
-	margin-top: 0;
-}
-
-.content-container h1 {
-	margin-top: 0;
-}
-
-/* Post list */
+/* Post list - readable */
 .postlist {
 	list-style: none;
 	padding: 0;
-	display: grid;
-	gap: 1.5rem;
+	margin: 0;
 }
 
 .postlist-item {
-	padding: 1.25rem;
-	border: var(--border-width) solid var(--border-color);
-	background: var(--background-color);
-	transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.postlist-item:hover {
-	transform: translateY(-3px);
-	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+	margin-bottom: 2.5em;
+	padding-bottom: 1.5em;
+	border-bottom: 1px solid var(--text-color);
 }
 
 .postlist-link {
-	display: block;
-	margin: 0 0 0.5rem 0;
-	font-size: 1.3rem;
-	font-weight: 600;
+	font-weight: bold;
+	font-size: 1.15em;
 	color: var(--text-color);
 	text-decoration: none;
-	line-height: 1.3;
+	line-height: 1.4;
+	display: block;
+	margin-bottom: 0.5em;
 }
 
 .postlist-link:hover {
-	opacity: 0.75;
+	text-decoration: underline;
 }
 
 .postlist-meta {
-	display: flex;
-	gap: 1rem;
-	align-items: center;
-	margin-bottom: 0.5rem;
-	font-size: 0.875rem;
-	color: var(--color-gray-50);
+	margin: 0.5em 0;
+	font-size: 0.9em;
+	color: var(--text-color-muted);
 }
 
 .postlist-reading-time {
-	font-size: 0.875rem;
-	color: var(--color-gray-50);
+	margin-left: 1em;
 }
 
 .postlist-excerpt {
-	margin: 0.5rem 0;
-	font-size: 1rem;
-	line-height: 1.5;
-	color: var(--color-gray-50);
+	margin: 0.75em 0;
+	line-height: 1.6;
 }
 
 .postlist-tags {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.5rem;
+	margin-top: 0.75em;
+	font-size: 0.9em;
 }
 
 .post-tag {
-	display: inline-block;
-	padding: 0.2rem 0.5rem;
-	font-size: 0.75rem;
-	background: var(--color-gray-20);
-	color: var(--color-gray-90);
-	border-radius: 3px;
+	margin-right: 0.75em;
 	text-decoration: none;
-	font-family: var(--mono-font);
+	color: var(--text-color-muted);
 }
 
-/* Article */
+.post-tag:before {
+	content: "[";
+}
+
+.post-tag:after {
+	content: "]";
+}
+
+/* Article - minimal */
 article {
-	padding: 2rem;
-	border: var(--border-width) solid var(--border-color);
-	background: var(--container-background);
-	line-height: 1.8;
-	font-size: 1.125rem;
+	margin: 2em 0;
+}
+
+.post-metadata {
+	list-style: none;
+	padding: 0;
+	margin: 1em 0;
+}
+
+.post-metadata li {
+	display: inline;
+	margin-right: 1em;
 }
 
 /* Reading time */
 .reading-time {
-	display: inline-block;
-	padding: 0.5rem;
-	margin-bottom: 2rem;
-	border: var(--border-width) solid var(--border-color);
-	text-transform: none;
-	font-size: 0.9rem;
+	display: block;
+	margin: 1em 0;
+	padding: 0.5em 0;
+	border-top: 1px solid var(--text-color);
+	border-bottom: 1px solid var(--text-color);
 }
 
-/* Typography */
+/* Typography - improved hierarchy */
 h1, h2, h3, h4, h5, h6 {
-	text-transform: none;
-	line-height: 1.2;
-	margin-top: 2.5rem;
-	margin-bottom: 1rem;
+	font-weight: bold;
+	margin-top: 1.5em;
+	margin-bottom: 0.75em;
+	line-height: 1.3;
 }
 
-h1 { 
-	font-size: 2.25rem; 
-	font-weight: 700;
+h1 {
+	font-size: 1.8em;
+	margin-top: 0;
+	margin-bottom: 1em;
 }
-h2 { 
-	font-size: 1.75rem; 
-	font-weight: 600;
+h2 {
+	font-size: 1.4em;
+	margin-top: 2em;
 }
-h3 { 
-	font-size: 1.4rem; 
-	font-weight: 600;
-}
+h3 { font-size: 1.15em; }
 
 p {
-	margin-bottom: 1.5rem;
+	margin: 1em 0;
 }
 
-/* Code blocks */
+/* Code blocks - always monospace */
 pre {
-	padding: 1.25rem;
-	margin: 1.5rem 0;
-	border: var(--border-width) solid var(--border-color);
-	background: var(--container-background);
+	margin: 1em 0;
+	padding: 0.5em;
 	overflow-x: auto;
-	border-radius: 3px;
-	font-family: var(--mono-font);
-	font-size: 0.9rem;
-}
-
-code {
-	padding: 0.2em 0.4em;
-	background: var(--container-background);
-	border: 1px solid var(--border-color);
-	border-radius: 3px;
-	font-family: var(--mono-font);
+	border-left: 3px solid var(--text-color);
+	font-family: "Courier New", Courier, monospace;
 	font-size: 0.9em;
 }
 
-/* Links */
+code {
+	font-family: "Courier New", Courier, monospace;
+	font-size: 0.9em;
+}
+
+/* Links - classic web style */
 a[href] {
 	color: var(--text-color-link);
-	text-decoration: none;
-	transition: opacity 0.15s ease;
+	text-decoration: underline;
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
 }
 
 a[href]:hover {
-	opacity: 0.8;
+	text-decoration: none;
 }
 
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-	html {
-		font-size: 16px;
-	}
-
-	body {
-		padding: 0 1rem;
-	}
-
-	header {
-		margin: 1rem 0;
-		width: 100%;
-	}
-
-	header > div {
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 0.75rem;
-	}
-
-	.nav {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 0.75rem;
-	}
-
-	article {
-		padding: 1.25rem;
-	}
-
-	h1 { font-size: 1.75rem; }
-	h2 { font-size: 1.5rem; }
-	h3 { font-size: 1.25rem; }
+.links-nextprev {
+	list-style: none;
+	padding: 0;
+	margin: 2em 0;
+	border-top: 1px solid var(--text-color);
+	padding-top: 1em;
 }
 
-/* Add styles for projects */
-.projects-grid {
+.links-nextprev li {
+	margin: 0.5em 0;
+}
+
+/* Two-column layout */
+.two-column-layout {
 	display: grid;
-	gap: 1.5rem;
+	grid-template-columns: 1fr 1fr;
+	gap: 4em;
+	margin: 2em 0;
+}
+
+.two-column-layout .column h2:first-child {
+	margin-top: 0;
+}
+
+@media (max-width: 768px) {
+	.two-column-layout {
+		grid-template-columns: 1fr;
+		gap: 3em;
+	}
+}
+
+/* Projects - simple list */
+.projects-grid {
+	list-style: none;
+	padding: 0;
+	margin: 0;
 }
 
 .project-card {
-	border: var(--border-width) solid var(--border-color);
-	background: var(--background-color);
-	padding: 1.5rem;
-}
-
-.project-card:hover {
-	background: var(--text-color);
-	color: var(--background-color);
-}
-
-.project-card:hover * {
-	color: var(--background-color);
+	margin-bottom: 2em;
+	padding-bottom: 1.5em;
+	border-bottom: 1px solid var(--text-color);
 }
 
 .project-preview {
-	width: 100%;
-	height: 150px;
-	object-fit: cover;
-	border: var(--border-width) solid var(--border-color);
-	margin-bottom: 1rem;
+	max-width: 100%;
+	height: auto;
+	margin: 1em 0;
+	border: 1px solid var(--text-color);
 }
 
 .project-title {
-	font-size: 1.25rem;
 	font-weight: bold;
-	margin: 0 0 1rem 0;
+	font-size: 1.15em;
+	margin: 0.5em 0;
 }
 
 .project-description {
-	margin-bottom: 1rem;
-	font-size: 0.9rem;
+	margin: 0.75em 0;
+	line-height: 1.6;
 }
 
 .project-links {
-	display: flex;
-	gap: 1rem;
+	margin-top: 0.75em;
 }
 
 .project-link {
-	text-decoration: none;
-	border-bottom: var(--border-width) solid var(--border-color);
+	margin-right: 1.5em;
 }
 
-/* Add these styles to your existing CSS */
-.home-layout {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 2rem;
-	margin: 2rem 0;
+/* Content container */
+.content-container {
+	margin: 2em 0;
 }
 
-.home-section {
-	border: var(--border-width) solid var(--border-color);
-	padding: 1.5rem;
-	background: var(--container-background);
+/* Images */
+img {
+	max-width: 100%;
+	height: auto;
 }
 
-.home-section h1 {
-	margin-top: 0;
-	font-size: 1.5rem;
+/* Lists */
+ul, ol {
+	margin: 1em 0;
+	padding-left: 2em;
 }
 
-/* Responsive layout */
-@media (max-width: 768px) {
-	.home-layout {
-		grid-template-columns: 1fr;
-	}
-	
-	.projects-grid {
-		grid-template-columns: 1fr;
-	}
-	
-	.tab-buttons {
-		display: flex;
-		width: 100%;
-	}
-	
-	.tab-button {
-		flex: 1;
-		text-align: center;
-	}
+blockquote {
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid var(--text-color);
 }
 
-/* Add these styles for tabs */
-.tabs {
-	margin: 2rem 0;
+/* Tables */
+table {
+	border-collapse: collapse;
+	margin: 1em 0;
 }
 
-.tab-buttons {
-	display: flex;
-	gap: -2px;
-	margin-bottom: -2px;
-	position: relative;
+th, td {
+	border: 1px solid var(--text-color);
+	padding: 0.5em;
+	text-align: left;
 }
 
-.tab-button {
-	font-family: var(--font-family);
-	padding: 0.75rem 1.5rem;
-	border: var(--border-width) solid var(--border-color);
-	background: var(--background-color);
-	color: var(--text-color);
-	cursor: pointer;
+th {
 	font-weight: bold;
-	position: relative;
-	z-index: 1;
-}
-
-.tab-button:hover {
-	background: var(--container-background);
-}
-
-.tab-button.active {
-	background: var(--container-background);
-	border-bottom: var(--border-width) solid var(--container-background);
-	z-index: 3;
-}
-
-.tab-content {
-	display: none;
-	border: var(--border-width) solid var(--border-color);
-	padding: 2rem;
-	background: var(--container-background);
-	position: relative;
-	z-index: 2;
-}
-
-.tab-content.active {
-	display: block;
-}
-
-/* Update project cards for better contrast */
-.project-card {
-	border: var(--border-width) solid var(--border-color);
-	background: var(--background-color);
-	padding: 1.5rem;
-}
-
-.project-card:hover {
-	background: var(--text-color);
-	color: var(--background-color);
-}
-
-/* Update postlist items for better contrast */
-.postlist-item {
-	background: var(--background-color);
-}
-
-/* Add a subtle shadow to make the cards pop more */
-.project-card,
-.postlist-item {
-	box-shadow: 4px 4px 0 var(--border-color);
-}
-
-.project-card:hover,
-.postlist-item:hover {
-	box-shadow: none;
-	transform: translate(2px, 2px);
 }</style><script src="/js/theme-toggle.js"> </script>
   </head>
   <body>
@@ -592,7 +390,7 @@ a[href]:hover {
                 <a href="/" >Home</a>
               </li>
               <li class="nav-item">
-                <a href="/blog/" >Archive</a>
+                <a href="/blog/" >All Posts</a>
               </li>
               <li class="nav-item">
                 <a href="/about/" >About Me</a>
