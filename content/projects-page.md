@@ -2,7 +2,7 @@
 layout: layouts/base.njk
 title: Projects
 permalink: /projects/
-eleventyExcludeFromCollections: false
+tags: []
 eleventyNavigation:
   key: Projects
   order: 2
