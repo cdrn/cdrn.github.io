@@ -1,6 +1,8 @@
 ---
 layout: layouts/base.njk
 title: Projects
+permalink: /projects/
+eleventyExcludeFromCollections: false
 eleventyNavigation:
   key: Projects
   order: 2
