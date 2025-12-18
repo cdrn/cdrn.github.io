@@ -5,16 +5,9 @@ eleventyNavigation:
   order: 1
 ---
 
-<div class="two-column-layout">
-  <div class="column">
-    <h2>Recent Posts</h2>
-    {% set postslist = collections.posts | head(-5) %}
-    {% include "postslist.njk" %}
-    <p><a href="/blog/">View all posts →</a></p>
-  </div>
-
-  <div class="column">
-    <h2>Projects</h2>
-    {% include "projects-grid.njk" %}
-  </div>
+<div class="content-container">
+  <h1>Recent Posts</h1>
+  {% set postslist = collections.posts | head(-5) %}
+  {% include "postslist.njk" %}
+  <p><a href="/blog/">View all posts →</a></p>
 </div>
