@@ -1,7 +1,8 @@
 ---
-title: Gauloi 
+title: Gauloi
 preview: /img/placeholder.png
-tech: Rust, BDK, TS. 
+tech: Rust, BDK, TS.
+tags: projects
 links:
   - text: GitHub (reupload)
     url: https://github.com/0x330a-public/gauloi-cli-rs

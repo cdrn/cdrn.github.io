@@ -2,6 +2,7 @@
 title: Eth Melbourne
 preview: /img/eth-melb.png
 tech: eye contact, peer to peer communication
+tags: projects
 links:
   - text: Website
     url: https://ethmelbourne.co/
