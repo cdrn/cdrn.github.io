@@ -3,9 +3,13 @@ layout: layouts/base.njk
 title: Projects
 eleventyNavigation:
   key: Projects
-  order: 3
+  order: 2
 ---
+
+<div class="content-container">
 
 # Projects
 
-{% include "projects-grid.njk" %} 
+{% include "projects-grid.njk" %}
+
+</div> 
