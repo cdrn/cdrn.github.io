@@ -3,12 +3,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       
       <url>
+        <loc>https://cdrn.github.io/projects/</loc>
+        <lastmod>2025-12-18</lastmod>
+      </url>
+      
+      <url>
         <loc>https://cdrn.github.io/tags/</loc>
         <lastmod>2025-12-18</lastmod>
       </url>
       
       <url>
-        <loc>https://cdrn.github.io/tags/projects/</loc>
+        <loc>https://cdrn.github.io/tags/thonk/</loc>
+        <lastmod>2025-12-18</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/crypto/</loc>
+        <lastmod>2025-12-18</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/bridges/</loc>
+        <lastmod>2025-12-18</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/orderflow/</loc>
         <lastmod>2025-12-18</lastmod>
       </url>
       
@@ -74,11 +94,6 @@
       
       <url>
         <loc>https://cdrn.github.io/tags/contract-data/</loc>
-        <lastmod>2025-12-18</lastmod>
-      </url>
-      
-      <url>
-        <loc>https://cdrn.github.io/tags/thonk/</loc>
         <lastmod>2025-12-18</lastmod>
       </url>
       
