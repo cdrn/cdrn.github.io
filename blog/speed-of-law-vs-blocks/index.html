@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>On the speed of law versus the speed of blocks</title>
+    <meta
+    name="description" content="Freeze functions, fast exits, and the limits of on-chain compliance">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Chris Doran">
+    <link rel="alternate" href="/feed/feed.json" type="application/json" title="Chris Doran">
+    
+    <style>
+    /**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Minimal but readable styling */
+:root {
+	--font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+	--font-size-base: 17px;
+	--line-height-base: 1.7;
+
+	/* Light theme */
+	--background-color: #ffffff;
+	--text-color: #000000;
+	--text-color-link: #0000ee;
+	--text-color-link-visited: #551a8b;
+	--text-color-muted: #666666;
+
+	--max-width: 90ch;
+}
+
+[data-theme="dark"] {
+	--background-color: #000000;
+	--text-color: #00ff00;
+	--text-color-link: #00ff00;
+	--text-color-link-visited: #00cc00;
+	--text-color-muted: #00cc00;
+}
+
+/* Basic reset */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0;
+	font-family: var(--font-family);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
+	color: var(--text-color);
+	background-color: var(--background-color);
+	font-weight: 500;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	max-width: var(--max-width);
+	margin: 0 auto;
+	padding: 1em;
+}
+
+/* Header - minimal */
+header {
+	margin-bottom: 2em;
+	padding-bottom: 1em;
+	border-bottom: 1px solid var(--text-color);
+}
+
+.header-main {
+	margin-bottom: 0.5em;
+}
+
+.spacer {
+	display: none;
+}
+
+.home-link {
+	font-weight: bold;
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.home-link:hover {
+	text-decoration: underline;
+}
+
+/* Navigation - simple list */
+.nav {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline;
+	margin-right: 1em;
+}
+
+.nav-item a {
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.nav-item a:hover,
+.nav-item a[aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Theme toggle - minimal button */
+.theme-toggle {
+	font-family: var(--font-family);
+	padding: 2px 8px;
+	margin-left: 1em;
+	border: 1px solid var(--text-color);
+	background: var(--background-color);
+	color: var(--text-color);
+	cursor: pointer;
+	font-size: var(--font-size-base);
+}
+
+/* Main content */
+main {
+	padding: 0;
+}
+
+/* Post list - readable */
+.postlist {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.postlist-item {
+	margin-bottom: 2.5em;
+	padding-bottom: 1.5em;
+	border-bottom: 1px solid var(--text-color);
+}
+
+.postlist-link {
+	font-weight: bold;
+	font-size: 1.15em;
+	color: var(--text-color);
+	text-decoration: none;
+	line-height: 1.4;
+	display: block;
+	margin-bottom: 0.5em;
+}
+
+.postlist-link:hover {
+	text-decoration: underline;
+}
+
+.postlist-meta {
+	margin: 0.5em 0;
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+}
+
+.postlist-reading-time {
+	margin-left: 1em;
+}
+
+.postlist-excerpt {
+	margin: 0.75em 0;
+	line-height: 1.6;
+}
+
+.postlist-tags {
+	margin-top: 0.75em;
+	font-size: 0.9em;
+}
+
+.post-tag {
+	margin-right: 0.75em;
+	text-decoration: none;
+	color: var(--text-color-muted);
+}
+
+.post-tag:before {
+	content: "[";
+}
+
+.post-tag:after {
+	content: "]";
+}
+
+/* Article - minimal */
+article {
+	margin: 2em 0;
+}
+
+.post-metadata {
+	list-style: none;
+	padding: 0;
+	margin: 1em 0;
+}
+
+.post-metadata li {
+	display: inline;
+	margin-right: 1em;
+}
+
+/* Reading time */
+.reading-time {
+	display: block;
+	margin: 1em 0;
+	padding: 0.5em 0;
+	border-top: 1px solid var(--text-color);
+	border-bottom: 1px solid var(--text-color);
+}
+
+/* Typography - improved hierarchy */
+h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
+	margin-top: 1.5em;
+	margin-bottom: 0.75em;
+	line-height: 1.3;
+}
+
+h1 {
+	font-size: 1.8em;
+	margin-top: 0;
+	margin-bottom: 1em;
+}
+h2 {
+	font-size: 1.4em;
+	margin-top: 2em;
+}
+h3 { font-size: 1.15em; }
+
+p {
+	margin: 1em 0;
+}
+
+/* Code blocks - always monospace */
+pre {
+	margin: 1em 0;
+	padding: 0.5em;
+	overflow-x: auto;
+	border-left: 3px solid var(--text-color);
+	font-family: "Courier New", Courier, monospace;
+	font-size: 0.9em;
+}
+
+code {
+	font-family: "Courier New", Courier, monospace;
+	font-size: 0.9em;
+}
+
+/* Links - classic web style */
+a[href] {
+	color: var(--text-color-link);
+	text-decoration: underline;
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover {
+	text-decoration: none;
+}
+
+.links-nextprev {
+	list-style: none;
+	padding: 0;
+	margin: 2em 0;
+	border-top: 1px solid var(--text-color);
+	padding-top: 1em;
+}
+
+.links-nextprev li {
+	margin: 0.5em 0;
+}
+
+/* Two-column layout */
+.two-column-layout {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 4em;
+	margin: 2em 0;
+}
+
+.two-column-layout .column h2:first-child {
+	margin-top: 0;
+}
+
+@media (max-width: 768px) {
+	.two-column-layout {
+		grid-template-columns: 1fr;
+		gap: 3em;
+	}
+}
+
+/* Projects - simple list */
+.projects-grid {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.project-card {
+	margin-bottom: 2em;
+	padding-bottom: 1.5em;
+	border-bottom: 1px solid var(--text-color);
+}
+
+.project-preview {
+	max-width: 100%;
+	height: auto;
+	margin: 1em 0;
+	border: 1px solid var(--text-color);
+}
+
+.project-title {
+	font-weight: bold;
+	font-size: 1.15em;
+	margin: 0.5em 0;
+}
+
+.project-description {
+	margin: 0.75em 0;
+	line-height: 1.6;
+}
+
+.project-links {
+	margin-top: 0.75em;
+}
+
+.project-link {
+	margin-right: 1.5em;
+}
+
+/* Content container */
+.content-container {
+	margin: 2em 0;
+}
+
+/* Images */
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Lists */
+ul, ol {
+	margin: 1em 0;
+	padding-left: 2em;
+}
+
+blockquote {
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid var(--text-color);
+}
+
+/* Tables */
+table {
+	border-collapse: collapse;
+	margin: 1em 0;
+}
+
+th, td {
+	border: 1px solid var(--text-color);
+	padding: 0.5em;
+	text-align: left;
+}
+
+th {
+	font-weight: bold;
+}</style><script src="/js/theme-toggle.js"> </script>
+  </head>
+  <body>
+    <a href="#skip" class="visually-hidden">Skip to content</a>
+    <header>
+      <div>
+        <div class="header-main">
+          <a href="/" class="home-link">Chris Doran</a>
+          <div class="spacer"></div>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">DARK</button>
+        </div>
+        <nav>
+          <ul class="nav">
+              <li class="nav-item">
+                <a href="/" >Home</a>
+              </li>
+              <li class="nav-item">
+                <a href="/projects/" >Projects</a>
+              </li>
+              <li class="nav-item">
+                <a href="/about/" >About</a>
+              </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main id="skip">
+      
+      
+<h1>On the speed of law versus the speed of blocks</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2025-12-27">27 December 2025</time></li>
+	<li><a href="/tags/crypto/" class="post-tag">crypto</a>, </li>
+	<li><a href="/tags/stablecoins/" class="post-tag">stablecoins</a>, </li>
+	<li><a href="/tags/regulation/" class="post-tag">regulation</a></li>
+</ul>
+
+<h1 id="on-the-speed-of-law-versus-the-speed-of-blocks" tabindex="-1">On the speed of law versus the speed of blocks <a class="header-anchor" href="#on-the-speed-of-law-versus-the-speed-of-blocks">#</a></h1>
+<h2 id="1-a-short-history-of-blacklist" tabindex="-1">1. A short history of blacklist() <a class="header-anchor" href="#1-a-short-history-of-blacklist">#</a></h2>
+<p>Since the beginning, stablecoins have shipped with <a href="https://etherscan.io/address/0x43506849d7c04f9138d1a2050bbf3a0c054402dd#code#F15#L71">freeze</a>, <a href="https://etherscan.io/address/0xdac17f958d2ee523a2206206994597c13d831ec7#code#L269">blacklist</a> functions. And it makes sense - centralised stablecoin issuers, exposed to US treasuries and ostensibly operating a privately issued US dollar need to have some compliance story - and the blacklist gets used. <a href="https://crypto.news/tether-freezes-30x-more-value-than-circle-as-stablecoin-blacklists-surge/">Tether has frozen $3.3B</a> since 2023, working with 275 law enforcement agencies across 59 jurisdictions. Circle has been surprisingly more conservative - $109M, court orders only. There is a real capability that exists today.</p>
+<p>The GENIUS act <a href="https://www.banking.senate.gov/newsroom/majority/myth-vs-fact-the-genius-act">codifies</a> this: issuers must have &quot;technological capability to comply with any lawful order to freeze funds&quot;. What was a nod is now a mandate, but mandating a capability doesn't necessarily make it fast.</p>
+<h2 id="2-the-race-to-broadcast" tabindex="-1">2. The race to broadcast <a class="header-anchor" href="#2-the-race-to-broadcast">#</a></h2>
+<p>A swap on Thorchain settles in under a minute. Uniswap is one block, which is 12 seconds on Ethereum mainnet and soon to be 6. The attacker's workflow is: receive funds, approve, swap, done. The future blacklistee is  holding native BTC or ETH which no blacklist function in the world can touch (That's the point!). Hackers and bad actors are constrained only by how quickly they can dump funds into liquid pools, and whether there are sufficient willing, able or ignorant marketmakers to replenish them. For small denominations, this is almost meaningless and there is sufficient liquidity in pools to cover substantial amounts of the hacked funds in the next block.</p>
+<p>The issuer side is a different story. Tether runs a multisig. This means the issuer is forced to play an awkward co-ordination game for every action. One needs multiple signers to coordinate, sign, broadcast for every blacklist action. Amlbot <a href="https://blog.amlbot.com/tether-freeze-gap-becomes-laundering-loophole-for-criminals-an-analytical-report/">clocked their average observed latency</a> at 44 minutes from freeze decision to on-chain enforcement. During that window, $78mm walked out of addresses that had been publicly flagged. The blacklist transaction was still pending. One can imagine this arms race escalating with faster signing (threshold signatures), improved governance procedures, a contract that makes blacklisting simpler and requires fewer quorum. However, one can also imagine Lazarus bribing a block builder for top of block to get their transfers in before blacklist function calls. Are issuers now required to have sophisticated MEV capabilities? We can move the problem around the plate, but it appears, not solve it.</p>
+<p>The law imagines freeze like a bank: point at account, flip a bit, funds stop, but a bank ledger is a single database with atomic writes. on-chain you're broadcasting a tx that has to confirm, and the attacker is broadcasting theirs at the same time. It's a race. and 12 seconds vs 44 minutes isn't a race.</p>
+<h2 id="3-the-scoreboard-today" tabindex="-1">3. The scoreboard today <a class="header-anchor" href="#3-the-scoreboard-today">#</a></h2>
+<p>Here's the standing tally</p>
+<p>Bybit, February 2025: <a href="https://www.bleepingcomputer.com/news/security/fbi-confirms-lazarus-hackers-were-behind-15b-bybit-crypto-heist/">Lazarus Group takes $1.5B</a> in ETH and staking derivatives. They don't touch USDC. Within 48 hours, $160M has been converted to native BTC via THORChain. Within 10 days, the entire haul - all $1.4B - has been <a href="https://beincrypto.com/lazarus-laundered-bybit-hack-funds-via-thorchain/">swapped and distributed</a> across 6,954 wallets. THORChain processes $5.5B in volume during the laundering window. Chainflip handles some of the flow too. A THORChain core developer <a href="https://cointelegraph.com/news/timeline-bybit-lost-ethereum-north-korea-money-launder">resigns in protest</a>. Validators attempt to block the transactions and get overruled by the protocol's governance.</p>
+<p>Tether <a href="https://www.ccn.com/education/crypto/ben-zhou-bybit-1-5-billion-hack-explained/">freezes $181k</a>. That's 0.012% of the stolen funds.</p>
+<p>The attackers understood the asset model. They never held freezable assets for longer than it took to swap out of them. The blacklist function was irrelevant - not because it didn't work, but because they routed around it entirely.</p>
+<p>Multichain, July 2023: An attacker, possibly an insider, <a href="https://www.chainalysis.com/blog/multichain-exploit-july-2023/">drains $126M</a> from the bridge protocol. Around $65M is USDC and USDT. And then... nothing. No swaps. No bridges. The funds sit in the exploit addresses. Within 24 hours, Circle and Tether freeze $67.5M - over half the total haul. That money is still frozen. A New York bankruptcy court <a href="https://www.theblock.co/post/377094/multichain-extends-freeze-stolen-usdc">extended the freeze order</a> in October 2025.</p>
+<p>Same capability. Wildly different outcomes. The difference isn't the freeze function. It's attacker competence.</p>
+<p>Bybit was a state-sponsored operation that understood exactly how to exit freezable rails. Multichain was either an insider who thought they could negotiate, or someone who didn't understand what they were holding. The blacklist caught the second one. It didn't touch the first.</p>
+<p>So what is this for? $3.3B frozen sounds impressive until you realise it's mostly people who didn't know they were holding a traceable asset. The Lazarus playbook isn't secret anymore either, it's on-chain for anyone to read. More than that, it has entered the canon in a somewhat mythical status. The next attacker is very unlikely to be unaware, and so unlikely to sit still.</p>
+<h2 id="4-the-building-with-no-walls" tabindex="-1">4. The building with no walls <a class="header-anchor" href="#4-the-building-with-no-walls">#</a></h2>
+<p><code>blacklist()</code> regulates stablecoins. Stablecoins exist in an ecosystem of permissionless swaps, bridges, and liquidity pools. You can lock a door, but it's useless if the building has no walls.</p>
+<p>Most credibly decentralised protocols (THORChain) don't have a blacklist function by design - and frankly, definition. It, and other related protocols are decentralised clearinghouses for swapping on chain assets. The protocol doesn't custody funds, doesn't have an issuer, doesn't have a compliance team. It just matches swaps. Chainflip is the same architecture. Garden, similar again (if we take liberties with the underlying settlement mechanism). The fundamental conceit of any non-custodial decentralised exchange is that it exists somewhere closer to &quot;permissionless&quot; than &quot;permissioned&quot; on the gradient, either in actuality, or as regulatory arbitrage, otherwise, why not just be a centralised exchange?</p>
+<p>This is very obviously the point of DeFi. Permissionless means permissionless. If it doesn't, then this sets an awkward legal precedent. Lazarus' pragmatic use of existing cross chain rails was not a loophole, but infrastructure operating as it was intended.</p>
+<p>The uncomfortable question for anyone building this infrastructure: what happens when regulators figure out that the game isn't asset control, but flow control?</p>
+<h2 id="5-the-impossible-position" tabindex="-1">5. The impossible position <a class="header-anchor" href="#5-the-impossible-position">#</a></h2>
+<p>THORChain validators found out in real time. During the Bybit laundering, three validators voted to halt transactions linked to Lazarus addresses. They were overruled within minutes - the protocol's governance didn't support intervention. A core developer quit publicly. The community split between &quot;we have to do something&quot; and &quot;if we can do something, we're not decentralised.&quot; This is the core issue. If your protocol can block transactions on demand, you're a permissioned system with extra steps and you've just volunteered for the same compliance obligations as Coinbase. If you can't, you're the exit route for state-sponsored money laundering, and eventually someone in Washington notices.</p>
+<p>The precedent set by Tornado Cash tips the scales toward direct action. OFAC sanctioned the smart contracts directly in 2022. Not an issuer or company, but the code itself. A developer went to prison. The legal theory was novel and contested, but the effect was immediate: touch this infrastructure and you're exposed. It's hard to understate the ripples this sent through the developer community. For years, privacy was solely the domain of the cracked, crazy or both.</p>
+<p>It seems very obvious that once the freeze-at-issuer theatre becomes too inconvenient to ignore, attention shifts to the permissionless rails that facilitate the movement. Any cross chain venue with liquidity and no KYC becomes an obvious place to stop the bleeding. Resultantly, anyone building in this space has to pick a position - either permissionless enough to be useful to Lazarus, or permissioned enough to be compliant.</p>
+<h2 id="6-where-this-goes" tabindex="-1">6. Where this goes <a class="header-anchor" href="#6-where-this-goes">#</a></h2>
+<p>So is the GENIUS Act freeze mandate useless? Not entirely. It catches static funds, dumb attackers, people who don't understand the asset they're holding. $3.3B frozen is a substantial amount of money, even if it's mostly the bottom of the competence distribution. But as a regime for stopping sophisticated actors - state-sponsored or otherwise - it's mostly theatre. The law mandates a capability that structurally cannot do what is asked of it.</p>
+<p>From here the enforcement surface will likely shift. Validator and node operator sanctions, frontend takedowns, pressure on wallets to drop integration with non-compliant venues. The &quot;travel rule for DeFi&quot; discourse is already warming up in FATF working groups. The first attempts are likely to be clumsy (much like the GENIUS act) but substantive. Eventually, they will improve.</p>
+<p>Beyond this, &quot;compliant cross-chain&quot; might not be coherent under AMM architecture. The pool doesn't know who's swapping. There's no hook to reject a specific taker. You could bake a blacklist into the contract, but now you've added a centralised dependency, an attack surface, and latency to every swap. It's possible. It's also ugly, and it defeats much of the point.</p>
+<p>Intent based systems have the capability to be different. The maker sees the counterparty before filling. They can screen, price the risk, or walk away. The protocol stays neutral. The compliance decision moves to the entity with something to lose and the risk gets priced into the spread rather than blocked at the gate. In this way it might be possible to have both. An explosion of issuer-specific stablecoins is coming. For payments to work, they need to interoperate. The first group to do this correctly (on neutral ground) stands to take the whole pie, but the devil is in the details. The immutable parts must be immutable, and the makers responsible for their own fills. I will expand on this in a later post. For now: freeze catches what sits still. It's a dragnet for the left end of the bell curve. Everything else is in motion.</p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/blog/whatsgoingonstables/">Stablecoins: What happens when the risk free rate is money</a></li>
+</ul>
+
+    </main>
+    <footer></footer>
+    <!-- Current page: /blog/speed-of-law-vs-blocks/ -->
+    <!-- 100% privacy-first analytics -->
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+  </body>
+</html>
