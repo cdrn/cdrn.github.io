@@ -43,36 +43,6 @@
       </url>
       
       <url>
-        <loc>https://cdrn.github.io/tags/thegraph/</loc>
-        <lastmod>2025-12-28</lastmod>
-      </url>
-      
-      <url>
-        <loc>https://cdrn.github.io/tags/forge/</loc>
-        <lastmod>2025-12-28</lastmod>
-      </url>
-      
-      <url>
-        <loc>https://cdrn.github.io/tags/contract/</loc>
-        <lastmod>2025-12-28</lastmod>
-      </url>
-      
-      <url>
-        <loc>https://cdrn.github.io/tags/data/</loc>
-        <lastmod>2025-12-28</lastmod>
-      </url>
-      
-      <url>
-        <loc>https://cdrn.github.io/tags/mempool/</loc>
-        <lastmod>2025-12-28</lastmod>
-      </url>
-      
-      <url>
-        <loc>https://cdrn.github.io/tags/storage/</loc>
-        <lastmod>2025-12-28</lastmod>
-      </url>
-      
-      <url>
         <loc>https://cdrn.github.io/tags/devcon/</loc>
         <lastmod>2025-12-28</lastmod>
       </url>
@@ -98,12 +68,47 @@
       </url>
       
       <url>
+        <loc>https://cdrn.github.io/tags/thegraph/</loc>
+        <lastmod>2025-12-28</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/forge/</loc>
+        <lastmod>2025-12-28</lastmod>
+      </url>
+      
+      <url>
         <loc>https://cdrn.github.io/tags/contract-data/</loc>
         <lastmod>2025-12-28</lastmod>
       </url>
       
       <url>
+        <loc>https://cdrn.github.io/tags/mempool/</loc>
+        <lastmod>2025-12-28</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/storage/</loc>
+        <lastmod>2025-12-28</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/contract/</loc>
+        <lastmod>2025-12-28</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/data/</loc>
+        <lastmod>2025-12-28</lastmod>
+      </url>
+      
+      <url>
         <loc>https://cdrn.github.io/tags/stablecoins/</loc>
+        <lastmod>2025-12-28</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.github.io/tags/regulation/</loc>
         <lastmod>2025-12-28</lastmod>
       </url>
       
@@ -119,11 +124,6 @@
       
       <url>
         <loc>https://cdrn.github.io/tags/bonds/</loc>
-        <lastmod>2025-12-28</lastmod>
-      </url>
-      
-      <url>
-        <loc>https://cdrn.github.io/tags/regulation/</loc>
         <lastmod>2025-12-28</lastmod>
       </url>
 </urlset>
