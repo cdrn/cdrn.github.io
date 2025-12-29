@@ -74,8 +74,10 @@ header {
 	margin-bottom: 0.5em;
 }
 
-.spacer {
-	display: none;
+.nav-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .home-link {
@@ -385,22 +387,22 @@ th {
         <div class="header-main">
           <a href="/" class="home-link">Chris Doran</a>
         </div>
-        <nav>
-          <ul class="nav">
-              <li class="nav-item">
-                <a href="/" >Home</a>
-              </li>
-              <li class="nav-item">
-                <a href="/projects/" >Projects</a>
-              </li>
-              <li class="nav-item">
-                <a href="/about/"  aria-current="page" >About</a>
-              </li>
-              <li class="nav-item">
-                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">DARK</button>
-              </li>
-          </ul>
-        </nav>
+        <div class="nav-row">
+          <nav>
+            <ul class="nav">
+                <li class="nav-item">
+                  <a href="/" >Home</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/projects/" >Projects</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/about/"  aria-current="page" >About</a>
+                </li>
+            </ul>
+          </nav>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">DARK</button>
+        </div>
       </div>
     </header>
     <main id="skip">
