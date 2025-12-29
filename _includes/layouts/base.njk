@@ -39,18 +39,18 @@
         <div class="header-main">
           <a href="/" class="home-link">{{ metadata.title }}</a>
         </div>
-        <nav>
-          <ul class="nav">
-            {%- for entry in collections.all | eleventyNavigation %}
-              <li class="nav-item">
-                <a href="{{ entry.url }}" {% if entry.url == page.url %} aria-current="page" {% endif %}>{{ entry.title }}</a>
-              </li>
-            {%- endfor %}
-              <li class="nav-item">
-                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">DARK</button>
-              </li>
-          </ul>
-        </nav>
+        <div class="nav-row">
+          <nav>
+            <ul class="nav">
+              {%- for entry in collections.all | eleventyNavigation %}
+                <li class="nav-item">
+                  <a href="{{ entry.url }}" {% if entry.url == page.url %} aria-current="page" {% endif %}>{{ entry.title }}</a>
+                </li>
+              {%- endfor %}
+            </ul>
+          </nav>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">DARK</button>
+        </div>
       </div>
     </header>
     <main id="skip">

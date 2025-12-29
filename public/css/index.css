@@ -59,8 +59,10 @@ header {
 	margin-bottom: 0.5em;
 }
 
-.spacer {
-	display: none;
+.nav-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .home-link {
