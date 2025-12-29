@@ -15,11 +15,11 @@
 }
 
 [data-theme="dark"] {
-	--background-color: #000000;
-	--text-color: #00ff00;
-	--text-color-link: #00ff00;
-	--text-color-link-visited: #00cc00;
-	--text-color-muted: #00cc00;
+	--background-color: #1a1a1a;
+	--text-color: #e0e0e0;
+	--text-color-link: #6b9bd1;
+	--text-color-link-visited: #8a7fc4;
+	--text-color-muted: #999999;
 }
 
 /* Basic reset */
