@@ -384,7 +384,15 @@ th, td {
 
 th {
 	font-weight: bold;
-}</style><script src="/js/theme-toggle.js"> </script>
+}</style>
+    <script>
+      // Set theme immediately to prevent flash
+      (function() {
+        const theme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+    <script src="/js/theme-toggle.js"> </script>
   </head>
   <body>
     <a href="#skip" class="visually-hidden">Skip to content</a>
