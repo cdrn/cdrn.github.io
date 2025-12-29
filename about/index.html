@@ -54,6 +54,7 @@ body {
 	font-weight: 500;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
@@ -383,8 +384,6 @@ th {
       <div>
         <div class="header-main">
           <a href="/" class="home-link">Chris Doran</a>
-          <div class="spacer"></div>
-          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">DARK</button>
         </div>
         <nav>
           <ul class="nav">
@@ -396,6 +395,9 @@ th {
               </li>
               <li class="nav-item">
                 <a href="/about/"  aria-current="page" >About</a>
+              </li>
+              <li class="nav-item">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">DARK</button>
               </li>
           </ul>
         </nav>
