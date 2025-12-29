@@ -38,8 +38,6 @@
       <div>
         <div class="header-main">
           <a href="/" class="home-link">{{ metadata.title }}</a>
-          <div class="spacer"></div>
-          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">DARK</button>
         </div>
         <nav>
           <ul class="nav">
@@ -48,6 +46,9 @@
                 <a href="{{ entry.url }}" {% if entry.url == page.url %} aria-current="page" {% endif %}>{{ entry.title }}</a>
               </li>
             {%- endfor %}
+              <li class="nav-item">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">DARK</button>
+              </li>
           </ul>
         </nav>
       </div>

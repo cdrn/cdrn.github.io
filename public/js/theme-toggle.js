@@ -16,7 +16,4 @@ function initTheme() {
 }
 
 // Run on page load
-document.addEventListener('DOMContentLoaded', initTheme);
-
-// Smooth theme transition
-document.documentElement.style.setProperty('transition', 'background-color 0.3s ease, color 0.3s ease'); 
+document.addEventListener('DOMContentLoaded', initTheme); 
