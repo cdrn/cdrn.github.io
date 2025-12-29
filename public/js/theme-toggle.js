@@ -1,7 +1,5 @@
 function initTheme() {
-  const theme = localStorage.getItem('theme') || 'light';
-  document.documentElement.setAttribute('data-theme', theme);
-
+  const theme = document.documentElement.getAttribute('data-theme');
   const toggleButton = document.getElementById('theme-toggle');
   toggleButton.textContent = theme === 'light' ? 'DARK' : 'LIGHT';
 
