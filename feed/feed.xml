@@ -4,12 +4,51 @@
 	<subtitle>blög</subtitle>
 	<link href="https://cdrn.github.io/feed/feed.xml" rel="self"/>
 	<link href="https://cdrn.github.io/"/>
-	<updated>2025-12-27T00:00:00Z</updated>
+	<updated>2025-12-30T00:00:00Z</updated>
 	<id>https://cdrn.github.io</id>
 	<author>
 		<name>Chris</name>
 		<email>chrisdoran at protonmail dot com</email>
 	</author>
+	
+	<entry>
+		<title>The bridge is not the product</title>
+		<link href="https://cdrn.github.io/blog/bridgenotproduct/"/>
+		<updated>2025-12-30T00:00:00Z</updated>
+		<id>https://cdrn.github.io/blog/bridgenotproduct/</id>
+		<content type="html">&lt;h2 id=&quot;1-bridges-are-commoditised-infrastructure&quot; tabindex=&quot;-1&quot;&gt;1. Bridges are Commoditised Infrastructure &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/bridgenotproduct/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Cross-chain bridges are infrastructure, not products. The real value, and moat, has little to do with the bridge protocol itself. The utility of the bridge is entirely downstream of the orderflow that crosses it.&lt;/p&gt;
+&lt;p&gt;This might seem obvious in retrospect, but the bridge-as-product narrative dominated the last cycle. Billions poured into bridge protocols with the assumption that being the pipe between chains was inherently valuable. More chains means more fragmentation means more bridge volume means value accrual to bridge tokens.&lt;/p&gt;
+&lt;p&gt;That&#39;s not how it played out.&lt;/p&gt;
+&lt;p&gt;A bridge protocol is just a mechanism for verifying state across chains. Whether it&#39;s using multisigs, optimistic verification, or ZK proofs, the core function is the same: enable assets to move from chain A to chain B with some security guarantee.&lt;/p&gt;
+&lt;p&gt;This trends toward commoditisation. There is no moat in being a bridge. Any sufficiently motivated team can build one, and many did. The barrier to entry isn&#39;t (and wasn&#39;t) the technical challenge of cross-chain messaging - it&#39;s bootstrapping liquidity and trust. But even that advantage is temporary.&lt;/p&gt;
+&lt;p&gt;When you build a bridge, you&#39;re building infrastructure. The bridge operator collects tolls, but the real value accrues to the businesses on either side that couldn&#39;t exist without the connection.&lt;/p&gt;
+&lt;h2 id=&quot;2-so-who-is-the-product&quot; tabindex=&quot;-1&quot;&gt;2. So, Who is the Product? &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/bridgenotproduct/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The valuable thing isn&#39;t the bridge. It&#39;s the orderflow that uses it.&lt;/p&gt;
+&lt;p&gt;Orderflow is the raw material of any exchange system. It&#39;s the stream of user intent - people wanting to swap A for B, move assets from X to Y. Whoever controls this orderflow controls the value.&lt;/p&gt;
+&lt;p&gt;This pattern plays out everywhere. In TradFi, Robinhood doesn&#39;t execute trades - Citadel does. But Robinhood owns the user relationship and sells the order flow via payment for order flow (PFOF), capturing margin while Citadel spends billions on execution infrastructure to stay competitive. The orderflow owner has the structurally easier business.&lt;/p&gt;
+&lt;p&gt;The same dynamic exists in crypto. MetaMask Swap routes to DEXs but extracts 0.875% for controlling the user relationship. The DEXs provide liquidity, MetaMask captures the margin. LiFi and Jumper aggregate bridges without operating any, capturing users while bridges compete for volume underneath. 1inch built a $700M+(!) business routing through Uniswap&#39;s liquidity pools.&lt;/p&gt;
+&lt;p&gt;The pattern is consistent: if you control the orderflow, you can route it to whatever venue offers the best economics, auction it to solvers and market makers, extract MEV, and build moats through UX and integrations. And as the distinction between venue and maker collapses, with intent-based systems and JIT liquidity, the solver IS the market maker IS the execution venue, the bridge becomes just one more implementation detail underneath.&lt;/p&gt;
+&lt;p&gt;So what does the modern bridge operator do? They process whatever volume arrives and compete on fees with every other bridge. Switching costs are near zero. Aggregators route around you the moment someone&#39;s cheaper. The spread is controlled by market makers anyway. You&#39;re toll infrastructure on someone else&#39;s highway.&lt;/p&gt;
+&lt;h2 id=&quot;3-advancing-beyond-the-toll-booth&quot; tabindex=&quot;-1&quot;&gt;3. Advancing Beyond the Toll Booth &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/bridgenotproduct/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;So if orderflow is the product, how do you capture it?&lt;/p&gt;
+&lt;p&gt;The answer is intent-based architecture. The user expresses intent, not instructions. They don&#39;t say &amp;quot;swap on Uniswap, bridge via Hop, exit on Arbitrum&amp;quot; they say &amp;quot;I want USDC on Base for my ETH.&amp;quot; The system figures out the path, which means the system controls routing.&lt;/p&gt;
+&lt;p&gt;Taker broadcasts what they want, makers compete to fill it. The protocol coordinates quotes and settles fills. Makers compete on the fill, not the venue, the taker doesn&#39;t pick a DEX or a bridge, they pick a price. Everything underneath is abstracted into the maker&#39;s problem. The bridge becomes a detail, just another implementation choice.&lt;/p&gt;
+&lt;p&gt;This is already happening. CoWSwap, 1inch Fusion, UniswapX. All are moving toward intent-based models where solvers bid on orderflow and route it through whatever infra is cheapest. The bridge is abstracted away. Nobody cares which bridge their swap touched.&lt;/p&gt;
+&lt;p&gt;The winning position isn&#39;t &amp;quot;best bridge.&amp;quot; It&#39;s &amp;quot;the place where orderflow shows up and makers compete to fill it.&amp;quot; The settlement layer is necessary but commoditised. The coordination layer is the moat.&lt;/p&gt;
+&lt;h2 id=&quot;4-compliant-orderflow-is-premium-orderflow&quot; tabindex=&quot;-1&quot;&gt;4. Compliant Orderflow is Premium Orderflow &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/bridgenotproduct/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Here&#39;s the turn most people are missing: not all orderflow is equal.&lt;/p&gt;
+&lt;p&gt;A maker who knows the counterparty address before quoting can price risk. OFAC-listed wallet? No quote. Fresh address with no history? Wider spread. Known institutional wallet with clean provenance? Tight spread, happy to fill.&lt;/p&gt;
+&lt;p&gt;This is impossible on an AMM. The pool doesn&#39;t know who&#39;s swapping. But intent-based systems expose the counterparty at quote time. Makers can screen. Compliance happens at the quote layer, not the protocol layer.&lt;/p&gt;
+&lt;p&gt;Why does this matter? The compliance-pilled segment of the market is growing. Institutions, OTC desks, people who can&#39;t touch THORChain because their compliance team would have an aneurysm. Right now they&#39;re stuck with CEXs for cross-chain. They&#39;d rather not be. After all, the CEX is a toll booth with a highway attached.&lt;/p&gt;
+&lt;p&gt;Screened orderflow is worth more than unscreened orderflow. A maker willing to fill a clean address will quote tighter than a maker pricing in &amp;quot;this might be Lazarus&amp;quot; risk. The spread difference is the compliance premium, and it flows to whoever can offer the screening.&lt;/p&gt;
+&lt;h2 id=&quot;5-where-this-goes&quot; tabindex=&quot;-1&quot;&gt;5. Where This Goes &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/bridgenotproduct/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The bridge wars are over and everybody lost. The value leaked to aggregators, solvers, and whoever owned the user relationship. The next cycle is about intent-based systems fighting over orderflow capture.&lt;/p&gt;
+&lt;p&gt;The interesting question is whether compliance becomes a differentiator. Most of DeFi is racing toward maximum permissionlessness. But there&#39;s a segment, maybe small now, probably growing, that wants cross-chain without the compliance risk. As more institutions come on-chain and regulatory pressure increases, the premium for screened orderflow only grows.&lt;/p&gt;
+&lt;p&gt;From my view, building for that segment means: intent-based architecture, makers who screen counterparties, compliance priced into the spread not blocked at the gate. The bridge underneath is just plumbing.&lt;/p&gt;
+&lt;p&gt;The bridge is not the product. The orderflow is. And compliant orderflow might be the premium product.&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>On the speed of law versus the speed of blocks</title>
