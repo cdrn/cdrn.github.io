@@ -29,6 +29,9 @@ module.exports = function(eleventyConfig) {
 		"./node_modules/prismjs/themes/prism-okaidia.css": "/css/prism-okaidia.css"
 	});
 
+	// Copy content images alongside posts
+	eleventyConfig.addPassthroughCopy("content/**/*.{svg,webp,png,jpeg,jpg,gif}");
+
 	// Run Eleventy when these files change:
 	// https://www.11ty.dev/docs/watch-serve/#add-your-own-watch-targets
 
