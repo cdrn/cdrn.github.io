@@ -9,7 +9,7 @@ tags: [thonk, crypto, stablecoins, settlement, orderflow]
 
 ![Stone relief of a Phoenician gauloi - a round-hulled merchant vessel with a single square sail, carved in ancient Sidon](gauloi.jpeg)
 
-A gauloi is a Phoenician trade cog - a round-hulled merchant ship that carried goods across the Mediterranean three thousand years ago. The Phoenicians built the first cross-chain settlement layer. They connected economies that couldn't trade directly - Egypt, Greece, Carthage, Iberia - through a network of neutral ports, standardised weights, and pragmatic indifference to who was on the other side of the trade. They didn't care about your god or your king. They cared about your cargo.
+A gauloi is a Phoenician trade cog - a round-hulled merchant ship that carried goods across the ancient world three thousand years ago. The Phoenicians ran the widest known trade network of their era - not just the Mediterranean but beyond: tin from Britain, gold from West Africa via Hanno's fleet down the Atlantic coast, and if you believe Herodotus, a full circumnavigation of Africa commissioned by Pharaoh Necho II two and a half millennia before Magellan. They connected economies that couldn't trade directly - Egypt, Greece, Carthage, Iberia, and beyond - through a network of neutral ports, standardised weights, and pragmatic indifference to who was on the other side of the trade. They didn't care about your god or your king. They cared about your cargo.
 
 I first designed Gauloi with [0x330a](https://github.com/0x330a), drawing on my experience building cross-chain infrastructure at Chainflip. The [original](https://nifty-novel-3d0.notion.site/Gauloi-overview-start-here-46c173bf028b42c985d7a6138d8d515e) was an HTLC-based atomic swap protocol with a peer-to-peer marketplace - Kademlia routing, proof-of-work spam prevention, the works. We phased it Sidon, Tyre, Carthage after the Phoenician trade cities. The thesis was simple: there's no way to swap between Bitcoin and Ethereum reliably without delegating your funds to a multisig, and multisigs get hacked. Atomic swaps solve this. Peer to peer. No intermediaries. Your funds never leave your custody.
 
@@ -29,13 +29,13 @@ Third, coincidence of wants. HTLCs don't have pools or passive liquidity - just 
 
 We knew these problems when we wrote the original spec. We thought reputation systems, spam prevention and market makers quoting implied volatility over the timelock window could patch them. They can't. The problems are structural to HTLCs, not incidental.
 
-Since then, the landscape shifted. Intent-based architectures emerged. The stablecoin market exploded. The compliance gap between what regulators demand and what on-chain infrastructure provides became a chasm. And the bridge wars proved that the [bridge is not the product](https://cdrn.xyz/posts/bridge-not-product/) - the orderflow is.
+Since then, the landscape shifted. Intent-based architectures emerged. The stablecoin market exploded. The compliance gap between what regulators demand and what on-chain infrastructure provides became a chasm. And the bridge wars proved that the [bridge is not the product](https://cdrn.xyz/blog/bridgenotproduct/) - the orderflow is.
 
 Gauloi v2 keeps the peer-to-peer ethos and drops the settlement primitive that made it unusable.
 
 ## 3. The gap
 
-I've written about these problems individually over the past year. Why stablecoin issuers will [compete on yield](https://cdrn.xyz/posts/stablecoin-competition/) until the spread between money and t-bills trends toward zero. Why `blacklist()` [catches static funds](https://cdrn.xyz/posts/speed-of-law/) and dumb attackers but can't touch anything that moves - 44 minutes to freeze an address that can exit in 12 seconds. Why bridges lost the value war to aggregators and solvers who own the orderflow.
+I've written about these problems individually over the past year. Why stablecoin issuers will [compete on yield](https://cdrn.xyz/blog/whatsgoingonstables/) until the spread between money and t-bills trends toward zero. Why `blacklist()` [catches static funds](https://cdrn.xyz/blog/speed-of-law-vs-blocks/) and dumb attackers but can't touch anything that moves - 44 minutes to freeze an address that can exit in 12 seconds. Why bridges lost the value war to aggregators and solvers who own the orderflow.
 
 Here's where things stand. An institution wants to move $5M of USDT on Tron to USDC on Base. They can use a centralised exchange (slow, KYC friction, counterparty risk, fees), an OTC desk (phone call, trust someone, settle in hours), or a permissionless bridge (fast, but their compliance team vetoes it because the pool processed Lazarus funds last month). None of these are good.
 
@@ -51,7 +51,7 @@ Volatile pairs are hard. The optionality problem from v1 doesn't go away just be
 
 Stablecoin pairs are different. USDC/USDT is not a trade, it's a transfer denominated in the same unit with different issuers on different rails. The "price" is 1:1 with minor deviations. Inventory risk is basis points. This means spreads can be tight enough that the compliance angle actually matters - when your spread is 3 bps, the difference between "I screened this counterparty" and "I didn't" is the whole margin.
 
-The other reason is that stablecoins are where the compliance problem is most acute. These are dollar instruments. Issuers have freeze functions. OFAC cares. The GENIUS Act is [mandating capabilities](https://cdrn.xyz/posts/speed-of-law/) that structurally can't do what's asked of them. Institutions want to use stablecoins cross-chain but can't touch the existing rails. This is a compliance gap with real money behind it, not a theoretical one.
+The other reason is that stablecoins are where the compliance problem is most acute. These are dollar instruments. Issuers have freeze functions. OFAC cares. The GENIUS Act is [mandating capabilities](https://cdrn.xyz/blog/speed-of-law-vs-blocks/) that structurally can't do what's asked of them. Institutions want to use stablecoins cross-chain but can't touch the existing rails. This is a compliance gap with real money behind it, not a theoretical one.
 
 And there's a market timing argument. An explosion of issuer-specific stablecoins is coming - every bank, every fintech, every payments company wants to issue one. For payments to actually work, they need to interoperate. Circle's [CCTP](https://www.circle.com/cross-chain-transfer-protocol) handles USDC-to-USDC across chains but it's a single-issuer solution, not a market. Nobody is building the neutral settlement layer for cross-stable, cross-chain flows with compliance that actually works. That's the gap.
 
@@ -75,7 +75,7 @@ If this sounds like [Across](https://across.to), it should. Across pioneered int
 
 ## 6. Compliance as a market function
 
-The standard approach to on-chain compliance is access control. Whitelist addresses, blacklist addresses, freeze at the contract level. I've [argued before](https://cdrn.xyz/posts/speed-of-law/) that this is structurally broken - too slow, too blunt, trivially routed around by anyone who understands the asset model.
+The standard approach to on-chain compliance is access control. Whitelist addresses, blacklist addresses, freeze at the contract level. I've [argued before](https://cdrn.xyz/blog/speed-of-law-vs-blocks/) that this is structurally broken - too slow, too blunt, trivially routed around by anyone who understands the asset model.
 
 Gauloi does something different. Compliance is a market function, not a protocol function.
 
