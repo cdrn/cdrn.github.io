@@ -1,7 +1,7 @@
 ---
 title: "Gauloi Part 2: mechanism design"
 description: Escrow state machines, dispute resolution, and the economics of optimistic stablecoin settlement
-date: 2026-02-11
+date: 2026-02-20
 tags: [thonk, crypto, stablecoins, settlement, orderflow]
 ---
 
