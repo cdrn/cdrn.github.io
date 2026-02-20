@@ -4,7 +4,7 @@
 	<subtitle>blög</subtitle>
 	<link href="https://cdrn.github.io/feed/feed.xml" rel="self"/>
 	<link href="https://cdrn.github.io/"/>
-	<updated>2026-02-11T00:00:00Z</updated>
+	<updated>2026-02-20T00:00:00Z</updated>
 	<id>https://cdrn.github.io</id>
 	<author>
 		<name>Chris</name>
@@ -14,7 +14,7 @@
 	<entry>
 		<title>Gauloi Part 2: mechanism design</title>
 		<link href="https://cdrn.github.io/blog/gauloi-pt2/"/>
-		<updated>2026-02-11T00:00:00Z</updated>
+		<updated>2026-02-20T00:00:00Z</updated>
 		<id>https://cdrn.github.io/blog/gauloi-pt2/</id>
 		<content type="html">&lt;h2 id=&quot;1-preamble&quot; tabindex=&quot;-1&quot;&gt;1. Preamble &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/gauloi-pt2/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&quot;https://cdrn.xyz/blog/gauloi/&quot;&gt;Part 1&lt;/a&gt; covered what Gauloi is and why it exists. Intent-based cross-chain stablecoin settlement, compliance at the maker level, optimistic finality. The architecture post.&lt;/p&gt;
