@@ -1,21 +1,21 @@
 <div class="projects-grid">
   {% for project in collections.projects | reverse %}
     <div class="project-card">
+      {% if project.data.preview and project.data.preview != '/img/placeholder.png' %}
       <img src="{{ project.data.preview }}" alt="{{ project.data.title }} preview" class="project-preview">
-        <h2 class="project-title">{{ project.data.title }}</h2>
-        <p class="project-description">
-          {{ project.templateContent | safe }}
-          {% if project.data.tech %}
-            <br>
-              <br>
-                <em>{{ project.data.tech }}</em>
-              {% endif %}
-            </p>
-            <div class="project-links">
-              {% for link in project.data.links %}
-                <a href="{{ link.url }}" class="project-link">{{ link.text }}</a>
-              {% endfor %}
-            </div>
-          </div>
+      {% endif %}
+      <h2 class="project-title">{{ project.data.title }}</h2>
+      <p class="project-description">
+        {{ project.templateContent | safe }}
+      </p>
+      {% if project.data.tech %}
+        <p class="project-tech"><em>{{ project.data.tech }}</em></p>
+      {% endif %}
+      <div class="project-links">
+        {% for link in project.data.links %}
+          <a href="{{ link.url }}" class="project-link">{{ link.text }}</a>
         {% endfor %}
       </div>
+    </div>
+  {% endfor %}
+</div>
