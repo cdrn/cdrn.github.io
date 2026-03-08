@@ -481,13 +481,15 @@ a[href]:hover {
 	margin-bottom: 2em;
 	padding-bottom: 1.5em;
 	border-bottom: 1px solid var(--text-color);
+	overflow: hidden;
 }
 
 .project-preview {
-	max-width: 100%;
+	max-width: 250px;
 	height: auto;
-	margin: 1em 0;
 	border: 1px solid var(--text-color);
+	float: right;
+	margin: 0.5em 0 0.5em 1em;
 }
 
 .project-title {
@@ -497,17 +499,22 @@ a[href]:hover {
 }
 
 .project-description {
-	margin: 0.75em 0;
+	margin: 0.5em 0 0.25em;
 	line-height: 1.6;
 }
 
+.project-tech {
+	margin: 0 0 0.25em;
+}
+
 .project-links {
-	margin-top: 0.75em;
+	margin-top: 0.25em;
 }
 
 .project-link {
 	margin-right: 1.5em;
 }
+
 
 /* Content container */
 .content-container {

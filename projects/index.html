@@ -313,13 +313,15 @@ a[href]:hover {
 	margin-bottom: 2em;
 	padding-bottom: 1.5em;
 	border-bottom: 1px solid var(--text-color);
+	overflow: hidden;
 }
 
 .project-preview {
-	max-width: 100%;
+	max-width: 250px;
 	height: auto;
-	margin: 1em 0;
 	border: 1px solid var(--text-color);
+	float: right;
+	margin: 0.5em 0 0.5em 1em;
 }
 
 .project-title {
@@ -329,17 +331,22 @@ a[href]:hover {
 }
 
 .project-description {
-	margin: 0.75em 0;
+	margin: 0.5em 0 0.25em;
 	line-height: 1.6;
 }
 
+.project-tech {
+	margin: 0 0 0.25em;
+}
+
 .project-links {
-	margin-top: 0.75em;
+	margin-top: 0.25em;
 }
 
 .project-link {
 	margin-right: 1.5em;
 }
+
 
 /* Content container */
 .content-container {
@@ -418,47 +425,39 @@ th {
       <div class="content-container">
 <h1 id="projects" tabindex="-1">Projects <a class="header-anchor" href="#projects">#</a></h1>
 <div class="projects-grid">
-<p><div class="project-card">
-<img src="/img/placeholder.png" alt="Gauloi preview" class="project-preview">
-<h2 class="project-title">Gauloi</h2>
+<p><div class="project-card"></p>
+<p><h2 class="project-title">Gauloi</h2>
 <p class="project-description">
 <p>Hacked out in anger over a few weekends with a good friend, we did some Eth &lt;&gt; BTC atomic swaps. We came up with a plan to try and create a decentralised orderbook for the swaps where they would be priced as options. The goal was to sidestep the pitfalls of traditional &quot;collateralised multisig&quot; approaches to cross chain exchange and create a truly peer to peer ecosystem. Credit goes to 0x33a for persisting beyond reason with BDK and P2WSH.</p></p>
-<p><br>
-<br>
-<em>Rust, BDK, TS.</em></p>
-<p></p>
-<div class="project-links"></p>
+<p></p></p>
+<p><p class="project-tech"><em>Rust, BDK, TS.</em></p></p>
+<p><div class="project-links"></p>
 <p><a href="https://github.com/0x330a-public/gauloi-cli-rs" class="project-link">GitHub (reupload)</a></p>
 <p><a href="https://nifty-novel-3d0.notion.site/Gauloi-overview-start-here-46c173bf028b42c985d7a6138d8d515e?pvs=4" class="project-link">Documentation</a></p>
 <p></div>
 </div></p>
-<p><div class="project-card">
-<img src="/img/eth-melb.png" alt="Eth Melbourne preview" class="project-preview">
-<h2 class="project-title">Eth Melbourne</h2>
+<p><div class="project-card"></p>
+<p><img src="/img/eth-melb.png" alt="Eth Melbourne preview" class="project-preview"></p>
+<p><h2 class="project-title">Eth Melbourne</h2>
 <p class="project-description">
 <p>I helped out co-organising the Ethereum meet up in Melbourne for 2 years along with a motley crew. The meetup covers non Eth topics (Bitcoin? Farcaster?) and is more a technical meetup for blockchain developers and enthusiasts. We fielded speakers from paradigm, nethermind, railgun and others. I gave a few talks as well - one on blockchain indexers and another on the lightning network's flood and loot vuln.</p></p>
-<p><br>
-<br>
-<em>eye contact, peer to peer communication</em></p>
-<p></p>
-<div class="project-links"></p>
+<p></p></p>
+<p><p class="project-tech"><em>eye contact, peer to peer communication</em></p></p>
+<p><div class="project-links"></p>
 <p><a href="https://ethmelbourne.co/" class="project-link">Website</a></p>
 <p></div>
 </div></p>
-<p><div class="project-card">
-<img src="/img/placeholder.png" alt="Altcoin.watch preview" class="project-preview">
-<h2 class="project-title">Altcoin.watch</h2>
+<p><div class="project-card"></p>
+<p><h2 class="project-title">Altcoin.watch</h2>
 <p class="project-description">
 <p>I once tried to aggregate and find new tokens surfaced through popular social media. I built this dashboard in a few days, in a cold empty apartment in Berlin during covid. It worked really well - several of the tokens it surfaced went on to become quite popular. I sold early.</p></p>
-<p><br>
-<br>
-<em>Typescript, mongo, react</em></p>
-<p></p>
-<div class="project-links"></p>
+<p></p></p>
+<p><p class="project-tech"><em>Typescript, mongo, react</em></p></p>
+<p><div class="project-links"></p>
 <p><a href="https://github.com/cdrn/altcoin-watch" class="project-link">GitHub</a></p>
 <p></div>
 </div></p>
-<p></div></p>
+</div>
 </div> 
     </main>
     <footer></footer>
