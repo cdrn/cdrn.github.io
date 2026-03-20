@@ -25,6 +25,22 @@ jobs:
           npm ci
           npm run build
 
+      - name: Pin to IPFS (Pinata)
+        id: pinata
+        continue-on-error: true
+        env:
+          PINATA_JWT: ${{ secrets.PINATA_JWT }}
+        run: node scripts/pin-to-ipfs.mjs _site
+
+      - name: Update ENS content hash
+        if: steps.pinata.outputs.pinned == 'true'
+        env:
+          IPFS_CID: ${{ steps.pinata.outputs.CID }}
+          ENS_NAME: ${{ secrets.ENS_NAME }}
+          ENS_PRIVATE_KEY: ${{ secrets.ENS_PRIVATE_KEY }}
+          ETH_RPC_URL: ${{ secrets.ETH_RPC_URL }}
+        run: node scripts/update-ens.mjs
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
