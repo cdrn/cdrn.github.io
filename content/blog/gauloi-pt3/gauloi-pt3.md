@@ -346,8 +346,8 @@ Play with the numbers:
   </div>
   <div class="sim-control">
     <label>Colluders (incl. fraudulent maker)</label>
-    <span class="sim-val" id="v-colluders">6 (60%)</span>
-    <input type="range" id="sim-colluders" min="2" max="30" value="6" step="1">
+    <span class="sim-val" id="v-colluders">4 (40%)</span>
+    <input type="range" id="sim-colluders" min="2" max="30" value="4" step="1">
   </div>
 </div>
 
@@ -375,7 +375,7 @@ Play with the numbers:
 </div>
 
 <p class="sim-note">
-  Assumes uniform stakes. Slash curve: multiplier = min(2 + 650/fillAmount, 15).
+  Assumes uniform stakes. Slash curve: multiplier = min(2 + 650/fillAmount, 15) where fill amounts are in USDC (contracts use 650e6 to account for 6-decimal precision).
   Quorum = % of eligible stake. Double challenge window requires colluders in both rounds.
 </p>
 
@@ -507,8 +507,10 @@ Play with the numbers:
       '<div class="sim-round"><div class="sim-round-header">Combined</div><div class="sim-round-detail">' +
       'Total colluders needed: ' + C + ' of ' + N + ' (' + (C / N * 100).toFixed(0) + '%)<br>' +
       (canBoth
-        ? '<span class="sim-negative">Fraud can survive both rounds \u2014 but only if no honest challenger appears (' + ((1 - pH) * 100).toFixed(0) + '% chance)</span>'
-        : '<span class="sim-positive">Cannot survive both rounds with ' + C + ' colluders</span>') +
+        ? '<span class="sim-negative">Colluders can win both rounds \u2014 honest challengers cannot stop fraud at this collusion level. P(success) = 1.</span>'
+        : r1Win
+          ? '<span class="sim-positive">Colluders win round 1 but cannot win round 2 \u2014 an honest challenger (' + (pH * 100).toFixed(0) + '% likely) stops fraud</span>'
+          : '<span class="sim-positive">Cannot survive both rounds with ' + C + ' colluders</span>') +
       '</div></div>';
 
     // EV formula
