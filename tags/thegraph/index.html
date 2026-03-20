@@ -319,11 +319,18 @@ a[href]:hover {
 }
 
 .project-preview {
-	max-width: 250px;
+	max-width: 100%;
 	height: auto;
 	border: 1px solid var(--text-color);
-	float: right;
-	margin: 0.5em 0 0.5em 1em;
+	margin: 0 0 0.5em;
+}
+
+@media (min-width: 769px) {
+	.project-preview {
+		max-width: 250px;
+		float: right;
+		margin: 0.5em 0 0.5em 1em;
+	}
 }
 
 .project-title {
