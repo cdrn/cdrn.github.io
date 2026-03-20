@@ -326,8 +326,8 @@ slashAmount = min(fillAmount * multiplier, makerStake)
   &lt;/div&gt;
   &lt;div class=&quot;sim-control&quot;&gt;
     &lt;label&gt;Colluders (incl. fraudulent maker)&lt;/label&gt;
-    &lt;span class=&quot;sim-val&quot; id=&quot;v-colluders&quot;&gt;6 (60%)&lt;/span&gt;
-    &lt;input type=&quot;range&quot; id=&quot;sim-colluders&quot; min=&quot;2&quot; max=&quot;30&quot; value=&quot;6&quot; step=&quot;1&quot;&gt;
+    &lt;span class=&quot;sim-val&quot; id=&quot;v-colluders&quot;&gt;4 (40%)&lt;/span&gt;
+    &lt;input type=&quot;range&quot; id=&quot;sim-colluders&quot; min=&quot;2&quot; max=&quot;30&quot; value=&quot;4&quot; step=&quot;1&quot;&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sim-verdict safe&quot; id=&quot;sim-verdict&quot;&gt;&lt;/div&gt;
@@ -349,7 +349,7 @@ slashAmount = min(fillAmount * multiplier, makerStake)
   &lt;div class=&quot;sim-ev-box&quot; id=&quot;sim-ev&quot;&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p class=&quot;sim-note&quot;&gt;
-  Assumes uniform stakes. Slash curve: multiplier = min(2 + 650/fillAmount, 15).
+  Assumes uniform stakes. Slash curve: multiplier = min(2 + 650/fillAmount, 15) where fill amounts are in USDC (contracts use 650e6 to account for 6-decimal precision).
   Quorum = % of eligible stake. Double challenge window requires colluders in both rounds.
 &lt;/p&gt;
 &lt;script&gt;
@@ -480,8 +480,10 @@ slashAmount = min(fillAmount * multiplier, makerStake)
       &#39;&lt;div class=&quot;sim-round&quot;&gt;&lt;div class=&quot;sim-round-header&quot;&gt;Combined&lt;/div&gt;&lt;div class=&quot;sim-round-detail&quot;&gt;&#39; +
       &#39;Total colluders needed: &#39; + C + &#39; of &#39; + N + &#39; (&#39; + (C / N * 100).toFixed(0) + &#39;%)&lt;br&gt;&#39; +
       (canBoth
-        ? &#39;&lt;span class=&quot;sim-negative&quot;&gt;Fraud can survive both rounds &#92;u2014 but only if no honest challenger appears (&#39; + ((1 - pH) * 100).toFixed(0) + &#39;% chance)&lt;/span&gt;&#39;
-        : &#39;&lt;span class=&quot;sim-positive&quot;&gt;Cannot survive both rounds with &#39; + C + &#39; colluders&lt;/span&gt;&#39;) +
+        ? &#39;&lt;span class=&quot;sim-negative&quot;&gt;Colluders can win both rounds &#92;u2014 honest challengers cannot stop fraud at this collusion level. P(success) = 1.&lt;/span&gt;&#39;
+        : r1Win
+          ? &#39;&lt;span class=&quot;sim-positive&quot;&gt;Colluders win round 1 but cannot win round 2 &#92;u2014 an honest challenger (&#39; + (pH * 100).toFixed(0) + &#39;% likely) stops fraud&lt;/span&gt;&#39;
+          : &#39;&lt;span class=&quot;sim-positive&quot;&gt;Cannot survive both rounds with &#39; + C + &#39; colluders&lt;/span&gt;&#39;) +
       &#39;&lt;/div&gt;&lt;/div&gt;&#39;;
 
     // EV formula
