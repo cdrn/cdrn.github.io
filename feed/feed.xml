@@ -4,12 +4,523 @@
 	<subtitle>blög</subtitle>
 	<link href="https://cdrn.github.io/feed/feed.xml" rel="self"/>
 	<link href="https://cdrn.github.io/"/>
-	<updated>2026-02-20T00:00:00Z</updated>
+	<updated>2026-03-19T00:00:00Z</updated>
 	<id>https://cdrn.github.io</id>
 	<author>
 		<name>Chris</name>
 		<email>chrisdoran at protonmail dot com</email>
 	</author>
+	
+	<entry>
+		<title>Gauloi Part 3: disputes</title>
+		<link href="https://cdrn.github.io/blog/gauloi-pt3/"/>
+		<updated>2026-03-19T00:00:00Z</updated>
+		<id>https://cdrn.github.io/blog/gauloi-pt3/</id>
+		<content type="html">&lt;h2 id=&quot;the-problem&quot; tabindex=&quot;-1&quot;&gt;The problem &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/gauloi-pt3/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://cdrn.github.io/blog/gauloi/&quot;&gt;Part 1&lt;/a&gt; covered what Gauloi is. &lt;a href=&quot;https://cdrn.github.io/blog/gauloi-pt2/&quot;&gt;Part 2&lt;/a&gt; covered how the escrow state machine works. This post is about the hardest part: what happens when someone lies.&lt;/p&gt;
+&lt;p&gt;The setup: a maker claims they filled an intent on chain B. They submit a transaction hash to the escrow on chain A. The escrow needs to decide whether that fill actually happened. It can&#39;t check chain B directly. Someone has to tell it, and that someone might be lying.&lt;/p&gt;
+&lt;p&gt;This is a cross-chain oracle problem. Every bridge has it. The question is who you trust and what happens when that trust breaks.&lt;/p&gt;
+&lt;h2 id=&quot;cross-chain-oracles-in-the-wild&quot; tabindex=&quot;-1&quot;&gt;Cross chain oracles in the wild &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/gauloi-pt3/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://across.to/&quot;&gt;Across&lt;/a&gt; uses UMA&#39;s &lt;a href=&quot;https://medium.com/uma-project/umas-data-verification-mechanism-3c5342759eb8&quot;&gt;Data Verification Mechanism&lt;/a&gt;. When a dispute is raised, it escalates to the full set of UMA tokenholders, who vote in a commit-reveal Schelling point game over 48 hours. Voters who get it wrong or don&#39;t show up lose 0.1% of their staked UMA. Voters on the correct side earn the slashed tokens pro-rata.&lt;/p&gt;
+&lt;p&gt;This works. The security budget is backed by UMA&#39;s market cap, the attestor set (tokenholders) is economically independent from the relayers, and the slashing mechanism forces participation. But it introduces a hard dependency on UMA infrastructure, a governance token, and a 48-96 hour resolution time. The governance token part is the bit I wanted to avoid. Token voting is a rug pull factory and the last thing I want on a settlement layer is a speculative asset backing its security model.&lt;/p&gt;
+&lt;p&gt;LayerZero&#39;s &lt;a href=&quot;https://docs.layerzero.network/v2/developers/evm/lzread/overview&quot;&gt;lzRead&lt;/a&gt; lets you read state from chain B on chain A via their Decentralized Verifier Network. Cleaner than running your own attestor set, but it&#39;s still a trust assumption on LayerZero&#39;s infra. For a protocol positioning itself as neutral settlement infrastructure, depending on someone else&#39;s oracle feels wrong.&lt;/p&gt;
+&lt;p&gt;Storage proofs. If chain A has chain B&#39;s state root (which it does for L2-L1 pairs - Arbitrum posts state roots to Ethereum, OP stack does the same), you can submit a merkle proof that a specific ERC20 transfer happened on chain B and verify it against the state root on-chain. No attestors, no oracles, just maths. But it only works for chain pairs with shared state roots, verification is gas-heavy, and each chain pair needs its own adapter. Different chains, different proof formats, different failure modes. Hard to reason about uniformly.&lt;/p&gt;
+&lt;h2 id=&quot;what-i-built-first&quot; tabindex=&quot;-1&quot;&gt;What I built first &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/gauloi-pt3/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;I wanted one mechanism that works the same way on every chain pair, doesn&#39;t depend on external infrastructure, and doesn&#39;t need a governance token. One failure mode I can reason about formally. That means an attestor council.&lt;/p&gt;
+&lt;p&gt;The first implementation was simple. Staked makers attest to whether a fill was valid. Someone submits signatures to &lt;code&gt;resolveDispute()&lt;/code&gt;, the contract checks the signers are active staked makers, and if enough signatures are collected, the dispute resolves. &lt;code&gt;requiredSignatures&lt;/code&gt; was set to 1 for v0.1.&lt;/p&gt;
+&lt;p&gt;This had three problems.&lt;/p&gt;
+&lt;p&gt;No attestor accountability. The contract recovered signer addresses and checked they were active makers, but didn&#39;t record who attested or which way they voted. A maker who signed &lt;code&gt;fillValid = true&lt;/code&gt; for a fraudulent fill faced zero on-chain consequences. Costless collusion.&lt;/p&gt;
+&lt;p&gt;First-past-the-post resolution. &lt;code&gt;resolveDispute()&lt;/code&gt; takes a &lt;code&gt;fillValid&lt;/code&gt; boolean and signatures all attesting to that outcome. The first call that meets the threshold wins. After that, &lt;code&gt;disp.resolved = true&lt;/code&gt; and no further submissions are accepted. If a colluding maker submits before an honest one, fraud succeeds. It&#39;s a race, not a consensus.&lt;/p&gt;
+&lt;p&gt;The attestor set is the set of potential colluders. Unlike Across where disputes escalate to UMA tokenholders (economically independent), Gauloi&#39;s attestors are the same staked makers who do fills. A maker committing fraud can pre-arrange with another maker to attest in their favour. The attestor has nothing to lose.&lt;/p&gt;
+&lt;h3 id=&quot;the-concrete-attack&quot; tabindex=&quot;-1&quot;&gt;The concrete attack &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/gauloi-pt3/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;With &lt;code&gt;requiredSignatures = 1&lt;/code&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Maker A submits a fraudulent fill (never sent tokens on chain B)&lt;/li&gt;
+&lt;li&gt;An honest maker disputes&lt;/li&gt;
+&lt;li&gt;Maker B (colluding with A) calls &lt;code&gt;resolveDispute(intentId, true, [B_signature])&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Dispute resolves as &amp;quot;fill valid&amp;quot;. Maker A keeps the escrowed funds&lt;/li&gt;
+&lt;li&gt;Maker B faces no penalty&lt;/li&gt;
+&lt;li&gt;They split the proceeds&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The cost of this attack is zero. The reward is the fill amount. That&#39;s obviously broken.&lt;/p&gt;
+&lt;h2 id=&quot;fixing-it&quot; tabindex=&quot;-1&quot;&gt;Fixing it &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/gauloi-pt3/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The same idea that secures fill detection - the &lt;a href=&quot;https://docs.optimism.io/stack/fault-proofs/fp-security&quot;&gt;single honest challenger model&lt;/a&gt; - can be applied to resolution itself. Optimism assumes state roots are valid unless someone proves otherwise. One honest watcher is enough. Apply the same logic to dispute outcomes.&lt;/p&gt;
+&lt;h3 id=&quot;resolution-challenge-window&quot; tabindex=&quot;-1&quot;&gt;Resolution challenge window &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/gauloi-pt3/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;resolveDispute()&lt;/code&gt; no longer produces a final outcome. It proposes one. A 24-hour challenge window opens after resolution, during which attestor identities and stake weights are recorded on-chain. Anyone who thinks the resolution was wrong can challenge it.&lt;/p&gt;
+&lt;p&gt;When challenged, round-1 attestors are excluded from the second round and face slashing if the resolution is overturned. That&#39;s the fix for costless collusion - attestors now risk their stake when they sign.&lt;/p&gt;
+&lt;h3 id=&quot;stake-weighted-voting-with-quorum&quot; tabindex=&quot;-1&quot;&gt;Stake-weighted voting with quorum &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/gauloi-pt3/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Votes are weighted by staked capital, not headcount. This prevents sybil attacks: running 50,000 small-stake maker addresses costs the same total capital as one large stake, with no voting advantage.&lt;/p&gt;
+&lt;p&gt;The threshold can&#39;t be majority of total staked capital. If one entity stakes 40% of the system and refuses to attest, honest attestors can never reach majority. Every dispute expires, defaults to fill-valid, fraud goes unchallenged. So the threshold is majority of participating stake, subject to a quorum.&lt;/p&gt;
+&lt;p&gt;Quorum is 30% of eligible stake (total stake minus the disputed maker and the challenger, who are conflicted). If 30% of eligible stake participates, the vote is valid and the majority of participating stake determines the outcome.&lt;/p&gt;
+&lt;p&gt;This handles both attacks. A whale holding 40% of stake can&#39;t block quorum by sitting out unless they hold over 70%. A handful of colluders can&#39;t win by being the only ones who show up because they still need to represent 30% of all staked capital for the vote to count.&lt;/p&gt;
+&lt;p&gt;If quorum isn&#39;t met, the dispute stays open and the protocol halts new intake. A settlement protocol that can&#39;t resolve disputes shouldn&#39;t be settling.&lt;/p&gt;
+&lt;h3 id=&quot;the-slash-curve&quot; tabindex=&quot;-1&quot;&gt;The slash curve &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/gauloi-pt3/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;A flat slash multiplier doesn&#39;t work across all fill sizes. At 3x, a fraudulent $50k fill costs the maker $150k. Fine. But 3x on a $50 fill is $150, and the attestor reward (25% of slash) is $37.50 split across multiple attestors. Nobody&#39;s checking an RPC endpoint and signing an attestation for $8.&lt;/p&gt;
+&lt;p&gt;You could raise the multiplier, but then honest makers face disproportionate risk on small fills. You could set a floor (minimum $500 slash), but that creates a cliff - makers stop taking fills just below it because the risk is discontinuous.&lt;/p&gt;
+&lt;p&gt;So the multiplier is a curve, inversely proportional to fill amount:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;multiplier = min(base + k / fillAmount, maxMultiplier)
+slashAmount = min(fillAmount * multiplier, makerStake)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With &lt;code&gt;base = 2&lt;/code&gt;, &lt;code&gt;k = 650&lt;/code&gt; (in USDC terms), &lt;code&gt;max = 15&lt;/code&gt;:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Fill size&lt;/th&gt;
+&lt;th&gt;Multiplier&lt;/th&gt;
+&lt;th&gt;Slash&lt;/th&gt;
+&lt;th&gt;Attestor pool (25%)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;$50&lt;/td&gt;
+&lt;td&gt;15x&lt;/td&gt;
+&lt;td&gt;$750&lt;/td&gt;
+&lt;td&gt;$187&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$500&lt;/td&gt;
+&lt;td&gt;3.3x&lt;/td&gt;
+&lt;td&gt;$1,650&lt;/td&gt;
+&lt;td&gt;$412&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$5,000&lt;/td&gt;
+&lt;td&gt;2.13x&lt;/td&gt;
+&lt;td&gt;$10,650&lt;/td&gt;
+&lt;td&gt;$2,662&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$50,000&lt;/td&gt;
+&lt;td&gt;2.01x&lt;/td&gt;
+&lt;td&gt;$100,650&lt;/td&gt;
+&lt;td&gt;$25,162&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;It&#39;s smooth, with no cliff and no fill size where the risk profile suddenly changes. Attestor rewards are meaningful at every scale and fraud is -EV everywhere.&lt;/p&gt;
+&lt;h2 id=&quot;the-collusion-maths&quot; tabindex=&quot;-1&quot;&gt;The collusion maths &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/gauloi-pt3/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;When does fraud actually pay? Define:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;N&lt;/code&gt; = total staked makers&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S&lt;/code&gt; = stake per maker (assuming uniform for simplicity)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;F&lt;/code&gt; = fill amount being stolen&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C&lt;/code&gt; = total colluding makers (including the fraudulent maker)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;T&lt;/code&gt; = signature threshold (fraction of participating stake)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Q&lt;/code&gt; = quorum (fraction of eligible stake)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Fraud needs to survive both rounds. Win round 1, then either avoid a challenge entirely (unlikely if anyone honest is watching) or win round 2 as well.&lt;/p&gt;
+&lt;p&gt;Round 1 requires &lt;code&gt;C1&lt;/code&gt; colluding attestors such that &lt;code&gt;C1 * S &amp;gt;= Q * eligible_stake&lt;/code&gt; (meet quorum) and &lt;code&gt;C1&lt;/code&gt; represents a majority of participating stake.&lt;/p&gt;
+&lt;p&gt;Round 2 excludes round-1 attestors. The eligible pool shrinks to &lt;code&gt;N - 1 - C1&lt;/code&gt; (minus the fraudulent maker and round-1 attestors). Round 2 requires &lt;code&gt;C2&lt;/code&gt; additional colluders from this reduced pool meeting the same quorum and majority requirements.&lt;/p&gt;
+&lt;p&gt;Total colluders needed: &lt;code&gt;C_total = 1 + C1 + C2&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;With &lt;code&gt;N = 10&lt;/code&gt;, &lt;code&gt;T = 0.5&lt;/code&gt;, &lt;code&gt;Q = 0.3&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Round 1 eligible = 9 (minus fraudulent maker). Quorum = &lt;code&gt;ceil(0.3 * 9)&lt;/code&gt; = 3 makers&#39; worth of stake. Majority of participants wins.&lt;/p&gt;
+&lt;p&gt;If 3 colluders attest in round 1, they meet quorum and win (3 of 3 participating). Round 2 eligible = 10 - 1 - 3 = 6. Quorum = &lt;code&gt;ceil(0.3 * 6)&lt;/code&gt; = 2. Need 2 more colluders.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;C_total = 1 + 3 + 2 = 6 out of 10&lt;/code&gt; (60% must collude).&lt;/p&gt;
+&lt;p&gt;Compare to single-round majority: 5 out of 10 (50%). The double challenge window pushes it from 50% to 60%.&lt;/p&gt;
+&lt;p&gt;With non-uniform stakes where large honest makers dominate, the threshold rises further. And every round-1 colluder risks their stake if the resolution is challenged and overturned.&lt;/p&gt;
+&lt;p&gt;Individual EV for a colluder:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;EV = P(success) * F/C_total - P(failure) * slashAmount
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The slash curve makes &lt;code&gt;slashAmount&lt;/code&gt; large relative to &lt;code&gt;F&lt;/code&gt; at every fill size. For a $50 fill with 15x slash:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;EV = P(success) * 50/6 - P(failure) * 750
+   = P(success) * 8.33 - P(failure) * 750
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For this to be +EV, &lt;code&gt;P(success)&lt;/code&gt; needs to exceed 0.989. Under the single honest challenger assumption, one honest participant watching the network makes that probability very low.&lt;/p&gt;
+&lt;p&gt;Larger fills are worse for the attacker. $50k fill, 2x slash:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;EV = P(success) * 50000/6 - P(failure) * 100000
+   = P(success) * 8333 - P(failure) * 100000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;P(success)&lt;/code&gt; needs to exceed 0.923. With 4 honest makers out of 10, good luck.&lt;/p&gt;
+&lt;p&gt;Play with the numbers:&lt;/p&gt;
+&lt;div class=&quot;collusion-sim&quot;&gt;
+&lt;style&gt;
+.collusion-sim {
+  margin: 2em 0;
+  font-family: inherit;
+}
+.collusion-sim .sim-title {
+  font-size: 0.85em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-color-muted);
+  margin-bottom: 1.5em;
+}
+.collusion-sim .sim-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25em;
+  margin-bottom: 1.5em;
+}
+.collusion-sim .sim-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+}
+.collusion-sim .sim-control label {
+  font-size: 0.78em;
+  color: var(--text-color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.collusion-sim .sim-control .sim-val {
+  font-size: 1em;
+  font-weight: 600;
+  font-family: &quot;Courier New&quot;, Courier, monospace;
+  font-variant-numeric: tabular-nums;
+}
+.collusion-sim input[type=&quot;range&quot;] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  background: var(--text-color-muted);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  opacity: 0.5;
+}
+.collusion-sim input[type=&quot;range&quot;]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--text-color);
+  cursor: pointer;
+}
+.collusion-sim input[type=&quot;range&quot;]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--text-color);
+  cursor: pointer;
+  border: none;
+}
+.collusion-sim .sim-verdict {
+  text-align: center;
+  padding: 1em;
+  margin-bottom: 1.5em;
+  font-weight: 600;
+  font-size: 0.95em;
+  border: 1px solid var(--text-color);
+}
+.collusion-sim .sim-verdict.safe { border-color: #4aff7a; color: #2a9e4a; }
+.collusion-sim .sim-verdict.danger { border-color: #ff4a4a; color: #cc3333; }
+.collusion-sim .sim-verdict.marginal { border-color: #cc9900; color: #cc9900; }
+[data-theme=&quot;dark&quot;] .collusion-sim .sim-verdict.safe { color: #4aff7a; }
+[data-theme=&quot;dark&quot;] .collusion-sim .sim-verdict.danger { color: #ff4a4a; }
+[data-theme=&quot;dark&quot;] .collusion-sim .sim-verdict.marginal { color: #ffd94a; }
+.collusion-sim .sim-section {
+  border: 1px solid var(--text-color);
+  padding: 1.25em;
+  margin-bottom: 1.5em;
+}
+.collusion-sim .sim-section-title {
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-color-muted);
+  margin-bottom: 0.75em;
+  font-weight: 600;
+}
+.collusion-sim .sim-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.4em 0;
+  border-bottom: 1px solid var(--text-color-muted);
+  opacity: 0.8;
+}
+.collusion-sim .sim-row:last-child { border-bottom: none; }
+.collusion-sim .sim-row-label { font-size: 0.82em; color: var(--text-color-muted); }
+.collusion-sim .sim-row-value {
+  font-size: 0.9em;
+  font-weight: 600;
+  font-family: &quot;Courier New&quot;, Courier, monospace;
+  font-variant-numeric: tabular-nums;
+}
+.collusion-sim .sim-positive { color: #2a9e4a; }
+.collusion-sim .sim-negative { color: #cc3333; }
+[data-theme=&quot;dark&quot;] .collusion-sim .sim-positive { color: #4aff7a; }
+[data-theme=&quot;dark&quot;] .collusion-sim .sim-negative { color: #ff4a4a; }
+.collusion-sim .sim-bar-container {
+  display: flex;
+  height: 20px;
+  overflow: hidden;
+  margin: 0.5em 0;
+  border: 1px solid var(--text-color);
+}
+.collusion-sim .sim-bar-c {
+  background: #cc3333;
+  opacity: 0.7;
+  transition: width 0.2s ease;
+}
+.collusion-sim .sim-bar-h {
+  background: #2a9e4a;
+  opacity: 0.7;
+  transition: width 0.2s ease;
+}
+[data-theme=&quot;dark&quot;] .collusion-sim .sim-bar-c { background: #ff4a4a; }
+[data-theme=&quot;dark&quot;] .collusion-sim .sim-bar-h { background: #4aff7a; }
+.collusion-sim .sim-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72em;
+  color: var(--text-color-muted);
+}
+.collusion-sim .sim-round {
+  margin-bottom: 0.75em;
+  padding-bottom: 0.75em;
+  border-bottom: 1px solid var(--text-color-muted);
+  opacity: 0.8;
+}
+.collusion-sim .sim-round:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.collusion-sim .sim-round-header { font-size: 0.85em; font-weight: 600; margin-bottom: 0.25em; }
+.collusion-sim .sim-round-detail { font-size: 0.78em; color: var(--text-color-muted); line-height: 1.6; }
+.collusion-sim .sim-ev-box {
+  border-left: 3px solid var(--text-color);
+  padding: 0.75em;
+  font-family: &quot;Courier New&quot;, Courier, monospace;
+  font-size: 0.82em;
+  line-height: 1.8;
+  margin-top: 0.5em;
+  overflow-x: auto;
+}
+.collusion-sim .sim-note {
+  font-size: 0.75em;
+  color: var(--text-color-muted);
+  line-height: 1.5;
+  font-style: italic;
+}
+@media (max-width: 600px) {
+  .collusion-sim .sim-controls { grid-template-columns: 1fr; }
+}
+&lt;/style&gt;
+&lt;div class=&quot;sim-controls&quot;&gt;
+  &lt;div class=&quot;sim-control&quot;&gt;
+    &lt;label&gt;Makers (N)&lt;/label&gt;
+    &lt;span class=&quot;sim-val&quot; id=&quot;v-makers&quot;&gt;10&lt;/span&gt;
+    &lt;input type=&quot;range&quot; id=&quot;sim-makers&quot; min=&quot;4&quot; max=&quot;30&quot; value=&quot;10&quot; step=&quot;1&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;sim-control&quot;&gt;
+    &lt;label&gt;Stake per maker&lt;/label&gt;
+    &lt;span class=&quot;sim-val&quot; id=&quot;v-stake&quot;&gt;$100,000&lt;/span&gt;
+    &lt;input type=&quot;range&quot; id=&quot;sim-stake&quot; min=&quot;100000&quot; max=&quot;1000000&quot; value=&quot;100000&quot; step=&quot;50000&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;sim-control&quot;&gt;
+    &lt;label&gt;Fill amount&lt;/label&gt;
+    &lt;span class=&quot;sim-val&quot; id=&quot;v-fill&quot;&gt;$5,000&lt;/span&gt;
+    &lt;input type=&quot;range&quot; id=&quot;sim-fill&quot; min=&quot;10&quot; max=&quot;100000&quot; value=&quot;5000&quot; step=&quot;10&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;sim-control&quot;&gt;
+    &lt;label&gt;Quorum&lt;/label&gt;
+    &lt;span class=&quot;sim-val&quot; id=&quot;v-quorum&quot;&gt;30%&lt;/span&gt;
+    &lt;input type=&quot;range&quot; id=&quot;sim-quorum&quot; min=&quot;10&quot; max=&quot;70&quot; value=&quot;30&quot; step=&quot;5&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;sim-control&quot;&gt;
+    &lt;label&gt;P(honest challenger exists)&lt;/label&gt;
+    &lt;span class=&quot;sim-val&quot; id=&quot;v-prob&quot;&gt;0.95&lt;/span&gt;
+    &lt;input type=&quot;range&quot; id=&quot;sim-prob&quot; min=&quot;0&quot; max=&quot;100&quot; value=&quot;95&quot; step=&quot;1&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;sim-control&quot;&gt;
+    &lt;label&gt;Colluders (incl. fraudulent maker)&lt;/label&gt;
+    &lt;span class=&quot;sim-val&quot; id=&quot;v-colluders&quot;&gt;6 (60%)&lt;/span&gt;
+    &lt;input type=&quot;range&quot; id=&quot;sim-colluders&quot; min=&quot;2&quot; max=&quot;30&quot; value=&quot;6&quot; step=&quot;1&quot;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sim-verdict safe&quot; id=&quot;sim-verdict&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;sim-section&quot;&gt;
+  &lt;div class=&quot;sim-section-title&quot;&gt;Stake distribution&lt;/div&gt;
+  &lt;div class=&quot;sim-bar-container&quot;&gt;
+    &lt;div class=&quot;sim-bar-c&quot; id=&quot;sim-bar-c&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;sim-bar-h&quot; id=&quot;sim-bar-h&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;sim-bar-labels&quot;&gt;
+    &lt;span id=&quot;sim-lbl-c&quot;&gt;Colluders: 60%&lt;/span&gt;
+    &lt;span id=&quot;sim-lbl-h&quot;&gt;Honest: 40%&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sim-section&quot; id=&quot;sim-results&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;sim-section&quot; id=&quot;sim-rounds&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;sim-section&quot;&gt;
+  &lt;div class=&quot;sim-section-title&quot;&gt;Individual colluder EV&lt;/div&gt;
+  &lt;div class=&quot;sim-ev-box&quot; id=&quot;sim-ev&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p class=&quot;sim-note&quot;&gt;
+  Assumes uniform stakes. Slash curve: multiplier = min(2 + 650/fillAmount, 15).
+  Quorum = % of eligible stake. Double challenge window requires colluders in both rounds.
+&lt;/p&gt;
+&lt;script&gt;
+(function() {
+  var el = function(id) { return document.getElementById(id); };
+
+  function slashMult(fill) {
+    return Math.min(2 + 650 / fill, 15);
+  }
+
+  function fmt(n) {
+    if (Math.abs(n) &gt;= 1e6) return &#39;$&#39; + (n / 1e6).toFixed(2) + &#39;M&#39;;
+    if (Math.abs(n) &gt;= 1e3) return &#39;$&#39; + (n / 1e3).toFixed(1) + &#39;k&#39;;
+    return &#39;$&#39; + n.toFixed(0);
+  }
+
+  function fmtS(n) {
+    var p = n &gt;= 0 ? &#39;+&#39; : &#39;&#39;;
+    if (Math.abs(n) &gt;= 1e6) return p + &#39;$&#39; + (Math.abs(n) / 1e6).toFixed(2) + &#39;M&#39;;
+    if (Math.abs(n) &gt;= 1e3) return p + &#39;$&#39; + (Math.abs(n) / 1e3).toFixed(1) + &#39;k&#39;;
+    return p + &#39;$&#39; + Math.abs(n).toFixed(0);
+  }
+
+  function update() {
+    var N = +el(&#39;sim-makers&#39;).value;
+    var S = +el(&#39;sim-stake&#39;).value;
+    var F = +el(&#39;sim-fill&#39;).value;
+    var Q = +el(&#39;sim-quorum&#39;).value / 100;
+    var pH = +el(&#39;sim-prob&#39;).value / 100;
+    var C = +el(&#39;sim-colluders&#39;).value;
+
+    if (C &gt; N) { C = N; el(&#39;sim-colluders&#39;).value = C; }
+
+    el(&#39;v-makers&#39;).textContent = N;
+    el(&#39;v-stake&#39;).textContent = fmt(S);
+    el(&#39;v-fill&#39;).textContent = fmt(F);
+    el(&#39;v-quorum&#39;).textContent = (Q * 100) + &#39;%&#39;;
+    el(&#39;v-prob&#39;).textContent = pH.toFixed(2);
+    el(&#39;v-colluders&#39;).textContent = C + &#39; (&#39; + (C / N * 100).toFixed(0) + &#39;%)&#39;;
+
+    var mult = slashMult(F);
+    var slash = Math.min(F * mult, S);
+
+    // Round 1: optimal strategy — send minimum to meet quorum
+    var r1Elig = N - 1;
+    var r1Quorum = Math.ceil(Q * r1Elig);
+    var r1Avail = C - 1; // colluders minus the fraudulent maker
+    var r1Win = r1Avail &gt;= r1Quorum;
+    var r1Used = r1Win ? r1Quorum : r1Avail; // send minimum needed
+
+    // Round 2: use remaining colluders
+    var r2Elig = N - 1 - r1Used;
+    var r2Quorum = r2Elig &gt; 0 ? Math.ceil(Q * r2Elig) : 0;
+    var r2Avail = C - 1 - r1Used;
+    var r2Win = r2Avail &gt;= r2Quorum &amp;&amp; r2Elig &gt; 0;
+
+    var canBoth = r1Win &amp;&amp; r2Win;
+    var pR1 = r1Win ? 1 : 0;
+    var pR2 = r2Win ? 1 : 0;
+    var pSuccess = pR1 * ((1 - pH) + pH * pR2);
+    var pFail = 1 - pSuccess;
+
+    var reward = F / C;
+    var ev = pSuccess * reward - pFail * slash;
+    var pBreak = slash / (reward + slash);
+
+    // Bar
+    var cPct = (C / N * 100);
+    el(&#39;sim-bar-c&#39;).style.width = cPct + &#39;%&#39;;
+    el(&#39;sim-bar-h&#39;).style.width = (100 - cPct) + &#39;%&#39;;
+    el(&#39;sim-lbl-c&#39;).textContent = &#39;Colluders: &#39; + C + &#39;/&#39; + N + &#39; (&#39; + cPct.toFixed(0) + &#39;%)&#39;;
+    el(&#39;sim-lbl-h&#39;).textContent = &#39;Honest: &#39; + (N - C) + &#39;/&#39; + N + &#39; (&#39; + (100 - cPct).toFixed(0) + &#39;%)&#39;;
+
+    // Verdict
+    var v = el(&#39;sim-verdict&#39;);
+    if (!r1Win) {
+      v.className = &#39;sim-verdict safe&#39;;
+      v.textContent = &#39;Not enough colluders to meet quorum in round 1. Need &#39; + r1Quorum + &#39; attestors, have &#39; + r1Avail + &#39;.&#39;;
+    } else if (ev &lt; -100) {
+      v.className = &#39;sim-verdict safe&#39;;
+      v.textContent = &#39;Fraud is deeply -EV. Each colluder expects &#39; + fmtS(ev) + &#39;.&#39;;
+    } else if (ev &lt; 0) {
+      v.className = &#39;sim-verdict marginal&#39;;
+      v.textContent = &#39;Fraud is -EV but marginal. Each colluder expects &#39; + fmtS(ev) + &#39;.&#39;;
+    } else if (ev === 0) {
+      v.className = &#39;sim-verdict marginal&#39;;
+      v.textContent = &#39;Break-even. Not worth the coordination risk.&#39;;
+    } else {
+      v.className = &#39;sim-verdict danger&#39;;
+      v.textContent = &#39;Fraud is +EV! Each colluder expects &#39; + fmtS(ev) + &#39;.&#39;;
+    }
+
+    // Results
+    var rows = [
+      [&#39;Slash multiplier&#39;, mult.toFixed(2) + &#39;x&#39;, &#39;&#39;],
+      [&#39;Slash amount&#39;, fmt(slash), &#39;&#39;],
+      [&#39;Reward per colluder&#39;, fmt(reward), &#39;&#39;],
+      [&#39;P(success)&#39;, pSuccess.toFixed(4), &#39;&#39;],
+      [&#39;P(success) needed for +EV&#39;, pBreak.toFixed(4), &#39;&#39;],
+      [&#39;Individual EV&#39;, fmtS(ev), ev &gt;= 0 ? &#39;sim-negative&#39; : &#39;sim-positive&#39;]
+    ];
+    el(&#39;sim-results&#39;).innerHTML = rows.map(function(r) {
+      return &#39;&lt;div class=&quot;sim-row&quot;&gt;&lt;span class=&quot;sim-row-label&quot;&gt;&#39; + r[0] +
+        &#39;&lt;/span&gt;&lt;span class=&quot;sim-row-value &#39; + r[2] + &#39;&quot;&gt;&#39; + r[1] + &#39;&lt;/span&gt;&lt;/div&gt;&#39;;
+    }).join(&#39;&#39;);
+
+    // Rounds
+    el(&#39;sim-rounds&#39;).innerHTML =
+      &#39;&lt;div class=&quot;sim-section-title&quot;&gt;Double challenge window&lt;/div&gt;&#39; +
+      &#39;&lt;div class=&quot;sim-round&quot;&gt;&lt;div class=&quot;sim-round-header&quot;&gt;Round 1&lt;/div&gt;&lt;div class=&quot;sim-round-detail&quot;&gt;&#39; +
+      &#39;Eligible pool: &#39; + r1Elig + &#39; makers&lt;br&gt;&#39; +
+      &#39;Quorum: &#39; + r1Quorum + &#39; makers&#92;&#39; stake needed (&#39; + (Q * 100).toFixed(0) + &#39;% of &#39; + r1Elig + &#39;)&lt;br&gt;&#39; +
+      &#39;Colluder attestors available: &#39; + r1Avail + &#39;&lt;br&gt;&#39; +
+      (r1Win
+        ? &#39;&lt;span class=&quot;sim-negative&quot;&gt;Colluders meet quorum and win (&#39; + r1Used + &#39; of &#39; + r1Used + &#39; participating)&lt;/span&gt;&#39;
+        : &#39;&lt;span class=&quot;sim-positive&quot;&gt;Colluders cannot meet quorum&lt;/span&gt;&#39;) +
+      &#39;&lt;/div&gt;&lt;/div&gt;&#39; +
+      &#39;&lt;div class=&quot;sim-round&quot;&gt;&lt;div class=&quot;sim-round-header&quot;&gt;Round 2 (if challenged)&lt;/div&gt;&lt;div class=&quot;sim-round-detail&quot;&gt;&#39; +
+      &#39;Eligible pool: &#39; + r2Elig + &#39; makers (excludes fraudulent maker + round 1 attestors)&lt;br&gt;&#39; +
+      &#39;Quorum: &#39; + r2Quorum + &#39; makers&#92;&#39; stake needed&lt;br&gt;&#39; +
+      &#39;Colluder attestors available: &#39; + Math.max(0, r2Avail) + &#39;&lt;br&gt;&#39; +
+      (r2Elig &lt;= 0
+        ? &#39;&lt;span class=&quot;sim-positive&quot;&gt;No eligible pool remaining&lt;/span&gt;&#39;
+        : r2Win
+          ? &#39;&lt;span class=&quot;sim-negative&quot;&gt;Colluders can win round 2&lt;/span&gt;&#39;
+          : &#39;&lt;span class=&quot;sim-positive&quot;&gt;Colluders cannot meet quorum in round 2&lt;/span&gt;&#39;) +
+      &#39;&lt;/div&gt;&lt;/div&gt;&#39; +
+      &#39;&lt;div class=&quot;sim-round&quot;&gt;&lt;div class=&quot;sim-round-header&quot;&gt;Combined&lt;/div&gt;&lt;div class=&quot;sim-round-detail&quot;&gt;&#39; +
+      &#39;Total colluders needed: &#39; + C + &#39; of &#39; + N + &#39; (&#39; + (C / N * 100).toFixed(0) + &#39;%)&lt;br&gt;&#39; +
+      (canBoth
+        ? &#39;&lt;span class=&quot;sim-negative&quot;&gt;Fraud can survive both rounds &#92;u2014 but only if no honest challenger appears (&#39; + ((1 - pH) * 100).toFixed(0) + &#39;% chance)&lt;/span&gt;&#39;
+        : &#39;&lt;span class=&quot;sim-positive&quot;&gt;Cannot survive both rounds with &#39; + C + &#39; colluders&lt;/span&gt;&#39;) +
+      &#39;&lt;/div&gt;&lt;/div&gt;&#39;;
+
+    // EV formula
+    el(&#39;sim-ev&#39;).innerHTML =
+      &#39;EV = P(success) &#92;u00d7 (&#39; + fmt(F) + &#39; / &#39; + C + &#39;) &#92;u2212 P(failure) &#92;u00d7 &#39; + fmt(slash) + &#39;&lt;br&gt;&#39; +
+      &#39;&#92;u00a0&#92;u00a0 = &#39; + pSuccess.toFixed(4) + &#39; &#92;u00d7 &#39; + fmt(reward) + &#39; &#92;u2212 &#39; + pFail.toFixed(4) + &#39; &#92;u00d7 &#39; + fmt(slash) + &#39;&lt;br&gt;&#39; +
+      &#39;&#92;u00a0&#92;u00a0 = &#39; + fmtS(pSuccess * reward) + &#39; &#92;u2212 &#39; + fmt(pFail * slash) + &#39;&lt;br&gt;&#39; +
+      &#39;&#92;u00a0&#92;u00a0 = &lt;strong class=&quot;&#39; + (ev &gt;= 0 ? &#39;sim-negative&#39; : &#39;sim-positive&#39;) + &#39;&quot;&gt;&#39; + fmtS(ev) + &#39;&lt;/strong&gt; per colluder&#39;;
+  }
+
+  var sliders = document.querySelectorAll(&#39;.collusion-sim input[type=&quot;range&quot;]&#39;);
+  for (var i = 0; i &lt; sliders.length; i++) {
+    sliders[i].addEventListener(&#39;input&#39;, update);
+  }
+  update();
+})();
+&lt;/script&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;disbursement&quot; tabindex=&quot;-1&quot;&gt;Disbursement &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/gauloi-pt3/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;There are two cases for disbursement: disbursing when fraud is caught (and a fill is invalid), and disbursing for a false challenge (the fill was valid).&lt;/p&gt;
+&lt;p&gt;Fraud caught (fill was invalid): the challenger&#39;s bond is returned in full. From the slashed amount, 25% goes to the challenger, 25% to correct attestors (pro-rata by stake weight), 50% to treasury. Taker&#39;s escrowed funds are refunded. The challenger gets the biggest individual cut because they posted a bond before knowing whether they&#39;d win. Without that upside, nobody bothers to challenge.&lt;/p&gt;
+&lt;p&gt;Frivolous challenge (fill was valid): the challenger loses their bond. 50% to the maker as compensation for having their capital locked, 25% to attestors, 25% to treasury. Maker&#39;s stake is untouched. The maker gets the biggest cut because they were the one harmed, their capital was locked for days over a bogus dispute. Attestors still get paid because the work is the same regardless of outcome.&lt;/p&gt;
+&lt;h2 id=&quot;what-the-committee-is-actually-for&quot; tabindex=&quot;-1&quot;&gt;What the committee is actually for &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/gauloi-pt3/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Staked makers attesting to fills are humans doing what a Merkle proof could do. &amp;quot;Did X USDC arrive at address Y on chain Z?&amp;quot; is a deterministic fact about blockchain state. A machine can verify it. The committee exists because cross-chain verification infrastructure wasn&#39;t mature enough at design time.&lt;/p&gt;
+&lt;p&gt;If makers are known entities, which compliance-at-the-maker-level implies, the dispute mechanism is overkill for fraud prevention. A regulated OTC desk won&#39;t fake a fill hash. Their license is worth more than anything they could steal. A multisig would be fine. If makers are fully permissionless and anonymous, the mechanism isn&#39;t strong enough. Sybil attacks break headcount quorums, stake-weighted voting is capturable by anyone willing to post capital, and no amount of mechanism design fixes capital concentration in a capital-weighted system.&lt;/p&gt;
+&lt;p&gt;Gauloi sits in the middle. The dispute mechanism isn&#39;t preventing fraud by known makers; reputation and legal liability do that. It catches operational errors (maker bot submits wrong fill hash), covers maker exits (previously reputable maker goes rogue, the mechanism protects during the window between &amp;quot;trusted&amp;quot; and &amp;quot;known bad&amp;quot;), and builds the trust ladder for progressive decentralisation before you need it rather than after.&lt;/p&gt;
+&lt;h2 id=&quot;holes&quot; tabindex=&quot;-1&quot;&gt;Holes &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/gauloi-pt3/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Disputed fills are slow. 48 hours for resolution plus 24 for the challenge window is 72 hours worst case, longer on quorum failure. These windows are tuneable, but shorter windows give colluders less time to be caught and honest attestors less time to respond. Longer windows lock more maker capital. Undisputed fills are fast, so the cost falls on the edge case, but it&#39;s still days of locked capital when it happens.&lt;/p&gt;
+&lt;p&gt;The quorum failure mode needs work. If quorum can&#39;t be met, the protocol halts new intake. Right response from a safety perspective, but the unpause mechanism is &lt;code&gt;onlyOwner&lt;/code&gt; for now, which is centralised and contradicts the whole positioning. v0.1 compromise.&lt;/p&gt;
+&lt;p&gt;Attestors are unpaid during normal operation. Their rewards come from slashed stakes and lost bonds, so if disputes are rare (which is the goal), they rarely earn anything. UMA pays staking rewards to tokenholders regardless of dispute activity. We don&#39;t. The bet is that makers are already watching the network for their fill operations and attestation is one RPC call plus a signature, near zero marginal cost. If that turns out to be wrong, slashing for non-participation is a known mechanism we can bolt on later.&lt;/p&gt;
+&lt;p&gt;Finally, and this is arguably the biggest hole, staking does too many jobs. A staked maker is meant to provide sybil resistance, capacity cap, voting power, and be a fraud deterrent. These goals may not always be congruent. In the current design, being staked proves you have capital, but doesn&#39;t necessarily prove independence of incentive. In this way, the protocol&#39;s operation is still dependent on a critical mass of (weighted) honest capital.&lt;/p&gt;
+&lt;h2 id=&quot;the-committee-is-scaffolding&quot; tabindex=&quot;-1&quot;&gt;The committee is scaffolding &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.github.io/blog/gauloi-pt3/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Arbitrum posts state assertions to L1 via RollupCore. After the challenge period (~7 days, shrinking &lt;a href=&quot;https://docs.arbitrum.io/how-arbitrum-works/bold/gentle-introduction&quot;&gt;with BOLD&lt;/a&gt;), the assertion is confirmed and canonical. It commits to all L2 blocks, receipts, and event logs. A proof that a USDC transfer happened is a chain of Merkle inclusions from event log up to confirmed assertion on L1. There&#39;s no new oracle here; you&#39;re reading data the rollup already publishes for its own security. The OP stack works the same way with a different proof format. Each chain pair gets its own verifier behind an &lt;code&gt;IProofVerifier&lt;/code&gt; interface.&lt;/p&gt;
+&lt;p&gt;Gauloi would still settle optimistically. Proofs only come into play on dispute, and at that point the maker waits for the assertion to hit L1 and submits.&lt;/p&gt;
+&lt;p&gt;The migration: right now, makers are the attestors. Known participants, social trust, owner admin. Before mainnet, the protocol needs emergency exits, a timelock admin, and graceful shutdown. After that, &lt;code&gt;settleWithProof(order, proof)&lt;/code&gt; on the escrow verifies a storage proof that the fill happened and skips the dispute window entirely. That gives three resolution paths tried in order: proof (trustless), optimistic (no dispute), and committee (fallback). As proof coverage expands per chain pair, the committee handles fewer disputes. Each pair migrates independently, and eventually the committee only exists for exotic chains without proof infrastructure.&lt;/p&gt;
+&lt;p&gt;The whale problem, the sybil problem, staking doing too many jobs; all of these can be obviated by Merkle inclusion once cross-chain proof infrastructure catches up. Or I build my own. But for now, this is a good enough, consistent enough solution to keep makers honest.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/cdrn/gauloi-v2&quot;&gt;gauloi-v2 on github&lt;/a&gt;&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Gauloi Part 2: mechanism design</title>
