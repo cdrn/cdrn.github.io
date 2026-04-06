@@ -367,7 +367,7 @@ slashAmount = min(fillAmount * multiplier, makerStake)
   }
 
   function fmtS(n) {
-    var p = n &gt;= 0 ? &#39;+&#39; : &#39;&#39;;
+    var p = n &gt;= 0 ? &#39;+&#39; : &#39;-&#39;;
     if (Math.abs(n) &gt;= 1e6) return p + &#39;$&#39; + (Math.abs(n) / 1e6).toFixed(2) + &#39;M&#39;;
     if (Math.abs(n) &gt;= 1e3) return p + &#39;$&#39; + (Math.abs(n) / 1e3).toFixed(1) + &#39;k&#39;;
     return p + &#39;$&#39; + Math.abs(n).toFixed(0);
