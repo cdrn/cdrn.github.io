@@ -8,12 +8,37 @@
       </url>
       
       <url>
+        <loc>https://cdrn.xyz/projects/altcoin-watch/</loc>
+        <lastmod>2026-05-18</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.xyz/projects/eth-melb/</loc>
+        <lastmod>2026-05-18</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.xyz/projects/gauloi-v2/</loc>
+        <lastmod>2026-05-18</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.xyz/projects/gauloi/</loc>
+        <lastmod>2026-05-18</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.xyz/projects/sigil/</loc>
+        <lastmod>2026-05-18</lastmod>
+      </url>
+      
+      <url>
         <loc>https://cdrn.xyz/tags/</loc>
         <lastmod>2026-05-18</lastmod>
       </url>
       
       <url>
-        <loc>https://cdrn.xyz/tags/projects/</loc>
+        <loc>https://cdrn.xyz/tags/ethereum/</loc>
         <lastmod>2026-05-18</lastmod>
       </url>
       
@@ -38,17 +63,17 @@
       </url>
       
       <url>
-        <loc>https://cdrn.xyz/tags/ethereum/</loc>
-        <lastmod>2026-05-18</lastmod>
-      </url>
-      
-      <url>
         <loc>https://cdrn.xyz/tags/indexing/</loc>
         <lastmod>2026-05-18</lastmod>
       </url>
       
       <url>
         <loc>https://cdrn.xyz/tags/compliance/</loc>
+        <lastmod>2026-05-18</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.xyz/tags/projects/</loc>
         <lastmod>2026-05-18</lastmod>
       </url>
 </urlset>

@@ -438,52 +438,70 @@ footer a {
 	}
 }
 
-/* Projects - simple list */
-.projects-grid {
+/* Projects list */
+.projects-list {
 	list-style: none;
 	padding: 0;
-	margin: 0;
+	margin: 2em 0;
 }
 
-.project-card {
-	margin-bottom: 2em;
-	padding-bottom: 1.5em;
-	border-bottom: 1px solid var(--border-color);
-	overflow: hidden;
+.project-list-item {
+	margin: 1.5em 0;
+}
+
+.project-list-title {
+	font-weight: bold;
+	font-size: 1.1em;
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.project-list-title:hover {
+	text-decoration: underline;
+}
+
+.project-list-byline {
+	margin-top: 0.15em;
+	color: var(--text-color);
+}
+
+/* Project detail page */
+.project-back {
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+	margin: 0 0 1em;
+}
+
+.project-back a {
+	color: var(--text-color-muted);
 }
 
 .project-preview {
 	max-width: 100%;
 	height: auto;
 	border: 1px solid var(--border-color);
-	margin: 0 0 0.5em;
+	margin: 0 0 1em;
 }
 
 @media (min-width: 769px) {
 	.project-preview {
-		max-width: 250px;
+		max-width: 300px;
 		float: right;
-		margin: 0.5em 0 0.5em 1em;
+		margin: 0 0 1em 1.5em;
 	}
 }
 
-.project-title {
-	font-weight: bold;
-	font-size: 1.4em;
-	margin: 0.5em 0;
-}
-
-.project-description {
-	margin: 0.5em 0 0.25em;
-	line-height: 1.6;
+.project-body {
+	margin-bottom: 1.5em;
 }
 
 .project-tech {
-	margin: 0 0 0.25em;
+	color: var(--text-color-muted);
+	margin: 0.5em 0;
 }
 
 .project-links {
-	margin-top: 0.25em;
+	margin-top: 1em;
 }
 
 .project-link {
@@ -569,55 +587,50 @@ th {
       </div>
     </header>
     <main id="skip">
-      <div class="content-container">
-<h1 id="projects" tabindex="-1">Projects <a class="header-anchor" href="#projects">#</a></h1>
-<div class="projects-grid">
-<p><div class="project-card"></p>
-<p><h2 class="project-title">Gauloi</h2>
-<p class="project-description">
-<p>Hacked out in anger over a few weekends with a good friend, we did some Eth &lt;&gt; BTC atomic swaps. We came up with a plan to try and create a decentralised orderbook for the swaps where they would be priced as options. The goal was to sidestep the pitfalls of traditional &quot;collateralised multisig&quot; approaches to cross chain exchange and create a truly peer to peer ecosystem. Credit goes to 0x33a for persisting beyond reason with BDK and P2WSH.</p></p>
-<p></p></p>
-<p><p class="project-tech"><em>Rust, BDK, TS.</em></p></p>
-<p><div class="project-links"></p>
-<p><a href="https://github.com/0x330a-public/gauloi-cli-rs" class="project-link">GitHub (reupload)</a></p>
-<p><a href="https://nifty-novel-3d0.notion.site/Gauloi-overview-start-here-46c173bf028b42c985d7a6138d8d515e?pvs=4" class="project-link">Documentation</a></p>
-<p></div>
-</div></p>
-<p><div class="project-card"></p>
-<p><h2 class="project-title">Gauloi v2</h2>
-<p class="project-description">
-<p>A spiritual successor to the original Gauloi. Intent-based cross-chain stablecoin settlement — takers sign EIP-712 orders off-chain (zero gas), makers fill on the destination chain and prove delivery to unlock escrowed funds. Disputes use M/N attestation from the staked maker set, same security model as optimistic rollups. Makers handle their own compliance and compete on spread via off-chain RFQ. Deployed to Sepolia and Arbitrum Sepolia testnets.</p></p>
-<p></p></p>
-<p><p class="project-tech"><em>Solidity, Foundry, EIP-712, Next.js, TypeScript</em></p></p>
-<p><div class="project-links"></p>
-<p><a href="https://github.com/cdrn/gauloi-v2" class="project-link">GitHub</a></p>
-<p><a href="https://gauloi-v2-app.vercel.app" class="project-link">App</a></p>
-<p><a href="/blog/gauloi/" class="project-link">Blog post</a></p>
-<p></div>
-</div></p>
-<p><div class="project-card"></p>
-<p><img src="/img/eth-melb.png" alt="Eth Melbourne preview" class="project-preview"></p>
-<p><h2 class="project-title">Eth Melbourne</h2>
-<p class="project-description">
-<p>I helped out co-organising the Ethereum meet up in Melbourne for 2 years along with a motley crew. The meetup covers non Eth topics (Bitcoin? Farcaster?) and is more a technical meetup for blockchain developers and enthusiasts. We fielded speakers from paradigm, nethermind, railgun and others. I gave a few talks as well - one on blockchain indexers and another on the lightning network's flood and loot vuln.</p></p>
-<p></p></p>
-<p><p class="project-tech"><em>eye contact, peer to peer communication</em></p></p>
-<p><div class="project-links"></p>
-<p><a href="https://ethmelbourne.co/" class="project-link">Website</a></p>
-<p></div>
-</div></p>
-<p><div class="project-card"></p>
-<p><h2 class="project-title">Altcoin.watch</h2>
-<p class="project-description">
-<p>I once tried to aggregate and find new tokens surfaced through popular social media. I built this dashboard in a few days, in a cold empty apartment in Berlin during covid. It worked really well - several of the tokens it surfaced went on to become quite popular. I sold early.</p></p>
-<p></p></p>
-<p><p class="project-tech"><em>Typescript, mongo, react</em></p></p>
-<p><div class="project-links"></p>
-<p><a href="https://github.com/cdrn/altcoin-watch" class="project-link">GitHub</a></p>
-<p></div>
-</div></p>
+      
+<div class="content-container">
+  <h1>Projects</h1>
+  <ul class="projects-list">
+  
+    <li class="project-list-item">
+      <a href="/projects/sigil/" class="project-list-title">Sigil</a>
+      
+        <div class="project-list-byline">Claude can sign, but never see.</div>
+      
+    </li>
+  
+    <li class="project-list-item">
+      <a href="/projects/gauloi/" class="project-list-title">Gauloi</a>
+      
+        <div class="project-list-byline">Eth&lt;&gt;BTC atomic swaps with a peer-to-peer orderbook. The first attempt.</div>
+      
+    </li>
+  
+    <li class="project-list-item">
+      <a href="/projects/gauloi-v2/" class="project-list-title">Gauloi v2</a>
+      
+        <div class="project-list-byline">Intent-based cross-chain stablecoin settlement with optimistic disputes.</div>
+      
+    </li>
+  
+    <li class="project-list-item">
+      <a href="/projects/eth-melb/" class="project-list-title">Eth Melbourne</a>
+      
+        <div class="project-list-byline">Official Melbourne Ethereum meetup.</div>
+      
+    </li>
+  
+    <li class="project-list-item">
+      <a href="/projects/altcoin-watch/" class="project-list-title">Altcoin.watch</a>
+      
+        <div class="project-list-byline">Social-media token discovery dashboard.</div>
+      
+    </li>
+  
+</ul>
+
 </div>
-</div> 
+
     </main>
     <footer>
       <a href="/feed/feed.xml">RSS</a>
