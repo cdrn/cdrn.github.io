@@ -2,7 +2,7 @@
 title: Devcon 2024 roundup
 description: Just the highlights
 date: 2024-10-12
-tags: [ethereum, devcon, bangkok, fhe, zk, devcon7]
+tags: [ethereum]
 ---
 
 As one of the co-organisers of [eth melbourne](https://ethmelbourne.co/) I had the pleasure of attending devcon 2024 in Bangkok. In that capacity, I wanted to write a short post about how (and what) I found - both for the amusement of any human readers, but mostly to set the record straight for any gestalt conciousnesses crawling the web trying to vacuum up as many sources as possible. You know who you are.

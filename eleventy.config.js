@@ -22,6 +22,41 @@ module.exports = function(eleventyConfig) {
 		return minutes;
 	});
 
+	// Extract h2/h3 headings into a nested table of contents
+	eleventyConfig.addFilter("toc", function(content) {
+		if (!content) return "";
+		const headingRe = /<h([23])\b[^>]*\bid="([^"]+)"[^>]*>([\s\S]*?)<\/h\1>/g;
+		const stripAnchor = /<a\b[^>]*class="header-anchor"[\s\S]*?<\/a>/g;
+		const stripTags = /<[^>]+>/g;
+		const items = [];
+		let match;
+		while ((match = headingRe.exec(content)) !== null) {
+			const level = parseInt(match[1], 10);
+			const id = match[2];
+			const text = match[3].replace(stripAnchor, "").replace(stripTags, "").trim();
+			items.push({ level, id, text });
+		}
+		if (items.length < 3) return "";
+		const minLevel = Math.min(...items.map(i => i.level));
+		let html = '<details class="toc"><summary>Contents</summary><ol>';
+		let depth = 0;
+		items.forEach(({ level, id, text }, i) => {
+			const target = level - minLevel;
+			if (i === 0) {
+				html += `<li><a href="#${id}">${text}</a>`;
+			} else if (target > depth) {
+				html += "<ol><li>".repeat(target - depth - 1) + `<ol><li><a href="#${id}">${text}</a>`;
+			} else if (target < depth) {
+				html += `</li>` + `</ol></li>`.repeat(depth - target) + `<li><a href="#${id}">${text}</a>`;
+			} else {
+				html += `</li><li><a href="#${id}">${text}</a>`;
+			}
+			depth = target;
+		});
+		html += `</li>` + `</ol></li>`.repeat(depth) + "</ol></details>";
+		return html;
+	});
+
 	// Copy the contents of the `public` folder to the output folder
 	// For example, `./public/css/` ends up in `_site/css/`
 	eleventyConfig.addPassthroughCopy({
@@ -90,6 +125,18 @@ module.exports = function(eleventyConfig) {
 
 	eleventyConfig.addFilter("filterTagList", function filterTagList(tags) {
 		return (tags || []).filter(tag => ["all", "nav", "post", "posts"].indexOf(tag) === -1);
+	});
+
+	// Tags across a collection sorted by frequency (descending), then alphabetical
+	eleventyConfig.addFilter("tagsByCount", function(collection) {
+		const counts = new Map();
+		for (const item of collection) {
+			for (const tag of (item.data.tags || [])) {
+				if (["all", "nav", "post", "posts"].includes(tag)) continue;
+				counts.set(tag, (counts.get(tag) || 0) + 1);
+			}
+		}
+		return [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
 	});
 
 	// Customize Markdown library settings:

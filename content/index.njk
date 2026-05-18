@@ -7,7 +7,49 @@ eleventyNavigation:
 
 <div class="content-container">
   <h1>Recent Posts</h1>
-  {% set postslist = collections.posts | head(-5) %}
+
+  {%- set tagEntries = collections.posts | tagsByCount %}
+  {%- if tagEntries.length %}
+  <div class="tag-filter" role="group" aria-label="Filter posts by tag">
+    {%- for entry in tagEntries %}
+    <button type="button" class="tag-pill" data-tag="{{ entry[0] }}">{{ entry[0] }}</button>
+    {%- endfor %}
+  </div>
+  {%- endif %}
+
+  {% set postslist = collections.posts %}
   {% include "postslist.njk" %}
-  <p><a href="/blog/">View all posts →</a></p>
+  <p class="postlist-footer-link"><a href="/blog/">View all posts →</a></p>
 </div>
+
+<script>
+  (function () {
+    const list = document.querySelector('.postlist');
+    const pills = document.querySelectorAll('.tag-pill');
+    const items = list ? list.querySelectorAll('.postlist-item') : [];
+    if (!list || !pills.length || !items.length) return;
+
+    let active = null;
+
+    function apply() {
+      if (active === null) {
+        list.classList.remove('filtered');
+        items.forEach(li => { li.hidden = false; });
+      } else {
+        list.classList.add('filtered');
+        items.forEach(li => {
+          const tags = (li.dataset.tags || '').split(' ');
+          li.hidden = !tags.includes(active);
+        });
+      }
+      pills.forEach(p => p.classList.toggle('active', p.dataset.tag === active));
+    }
+
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        active = active === pill.dataset.tag ? null : pill.dataset.tag;
+        apply();
+      });
+    });
+  })();
+</script>

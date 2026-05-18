@@ -2,7 +2,7 @@
 title: "The bridge is not the product"
 description: Or why value accrues to orderflow
 date: 2025-12-30
-tags: [thonk, crypto, bridges, orderflow]
+tags: [thonk, orderflow]
 ---
 
 ## 1. Bridges are Commoditised Infrastructure

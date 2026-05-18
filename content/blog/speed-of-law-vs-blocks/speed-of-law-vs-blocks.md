@@ -2,7 +2,7 @@
 title: "On the speed of law versus the speed of blocks"
 description: Freeze functions, fast exits, and the limits of on-chain compliance
 date: 2025-12-27
-tags: [thonk, stablecoins, DEFI, USD, bonds]
+tags: [thonk, stablecoins, compliance]
 ---
 
 ## 1. A short history of blacklist()

@@ -2,16 +2,16 @@
 title: "Gauloi Part 2: mechanism design"
 description: Escrow state machines, dispute resolution, and the economics of optimistic stablecoin settlement
 date: 2026-02-20
-tags: [thonk, crypto, stablecoins, settlement, orderflow]
+tags: [stablecoins, settlement, orderflow]
 ---
 
-## 1. Preamble
+## Preamble
 
 [Part 1](https://cdrn.xyz/blog/gauloi/) covered what Gauloi is and why it exists. Intent-based cross-chain stablecoin settlement, compliance at the maker level, optimistic finality. The architecture post.
 
 This post is about how it actually works. The escrow state machine, the dispute mechanism, the settlement window, the edge cases. Some of this is settled. Some of it isn't, and I'll say so where that's the case.
 
-## 2. The escrow state machine
+## The escrow state machine
 
 Everything starts with an escrow contract on the source chain. The taker locks funds, the protocol coordinates the fill, and the escrow releases once settlement finalises.
 
@@ -98,7 +98,7 @@ function resolveDispute(
 
 Not final, but this is the shape of it.
 
-## 3. The dispute mechanism
+## The dispute mechanism
 
 Stablecoin settlement disputes are objectively resolvable. The question is always: did the maker send X amount of token Y to address Z on chain B? That's a binary lookup. The transaction either exists with the right parameters or it doesn't. Verifiable by anyone with an RPC endpoint.
 
@@ -114,7 +114,7 @@ When a dispute is raised, the staked maker set resolves it. Each participating m
 
 Resolution should be fast. For EVM chains where you're checking a tx hash against an RPC, minutes not hours. The dispute window itself is longer than resolution time to give people time to notice, but the actual resolution once triggered should be near-instant.
 
-## 4. Staked makers as the attestor set
+## Staked makers as the attestor set
 
 Every maker stakes capital to join the network. The stake does triple duty: it gates participation (prevents sybil attacks), limits the maker's maximum active fill exposure (stake 500k, fill up to some multiple of that concurrently), and backs their attestations during dispute resolution (incorrect attestation = slashing). The same capital that lets them make markets also backs the integrity of the dispute mechanism.
 
@@ -126,7 +126,7 @@ Early on when the maker set is small (say, 3-5 makers), the collusion risk is re
 
 I want to explicitly avoid a governance token for attestor selection. The design works with economic incentives and reputation. Token voting is a rug pull factory and I don't want it anywhere near the settlement layer.
 
-## 5. The settlement window
+## The settlement window
 
 How long should the dispute window be?
 
@@ -142,7 +142,7 @@ The interesting edge case: what happens if a fill on chain B gets reorged *after
 
 For stablecoins, this risk is at least bounded. A reorged fill on a 1:1 stablecoin pair means the maker lost approximately the face value. No directional blowup. A maker can quantify this risk per chain and reserve against it.
 
-## 6. Bond economics
+## Bond economics
 
 There are two bonds in the system: the maker's stake and the dispute bond. They serve different purposes and price different attacks.
 
@@ -154,7 +154,7 @@ The dispute bond is posted by the challenger. It prevents spam - a troll disputi
 
 These parameters need to be tunable. The contracts should support governance-free parameter updates through a timelock mechanism - no token voting.
 
-## 7. Extending beyond EVM
+## Extending beyond EVM
 
 Everything above assumes both chains are EVM-compatible. Transaction hashes look the same, RPC interfaces are standardised, the staked maker set knows how to verify a fill using the same tooling regardless of which EVM chain it's on.
 
@@ -166,7 +166,7 @@ Solana is interesting because it has large USDC volume and a different execution
 
 The general principle: the escrow and dispute mechanism should work for any chain pair where a staked maker can verify a transaction happened. The staked maker set is the abstraction layer - they translate "did this fill happen on chain B" into a signed attestation that the escrow on chain A can consume, regardless of what chain B looks like underneath.
 
-## 8. Open questions
+## Open questions
 
 There are things I haven't solved yet.
 
@@ -180,7 +180,7 @@ There are things I haven't solved yet.
 
 **Stake denomination.** Should the maker stake be in a specific stablecoin, in ETH, or in something else? Stablecoin-denominated stakes are cleanest (the system handles stablecoins, the stake is in stablecoins, no oracle needed for slashing calculations). But which stablecoin? USDC is the obvious choice for US-compliant makers, but it introduces an issuer dependency on the settlement layer itself. ETH-denominated stakes require a price oracle for calculating slashing relative to fill amounts. No clean answer here yet.
 
-## 9. What's next
+## What's next
 
 Part 3 will probably be code. Escrow contracts for Arbitrum and Base, a basic maker bot, and enough infrastructure to prove the settlement loop works end to end. USDC/USDT, two chains, one maker. Boring and functional.
 
