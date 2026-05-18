@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tagged “crypto”</title>
-    <meta name="description" content="blög">
-    <link rel="canonical" href="https://cdrn.xyz/tags/crypto/">
+    <title>Tagged “indexing”</title>
+    <meta name="description" content="Notes on stablecoins, cross-chain settlement, orderflow, and the protocol design underneath.">
+    <link rel="canonical" href="https://cdrn.xyz/tags/indexing/">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <meta property="og:title" content="Tagged “crypto”">
-    <meta property="og:description" content="blög">
-    <meta property="og:url" content="https://cdrn.xyz/tags/crypto/">
+    <meta property="og:title" content="Tagged “indexing”">
+    <meta property="og:description" content="Notes on stablecoins, cross-chain settlement, orderflow, and the protocol design underneath.">
+    <meta property="og:url" content="https://cdrn.xyz/tags/indexing/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Chris Doran">
     <meta property="og:image" content="https://cdrn.xyz/apple-touch-icon.png">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Tagged “crypto”">
-    <meta name="twitter:description" content="blög">
+    <meta name="twitter:title" content="Tagged “indexing”">
+    <meta name="twitter:description" content="Notes on stablecoins, cross-chain settlement, orderflow, and the protocol design underneath.">
     <meta name="twitter:image" content="https://cdrn.xyz/apple-touch-icon.png">
     <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Chris Doran">
     <link rel="alternate" href="/feed/feed.json" type="application/json" title="Chris Doran">
@@ -35,8 +35,10 @@
 	--text-color-link: #0000ee;
 	--text-color-link-visited: #551a8b;
 	--text-color-muted: #666666;
+	--border-color: #d4d4d4;
+	--code-bg: #f2f2f2;
 
-	--max-width: 90ch;
+	--max-width: 72ch;
 }
 
 [data-theme="dark"] {
@@ -45,6 +47,8 @@
 	--text-color-link: #6b9bd1;
 	--text-color-link-visited: #8a7fc4;
 	--text-color-muted: #999999;
+	--border-color: #333333;
+	--code-bg: #2a2a2a;
 }
 
 /* Basic reset */
@@ -81,7 +85,7 @@ body {
 header {
 	margin-bottom: 2em;
 	padding-bottom: 1em;
-	border-bottom: 1px solid var(--text-color);
+	border-bottom: 1px solid var(--border-color);
 }
 
 .header-main {
@@ -131,7 +135,7 @@ header {
 	font-family: var(--font-family);
 	padding: 2px 8px;
 	margin-left: 1em;
-	border: 1px solid var(--text-color);
+	border: 1px solid var(--border-color);
 	background: var(--background-color);
 	color: var(--text-color);
 	cursor: pointer;
@@ -141,6 +145,64 @@ header {
 /* Main content */
 main {
 	padding: 0;
+}
+
+/* Visually hidden (a11y skip link, etc.) */
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.visually-hidden:focus {
+	position: static;
+	width: auto;
+	height: auto;
+	margin: 0;
+	overflow: visible;
+	clip: auto;
+	white-space: normal;
+}
+
+/* Tag filter pills */
+.tag-filter {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4em;
+	margin: 1em 0 2em;
+}
+
+.tag-pill {
+	font-family: var(--font-family);
+	font-size: 0.85em;
+	padding: 0.2em 0.7em;
+	border: 1px solid var(--border-color);
+	background: transparent;
+	color: var(--text-color-muted);
+	cursor: pointer;
+	border-radius: 999px;
+	line-height: 1.5;
+}
+
+.tag-pill:hover {
+	color: var(--text-color);
+	border-color: var(--text-color-muted);
+}
+
+.tag-pill.active {
+	background: var(--text-color);
+	color: var(--background-color);
+	border-color: var(--text-color);
+}
+
+.postlist-footer-link {
+	margin-top: 1.5em;
 }
 
 /* Post list - readable */
@@ -153,7 +215,7 @@ main {
 .postlist-item {
 	margin-bottom: 2.5em;
 	padding-bottom: 1.5em;
-	border-bottom: 1px solid var(--text-color);
+	border-bottom: 1px solid var(--border-color);
 }
 
 .postlist-link {
@@ -227,6 +289,52 @@ article {
 	font-size: 0.9em;
 }
 
+/* Table of contents for long posts (collapsed by default) */
+.toc {
+	margin: 1.5em 0;
+	font-size: 0.95em;
+}
+
+.toc > summary {
+	cursor: pointer;
+	color: var(--text-color-muted);
+	font-size: 0.85em;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	width: fit-content;
+}
+
+.toc > summary:hover {
+	color: var(--text-color);
+}
+
+.toc[open] > summary {
+	margin-bottom: 0.75em;
+}
+
+.toc ol {
+	list-style: none;
+	margin: 0;
+	padding-left: 0;
+}
+
+.toc ol ol {
+	padding-left: 1.5em;
+}
+
+.toc li {
+	margin: 0.25em 0;
+}
+
+.toc a {
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.toc a:hover {
+	text-decoration: underline;
+}
+
 /* Typography - improved hierarchy */
 h1, h2, h3, h4, h5, h6 {
 	font-weight: bold;
@@ -265,6 +373,13 @@ code {
 	font-size: 0.9em;
 }
 
+/* Inline code (not the highlighted blocks Prism owns) */
+:not(pre) > code {
+	background: var(--code-bg);
+	padding: 0.1em 0.35em;
+	border-radius: 3px;
+}
+
 /* Links - classic web style */
 a[href] {
 	color: var(--text-color-link);
@@ -283,7 +398,7 @@ a[href]:hover {
 	list-style: none;
 	padding: 0;
 	margin: 2em 0;
-	border-top: 1px solid var(--text-color);
+	border-top: 1px solid var(--border-color);
 	padding-top: 1em;
 }
 
@@ -295,7 +410,7 @@ a[href]:hover {
 footer {
 	margin-top: 4em;
 	padding: 1em 0;
-	border-top: 1px solid var(--text-color);
+	border-top: 1px solid var(--border-color);
 	font-size: 0.9em;
 	color: var(--text-color-muted);
 }
@@ -333,14 +448,14 @@ footer a {
 .project-card {
 	margin-bottom: 2em;
 	padding-bottom: 1.5em;
-	border-bottom: 1px solid var(--text-color);
+	border-bottom: 1px solid var(--border-color);
 	overflow: hidden;
 }
 
 .project-preview {
 	max-width: 100%;
 	height: auto;
-	border: 1px solid var(--text-color);
+	border: 1px solid var(--border-color);
 	margin: 0 0 0.5em;
 }
 
@@ -406,7 +521,7 @@ table {
 }
 
 th, td {
-	border: 1px solid var(--text-color);
+	border: 1px solid var(--border-color);
 	padding: 0.5em;
 	text-align: left;
 }
@@ -455,144 +570,82 @@ th {
     </header>
     <main id="skip">
       
-<h1>Tagged “crypto”</h1>
+<h1>Tagged “indexing”</h1>
 
 
 <ul class="postlist">
-  
-    <li class="postlist-item">
-      <a href="/blog/gauloi-pt3/" class="postlist-link">
+  <li class="postlist-item" data-tags="ethereum indexing">
+      <a href="/blog/slurpingcontractdatapt3/" class="postlist-link">
         
-          Gauloi Part 3: disputes
+          Eth contract data pt 3. How to run your own graph node
         
       </a>
       <div class="postlist-meta">
-        <time class="postlist-date" datetime="2026-03-19">19 March 2026</time>
+        <time class="postlist-date" datetime="2023-09-05">05 September 2023</time>
         
-          <span class="postlist-reading-time">24 MIN READ</span>
+          <span class="postlist-reading-time">3 min read</span>
         
       </div>
       
-        <p class="postlist-excerpt">Cross-chain dispute resolution, collusion resistance, and the path from committee attestation to storage proofs</p>
+        <p class="postlist-excerpt">Why buy when you can fork?</p>
       
       <div class="postlist-tags">
         
           
-          <a href="/tags/thonk/" class="post-tag">thonk</a>
+          <a href="/tags/ethereum/" class="post-tag">ethereum</a>
         
           
-          <a href="/tags/crypto/" class="post-tag">crypto</a>
-        
-          
-          <a href="/tags/stablecoins/" class="post-tag">stablecoins</a>
-        
-          
-          <a href="/tags/settlement/" class="post-tag">settlement</a>
-        
-          
-          <a href="/tags/game-theory/" class="post-tag">game theory</a>
+          <a href="/tags/indexing/" class="post-tag">indexing</a>
         
       </div>
     </li>
-  
-    <li class="postlist-item">
-      <a href="/blog/gauloi-pt2/" class="postlist-link">
+  <li class="postlist-item" data-tags="ethereum indexing">
+      <a href="/blog/slurpingcontractdatapt2/" class="postlist-link">
         
-          Gauloi Part 2: mechanism design
+          Eth contract data pt 2. Storage tree, cast and RPC
         
       </a>
       <div class="postlist-meta">
-        <time class="postlist-date" datetime="2026-02-20">20 February 2026</time>
+        <time class="postlist-date" datetime="2023-08-28">28 August 2023</time>
         
-          <span class="postlist-reading-time">18 MIN READ</span>
+          <span class="postlist-reading-time">8 min read</span>
         
       </div>
       
-        <p class="postlist-excerpt">Escrow state machines, dispute resolution, and the economics of optimistic stablecoin settlement</p>
+        <p class="postlist-excerpt">Let&#39;s investigate a command line tool to help us understand the storage tree</p>
       
       <div class="postlist-tags">
         
           
-          <a href="/tags/thonk/" class="post-tag">thonk</a>
+          <a href="/tags/ethereum/" class="post-tag">ethereum</a>
         
           
-          <a href="/tags/crypto/" class="post-tag">crypto</a>
-        
-          
-          <a href="/tags/stablecoins/" class="post-tag">stablecoins</a>
-        
-          
-          <a href="/tags/settlement/" class="post-tag">settlement</a>
-        
-          
-          <a href="/tags/orderflow/" class="post-tag">orderflow</a>
+          <a href="/tags/indexing/" class="post-tag">indexing</a>
         
       </div>
     </li>
-  
-    <li class="postlist-item">
-      <a href="/blog/gauloi/" class="postlist-link">
+  <li class="postlist-item" data-tags="ethereum indexing">
+      <a href="/blog/slurpingcontractdatapt1/" class="postlist-link">
         
-          Gauloi: compliant cross-chain settlement
+          Eth contract data pt 1.
         
       </a>
       <div class="postlist-meta">
-        <time class="postlist-date" datetime="2026-02-10">10 February 2026</time>
+        <time class="postlist-date" datetime="2023-08-03">03 August 2023</time>
         
-          <span class="postlist-reading-time">13 MIN READ</span>
+          <span class="postlist-reading-time">4 min read</span>
         
       </div>
       
-        <p class="postlist-excerpt">Intent-based optimistic settlement for stablecoins with maker-side compliance</p>
+        <p class="postlist-excerpt">Basic overview of where contract data lives in ethereum</p>
       
       <div class="postlist-tags">
         
           
-          <a href="/tags/thonk/" class="post-tag">thonk</a>
+          <a href="/tags/ethereum/" class="post-tag">ethereum</a>
         
           
-          <a href="/tags/crypto/" class="post-tag">crypto</a>
-        
-          
-          <a href="/tags/stablecoins/" class="post-tag">stablecoins</a>
-        
-          
-          <a href="/tags/settlement/" class="post-tag">settlement</a>
-        
-          
-          <a href="/tags/orderflow/" class="post-tag">orderflow</a>
-        
-      </div>
-    </li>
-  
-    <li class="postlist-item">
-      <a href="/blog/bridgenotproduct/" class="postlist-link">
-        
-          The bridge is not the product
-        
-      </a>
-      <div class="postlist-meta">
-        <time class="postlist-date" datetime="2025-12-30">30 December 2025</time>
-        
-          <span class="postlist-reading-time">6 MIN READ</span>
-        
-      </div>
-      
-        <p class="postlist-excerpt">Or why value accrues to orderflow</p>
-      
-      <div class="postlist-tags">
-        
-          
-          <a href="/tags/thonk/" class="post-tag">thonk</a>
-        
-          
-          <a href="/tags/crypto/" class="post-tag">crypto</a>
-        
-          
-          <a href="/tags/bridges/" class="post-tag">bridges</a>
-        
-          
-          <a href="/tags/orderflow/" class="post-tag">orderflow</a>
+          <a href="/tags/indexing/" class="post-tag">indexing</a>
         
       </div>
     </li>
@@ -608,7 +661,7 @@ th {
       ·
       <a href="https://github.com/cdrn/cdrn.github.io">Source</a>
     </footer>
-    <!-- Current page: /tags/crypto/ -->
+    <!-- Current page: /tags/indexing/ -->
     <!-- 100% privacy-first analytics -->
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
   </body>

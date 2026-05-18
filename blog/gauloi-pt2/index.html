@@ -25,6 +25,147 @@
     
     <style>
     /**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: black;
+	background: none;
+	text-shadow: 0 1px white;
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+@media print {
+	code[class*="language-"],
+	pre[class*="language-"] {
+		text-shadow: none;
+	}
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #f5f2f0;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: slategray;
+}
+
+.token.punctuation {
+	color: #999;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #9a6e3a;
+	/* This background color was intended by the author of this theme. */
+	background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #07a;
+}
+
+.token.function,
+.token.class-name {
+	color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #e90;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+[data-theme="dark"] {
+/**
  * okaidia theme for JavaScript, CSS and HTML
  * Loosely based on Monokai textmate theme by http://www.monokai.nl/
  * @author ocodia
@@ -147,6 +288,8 @@ pre[class*="language-"] {
 .token.entity {
 	cursor: help;
 }
+
+}
 /*
  * New diff- syntax
  */
@@ -205,8 +348,10 @@ pre[class*="language-diff-"] {
 	--text-color-link: #0000ee;
 	--text-color-link-visited: #551a8b;
 	--text-color-muted: #666666;
+	--border-color: #d4d4d4;
+	--code-bg: #f2f2f2;
 
-	--max-width: 90ch;
+	--max-width: 72ch;
 }
 
 [data-theme="dark"] {
@@ -215,6 +360,8 @@ pre[class*="language-diff-"] {
 	--text-color-link: #6b9bd1;
 	--text-color-link-visited: #8a7fc4;
 	--text-color-muted: #999999;
+	--border-color: #333333;
+	--code-bg: #2a2a2a;
 }
 
 /* Basic reset */
@@ -251,7 +398,7 @@ body {
 header {
 	margin-bottom: 2em;
 	padding-bottom: 1em;
-	border-bottom: 1px solid var(--text-color);
+	border-bottom: 1px solid var(--border-color);
 }
 
 .header-main {
@@ -301,7 +448,7 @@ header {
 	font-family: var(--font-family);
 	padding: 2px 8px;
 	margin-left: 1em;
-	border: 1px solid var(--text-color);
+	border: 1px solid var(--border-color);
 	background: var(--background-color);
 	color: var(--text-color);
 	cursor: pointer;
@@ -311,6 +458,64 @@ header {
 /* Main content */
 main {
 	padding: 0;
+}
+
+/* Visually hidden (a11y skip link, etc.) */
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.visually-hidden:focus {
+	position: static;
+	width: auto;
+	height: auto;
+	margin: 0;
+	overflow: visible;
+	clip: auto;
+	white-space: normal;
+}
+
+/* Tag filter pills */
+.tag-filter {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4em;
+	margin: 1em 0 2em;
+}
+
+.tag-pill {
+	font-family: var(--font-family);
+	font-size: 0.85em;
+	padding: 0.2em 0.7em;
+	border: 1px solid var(--border-color);
+	background: transparent;
+	color: var(--text-color-muted);
+	cursor: pointer;
+	border-radius: 999px;
+	line-height: 1.5;
+}
+
+.tag-pill:hover {
+	color: var(--text-color);
+	border-color: var(--text-color-muted);
+}
+
+.tag-pill.active {
+	background: var(--text-color);
+	color: var(--background-color);
+	border-color: var(--text-color);
+}
+
+.postlist-footer-link {
+	margin-top: 1.5em;
 }
 
 /* Post list - readable */
@@ -323,7 +528,7 @@ main {
 .postlist-item {
 	margin-bottom: 2.5em;
 	padding-bottom: 1.5em;
-	border-bottom: 1px solid var(--text-color);
+	border-bottom: 1px solid var(--border-color);
 }
 
 .postlist-link {
@@ -397,6 +602,52 @@ article {
 	font-size: 0.9em;
 }
 
+/* Table of contents for long posts (collapsed by default) */
+.toc {
+	margin: 1.5em 0;
+	font-size: 0.95em;
+}
+
+.toc > summary {
+	cursor: pointer;
+	color: var(--text-color-muted);
+	font-size: 0.85em;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	width: fit-content;
+}
+
+.toc > summary:hover {
+	color: var(--text-color);
+}
+
+.toc[open] > summary {
+	margin-bottom: 0.75em;
+}
+
+.toc ol {
+	list-style: none;
+	margin: 0;
+	padding-left: 0;
+}
+
+.toc ol ol {
+	padding-left: 1.5em;
+}
+
+.toc li {
+	margin: 0.25em 0;
+}
+
+.toc a {
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.toc a:hover {
+	text-decoration: underline;
+}
+
 /* Typography - improved hierarchy */
 h1, h2, h3, h4, h5, h6 {
 	font-weight: bold;
@@ -435,6 +686,13 @@ code {
 	font-size: 0.9em;
 }
 
+/* Inline code (not the highlighted blocks Prism owns) */
+:not(pre) > code {
+	background: var(--code-bg);
+	padding: 0.1em 0.35em;
+	border-radius: 3px;
+}
+
 /* Links - classic web style */
 a[href] {
 	color: var(--text-color-link);
@@ -453,7 +711,7 @@ a[href]:hover {
 	list-style: none;
 	padding: 0;
 	margin: 2em 0;
-	border-top: 1px solid var(--text-color);
+	border-top: 1px solid var(--border-color);
 	padding-top: 1em;
 }
 
@@ -465,7 +723,7 @@ a[href]:hover {
 footer {
 	margin-top: 4em;
 	padding: 1em 0;
-	border-top: 1px solid var(--text-color);
+	border-top: 1px solid var(--border-color);
 	font-size: 0.9em;
 	color: var(--text-color-muted);
 }
@@ -503,14 +761,14 @@ footer a {
 .project-card {
 	margin-bottom: 2em;
 	padding-bottom: 1.5em;
-	border-bottom: 1px solid var(--text-color);
+	border-bottom: 1px solid var(--border-color);
 	overflow: hidden;
 }
 
 .project-preview {
 	max-width: 100%;
 	height: auto;
-	border: 1px solid var(--text-color);
+	border: 1px solid var(--border-color);
 	margin: 0 0 0.5em;
 }
 
@@ -576,7 +834,7 @@ table {
 }
 
 th, td {
-	border: 1px solid var(--text-color);
+	border: 1px solid var(--border-color);
 	padding: 0.5em;
 	text-align: left;
 }
@@ -625,21 +883,18 @@ th {
     </header>
     <main id="skip">
       
-<h1>Gauloi Part 2: mechanism design</h1>
-
-<ul class="post-metadata">
+<h1>Gauloi Part 2: mechanism design</h1><ul class="post-metadata">
 	<li><time datetime="2026-02-20">20 February 2026</time><span class="post-reading-time">18 min read</span></li>
-	<li><a href="/tags/thonk/" class="post-tag">thonk</a>,</li>
-	<li><a href="/tags/crypto/" class="post-tag">crypto</a>,</li>
 	<li><a href="/tags/stablecoins/" class="post-tag">stablecoins</a>,</li>
 	<li><a href="/tags/settlement/" class="post-tag">settlement</a>,</li>
 	<li><a href="/tags/orderflow/" class="post-tag">orderflow</a></li>
 </ul>
+<details class="toc"><summary>Contents</summary><ol><li><a href="#preamble">Preamble</a></li><li><a href="#the-escrow-state-machine">The escrow state machine</a></li><li><a href="#the-dispute-mechanism">The dispute mechanism</a></li><li><a href="#staked-makers-as-the-attestor-set">Staked makers as the attestor set</a></li><li><a href="#the-settlement-window">The settlement window</a></li><li><a href="#bond-economics">Bond economics</a></li><li><a href="#extending-beyond-evm">Extending beyond EVM</a></li><li><a href="#open-questions">Open questions</a></li><li><a href="#what-s-next">What's next</a></li></ol></details>
 
-<h2 id="1-preamble" tabindex="-1">1. Preamble <a class="header-anchor" href="#1-preamble">#</a></h2>
+<h2 id="preamble" tabindex="-1">Preamble <a class="header-anchor" href="#preamble">#</a></h2>
 <p><a href="https://cdrn.xyz/blog/gauloi/">Part 1</a> covered what Gauloi is and why it exists. Intent-based cross-chain stablecoin settlement, compliance at the maker level, optimistic finality. The architecture post.</p>
 <p>This post is about how it actually works. The escrow state machine, the dispute mechanism, the settlement window, the edge cases. Some of this is settled. Some of it isn't, and I'll say so where that's the case.</p>
-<h2 id="2-the-escrow-state-machine" tabindex="-1">2. The escrow state machine <a class="header-anchor" href="#2-the-escrow-state-machine">#</a></h2>
+<h2 id="the-escrow-state-machine" tabindex="-1">The escrow state machine <a class="header-anchor" href="#the-escrow-state-machine">#</a></h2>
 <p>Everything starts with an escrow contract on the source chain. The taker locks funds, the protocol coordinates the fill, and the escrow releases once settlement finalises.</p>
 <p>The lifecycle has six states. A taker deposits into the escrow with their intent parameters (output token, destination chain, destination address, minimum amount, expiry) and the intent goes OPEN. A maker commits on-chain, reserving the intent so nobody else can front-run the fill - this adds a gas cost but prevents two makers from racing to fill the same intent. The maker then has N blocks to fill before the commitment expires and the intent reopens.</p>
 <p>Once the maker has sent the correct token to the taker's destination address on chain B, they submit a claim to the escrow on chain A with the destination tx hash. This moves the intent to FILLED and starts the dispute window. If the window passes without a challenge, the escrow releases the taker's deposit to the maker. If someone disputes, it escalates to the staked maker set for resolution. If no maker ever commits, or a committed maker doesn't fill in time, the taker reclaims their deposit.</p>
@@ -716,7 +971,7 @@ th {
     <span class="token builtin">bytes</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token keyword">calldata</span> signatures
 <span class="token punctuation">)</span> <span class="token keyword">external</span><span class="token punctuation">;</span></code></pre>
 <p>Not final, but this is the shape of it.</p>
-<h2 id="3-the-dispute-mechanism" tabindex="-1">3. The dispute mechanism <a class="header-anchor" href="#3-the-dispute-mechanism">#</a></h2>
+<h2 id="the-dispute-mechanism" tabindex="-1">The dispute mechanism <a class="header-anchor" href="#the-dispute-mechanism">#</a></h2>
 <p>Stablecoin settlement disputes are objectively resolvable. The question is always: did the maker send X amount of token Y to address Z on chain B? That's a binary lookup. The transaction either exists with the right parameters or it doesn't. Verifiable by anyone with an RPC endpoint.</p>
 <p>The system uses a single honest challenger model. This is the same security assumption as optimistic rollups - Optimism posts state roots to L1 and assumes they're valid, and anyone can submit a fraud proof within the dispute window. The system doesn't need every validator to check every state root. It just needs one honest watcher. If nobody challenges, the state root finalises. If even one participant catches fraud, the system self-corrects.</p>
 <p>Gauloi works the same way. Maker submits fill evidence and the claim is assumed valid by default. Settlement finalises automatically after the dispute window unless someone challenges. Any staked maker can raise a dispute by posting a bond. You only need one honest participant watching the network to catch fraud.</p>
@@ -724,13 +979,13 @@ th {
 <p>In the happy path, nothing happens. Maker claims, window passes, escrow releases. The dispute infrastructure exists but never activates. This solves the incentive problem of &quot;how do you pay attestors when disputes are rare&quot; - you don't need to, because active attestation isn't required for normal operation. The system only activates under adversarial conditions.</p>
 <p>When a dispute is raised, the staked maker set resolves it. Each participating maker independently checks the claimed transaction on chain B and signs an attestation. A threshold of M/N signatures resolves the dispute on-chain - the escrow contract verifies the threshold and either releases funds to the maker (claim valid, disputer's bond slashed) or returns funds to the taker (claim invalid, maker's stake slashed).</p>
 <p>Resolution should be fast. For EVM chains where you're checking a tx hash against an RPC, minutes not hours. The dispute window itself is longer than resolution time to give people time to notice, but the actual resolution once triggered should be near-instant.</p>
-<h2 id="4-staked-makers-as-the-attestor-set" tabindex="-1">4. Staked makers as the attestor set <a class="header-anchor" href="#4-staked-makers-as-the-attestor-set">#</a></h2>
+<h2 id="staked-makers-as-the-attestor-set" tabindex="-1">Staked makers as the attestor set <a class="header-anchor" href="#staked-makers-as-the-attestor-set">#</a></h2>
 <p>Every maker stakes capital to join the network. The stake does triple duty: it gates participation (prevents sybil attacks), limits the maker's maximum active fill exposure (stake 500k, fill up to some multiple of that concurrently), and backs their attestations during dispute resolution (incorrect attestation = slashing). The same capital that lets them make markets also backs the integrity of the dispute mechanism.</p>
 <p>This avoids introducing a separate class of participant. The people verifying fills are the same people doing fills. They already have the infrastructure (watching multiple chains, monitoring cross-chain state), they already have economic alignment (their own fills depend on the system being trustworthy), and they already have capital at risk.</p>
 <p>The collusion question: what stops the staked makers from all agreeing to approve each other's fraudulent fills? Staked capital should be large enough that the cost of getting caught exceeds the one-time gain from fraud - the slashing penalty is the maker's entire stake, not just a portion, so a maker with 500k staked who tries to steal 100k risks the full 500k. As the maker set grows, coordinating collusion among independent economic actors becomes harder. And reputationally, makers operating in the compliant stablecoin space are likely to be known entities with businesses and regulatory exposure - the kind of participants for whom getting caught colluding is existentially bad, not just expensive.</p>
 <p>Early on when the maker set is small (say, 3-5 makers), the collusion risk is real and the honest answer is that you're relying on a small group of known, staked participants to be honest. This is roughly equivalent to trusting a multisig - which is exactly the thing Gauloi v1 was trying to avoid. The difference is that the trust assumption shrinks as the network grows, the participants have ongoing economic skin in the game rather than just key custody, and the stakes are denominated in the thing they'd have to steal (stablecoins) rather than in some governance token with detached incentives.</p>
 <p>I want to explicitly avoid a governance token for attestor selection. The design works with economic incentives and reputation. Token voting is a rug pull factory and I don't want it anywhere near the settlement layer.</p>
-<h2 id="5-the-settlement-window" tabindex="-1">5. The settlement window <a class="header-anchor" href="#5-the-settlement-window">#</a></h2>
+<h2 id="the-settlement-window" tabindex="-1">The settlement window <a class="header-anchor" href="#the-settlement-window">#</a></h2>
 <p>How long should the dispute window be?</p>
 <p>It depends on the chain pair. The window needs to be long enough that the maker's fill on chain B is actually final, watchers have time to notice and dispute a fraudulent claim, and the maker set can respond if a dispute is raised.</p>
 <p>For EVM L2s (Arbitrum, Base, Optimism) with fast soft finality, the fill confirms in seconds. But L2 finality is complicated. Soft confirmation from the sequencer is fast but technically reversible if the sequencer goes rogue. Hard finality (posted to L1) takes longer - minutes to hours depending on the L2. And for optimistic rollups, the fraud proof window is 7 days, though in practice state roots are almost never challenged.</p>
@@ -738,26 +993,26 @@ th {
 <p>My current thinking is to let makers price this. Define chain-specific minimum settlement windows based on reasonable finality assumptions - maybe 30 minutes for Arbitrum/Base (well past soft confirmation, short of L1 finality), 15 minutes for Ethereum mainnet (sufficient block depth), and longer for chains with weaker finality. Makers who fill on chains with longer windows price the capital lockup into their spread. The protocol sets the floor, the market sets the ceiling.</p>
 <p>The interesting edge case: what happens if a fill on chain B gets reorged <em>after</em> the settlement window closes and the escrow has already released? The taker's deposit is gone. The maker's fill evaporated. Someone lost money. The honest answer is that this is a chain-level failure, not a protocol-level failure, and whoever took the finality risk (the maker) eats the loss. This is the same risk every bridge takes. You can mitigate it by being conservative with settlement windows per chain, but you can't eliminate it without waiting for true L1 finality everywhere, which makes the system unusable.</p>
 <p>For stablecoins, this risk is at least bounded. A reorged fill on a 1:1 stablecoin pair means the maker lost approximately the face value. No directional blowup. A maker can quantify this risk per chain and reserve against it.</p>
-<h2 id="6-bond-economics" tabindex="-1">6. Bond economics <a class="header-anchor" href="#6-bond-economics">#</a></h2>
+<h2 id="bond-economics" tabindex="-1">Bond economics <a class="header-anchor" href="#bond-economics">#</a></h2>
 <p>There are two bonds in the system: the maker's stake and the dispute bond. They serve different purposes and price different attacks.</p>
 <p>The maker's stake is a standing bond. Posted once when the maker joins, stays locked while they're active. It limits concurrent fill exposure, backs attestation, and is the slashing target for fraud. The standing model is more capital efficient than per-fill bonding - the maker posts once and executes many fills against the same stake, with the constraint on concurrent exposure rather than per-fill cost. Active makers turning over capital quickly amortise the bond cost across volume.</p>
 <p>The stake needs to be large enough that fraud is -EV. The expected value of attempting a fraudulent claim is <code>(1-P) * fill_amount - P * stake</code>, where P is the probability of getting caught. Given the single honest challenger assumption and the trivial verification cost, P should be very high. A stake of 2-5x the maximum fill size makes fraud unprofitable even with generous assumptions about getting away with it - a maker staking 500k who tries to steal 100k on a single fill risks the entire 500k.</p>
 <p>The dispute bond is posted by the challenger. It prevents spam - a troll disputing every claim pays the bond each time and loses it when the claim is valid. A legitimate challenger pays once, gets it back plus a reward from the fraudulent maker's slashed stake. Since dispute resolution is fast (minutes, a trivial RPC lookup) the damage from a spam dispute is limited, so the bond doesn't need to be extreme. Something like <code>max(0.5% of swap, 25 USDC)</code> - enough to make griefing unprofitable but low enough that real fraud gets challenged.</p>
 <p>These parameters need to be tunable. The contracts should support governance-free parameter updates through a timelock mechanism - no token voting.</p>
-<h2 id="7-extending-beyond-evm" tabindex="-1">7. Extending beyond EVM <a class="header-anchor" href="#7-extending-beyond-evm">#</a></h2>
+<h2 id="extending-beyond-evm" tabindex="-1">Extending beyond EVM <a class="header-anchor" href="#extending-beyond-evm">#</a></h2>
 <p>Everything above assumes both chains are EVM-compatible. Transaction hashes look the same, RPC interfaces are standardised, the staked maker set knows how to verify a fill using the same tooling regardless of which EVM chain it's on.</p>
 <p>Tron is the obvious next step because it's where most USDT lives. Tron is mostly EVM-compatible at the API level so the dispute resolution model doesn't change much. The differences are in finality (DPoS with 27 super representatives, ~3 second blocks, 19-block finality around 57 seconds) and gas economics. The escrow contract would need a Tron-specific deployment (Solidity compiles to TVM with minor differences) but the dispute mechanism works the same way.</p>
 <p>Bitcoin is the hard case. No smart contracts in the EVM sense, no escrow contract, no on-chain state machine. Supporting BTC stablecoins would need either an intermediary chain to host the escrow or a UTXO-native escrow using Bitcoin Script - limited but possible for simple lock/release patterns. Later problem. Stablecoin volume is overwhelmingly EVM plus Tron.</p>
 <p>Solana is interesting because it has large USDC volume and a different execution model (accounts and programs, not contracts and storage). The dispute mechanism still works - a fill on Solana produces a transaction signature that any maker can verify. The gap is that Gauloi's contracts would need to be written in Rust, which doubles the audit surface. Worth doing eventually, not for v0.1.</p>
 <p>The general principle: the escrow and dispute mechanism should work for any chain pair where a staked maker can verify a transaction happened. The staked maker set is the abstraction layer - they translate &quot;did this fill happen on chain B&quot; into a signed attestation that the escrow on chain A can consume, regardless of what chain B looks like underneath.</p>
-<h2 id="8-open-questions" tabindex="-1">8. Open questions <a class="header-anchor" href="#8-open-questions">#</a></h2>
+<h2 id="open-questions" tabindex="-1">Open questions <a class="header-anchor" href="#open-questions">#</a></h2>
 <p>There are things I haven't solved yet.</p>
 <p><strong>Maker collusion in early days.</strong> The economic argument against collusion improves with scale. With 3-5 makers, it's a trust assumption. With 50 staked makers, coordination is hard and one defector collapses the scheme. The bootstrap period is the most vulnerable and probably requires known, reputable initial makers who have more to lose from reputational damage than they could gain from fraud. This is imperfect. It might be the best available option for early-stage.</p>
 <p><strong>Intent ordering and MEV.</strong> If intents are posted on-chain, block builders see them before makers do. A malicious builder could front-run intents by inserting their own maker commitment before legitimate makers. For stablecoins with tight spreads this is less of an issue than for volatile pairs (not much to extract from front-running a 3 bps spread), but it's worth thinking about. Off-chain intent relay would solve this but adds infrastructure.</p>
 <p><strong>Multi-hop routes.</strong> The design above assumes single-hop: chain A to chain B. What about USDT on Tron to EURC on Ethereum where there's no direct maker? You'd need either a multi-hop route (Tron USDT to Arb USDC to Eth EURC) or a single maker capitalised on both ends. Multi-hop introduces sequential settlement dependencies and compounding failure risk. Probably better to let makers handle routing internally and just quote a single price for the end-to-end.</p>
 <p><strong>Regulatory classification.</strong> Is Gauloi an exchange? A clearinghouse? A money transmitter? The compliance-at-maker-level design is partly intended to push regulatory obligations to the participants rather than the protocol, but untested legal theory isn't the same as regulatory clarity. This needs real legal analysis, which I haven't done yet.</p>
 <p><strong>Stake denomination.</strong> Should the maker stake be in a specific stablecoin, in ETH, or in something else? Stablecoin-denominated stakes are cleanest (the system handles stablecoins, the stake is in stablecoins, no oracle needed for slashing calculations). But which stablecoin? USDC is the obvious choice for US-compliant makers, but it introduces an issuer dependency on the settlement layer itself. ETH-denominated stakes require a price oracle for calculating slashing relative to fill amounts. No clean answer here yet.</p>
-<h2 id="9-what-s-next" tabindex="-1">9. What's next <a class="header-anchor" href="#9-what-s-next">#</a></h2>
+<h2 id="what-s-next" tabindex="-1">What's next <a class="header-anchor" href="#what-s-next">#</a></h2>
 <p>Part 3 will probably be code. Escrow contracts for Arbitrum and Base, a basic maker bot, and enough infrastructure to prove the settlement loop works end to end. USDC/USDT, two chains, one maker. Boring and functional.</p>
 <p>If you've read both parts and have opinions on the staking model or the dispute economics, I'm genuinely interested. These are the hardest open problems and I'd rather get them right than ship something elegant that breaks under adversarial conditions.</p>
 <p>cdrn.xyz</p>
