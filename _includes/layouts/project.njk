@@ -1,0 +1,27 @@
+---
+layout: layouts/base.njk
+---
+
+<p class="project-back"><a href="/projects/">← Projects</a></p>
+
+<h1>{{ title }}</h1>
+
+{% if preview and preview != '/img/placeholder.png' %}
+<img src="{{ preview }}" alt="{{ title }} preview" class="project-preview">
+{% endif %}
+
+<div class="project-body">
+{{ content | safe }}
+</div>
+
+{% if tech %}
+<p class="project-tech"><em>{{ tech }}</em></p>
+{% endif %}
+
+{% if links %}
+<div class="project-links">
+	{% for link in links %}
+		<a href="{{ link.url }}" class="project-link">{{ link.text }}</a>
+	{% endfor %}
+</div>
+{% endif %}

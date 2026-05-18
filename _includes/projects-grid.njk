@@ -1,21 +1,10 @@
-<div class="projects-grid">
+<ul class="projects-list">
   {% for project in collections.projects | reverse %}
-    <div class="project-card">
-      {% if project.data.preview and project.data.preview != '/img/placeholder.png' %}
-      <img src="{{ project.data.preview }}" alt="{{ project.data.title }} preview" class="project-preview">
+    <li class="project-list-item">
+      <a href="{{ project.url }}" class="project-list-title">{{ project.data.title }}</a>
+      {% if project.data.byline %}
+        <div class="project-list-byline">{{ project.data.byline }}</div>
       {% endif %}
-      <h2 class="project-title">{{ project.data.title }}</h2>
-      <p class="project-description">
-        {{ project.templateContent | safe }}
-      </p>
-      {% if project.data.tech %}
-        <p class="project-tech"><em>{{ project.data.tech }}</em></p>
-      {% endif %}
-      <div class="project-links">
-        {% for link in project.data.links %}
-          <a href="{{ link.url }}" class="project-link">{{ link.text }}</a>
-        {% endfor %}
-      </div>
-    </div>
+    </li>
   {% endfor %}
-</div>
+</ul>

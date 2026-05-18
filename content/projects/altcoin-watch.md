@@ -1,5 +1,6 @@
 ---
 title: Altcoin.watch
+byline: Social-media token discovery dashboard.
 preview: /img/placeholder.png
 tech: Typescript, mongo, react
 tags: projects

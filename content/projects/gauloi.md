@@ -1,5 +1,6 @@
 ---
 title: Gauloi
+byline: Eth<>BTC atomic swaps with a peer-to-peer orderbook. The first attempt.
 preview: /img/placeholder.png
 tech: Rust, BDK, TS.
 tags: projects

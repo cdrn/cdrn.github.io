@@ -1,5 +1,6 @@
 ---
 title: Eth Melbourne
+byline: Official Melbourne Ethereum meetup.
 preview: /img/eth-melb.png
 tech: eye contact, peer to peer communication
 tags: projects

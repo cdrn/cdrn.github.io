@@ -1,5 +1,6 @@
 ---
 title: Gauloi v2
+byline: Intent-based cross-chain stablecoin settlement with optimistic disputes.
 preview: /img/placeholder.png
 tech: Solidity, Foundry, EIP-712, Next.js, TypeScript
 tags: projects
