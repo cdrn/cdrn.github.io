@@ -36,7 +36,9 @@ Lovely piece of tech by ricmoo. Some thoughts here:
 - the chip used is a ESP32-C3 with a digital signing peripheral. I think this uses HMAC for key isolation. Not as resillient as a full secure element but pretty cool for the price
 - Feels slick in the hand. Comes pre loaded with Rick Astley
 
-Very excited to see where this one goes. I think low cost is the future of hardware peripherals. ![firefly pixie](firefly-pixie.png)
+Very excited to see where this one goes. I think low cost is the future of hardware peripherals.
+
+{% image "./firefly-pixie.png", "Firefly Pixie hardware wallet", ["300px", "600px"], "(max-width: 991px) 300px, 600px" %}
 
 [talk](https://www.youtube.com/watch?v=NWdMDKMZdpQ)
 
