@@ -7,7 +7,7 @@ tags: [thonk, crypto, stablecoins, settlement, orderflow]
 
 ## 1. Preamble
 
-![Stone relief of a Phoenician gauloi - a round-hulled merchant vessel with a single square sail, carved in ancient Sidon](gauloi.jpeg)
+{% image "./gauloi.jpeg", "Stone relief of a Phoenician gauloi - a round-hulled merchant vessel with a single square sail, carved in ancient Sidon", ["400px", "800px"], "(max-width: 991px) 400px, 800px" %}
 
 A gauloi didn't care about gods or kings. Only cargo and ports. A Phoenician merchant ship that connected economies which couldn't trade directly. The analogy felt apt.
 

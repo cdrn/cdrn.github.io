@@ -195,13 +195,11 @@ article {
 	margin-bottom: 0.5em;
 }
 
-/* Reading time */
-.reading-time {
-	display: block;
-	margin: 1em 0;
-	padding: 0.5em 0;
-	border-top: 1px solid var(--text-color);
-	border-bottom: 1px solid var(--text-color);
+/* Reading time (inline next to post date) */
+.post-reading-time {
+	margin-left: 1em;
+	color: var(--text-color-muted);
+	font-size: 0.9em;
 }
 
 /* Typography - improved hierarchy */
@@ -266,6 +264,19 @@ a[href]:hover {
 
 .links-nextprev li {
 	margin: 0.5em 0;
+}
+
+/* Footer */
+footer {
+	margin-top: 4em;
+	padding: 1em 0;
+	border-top: 1px solid var(--text-color);
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+}
+
+footer a {
+	color: var(--text-color-muted);
 }
 
 /* Two-column layout */
