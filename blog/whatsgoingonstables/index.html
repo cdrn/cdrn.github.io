@@ -4,10 +4,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stablecoins: What happens when the risk free rate is money</title>
-    <meta
-    name="description" content="a quick run down on the coming war for your yield">
+    <meta name="description" content="a quick run down on the coming war for your yield">
+    <link rel="canonical" href="https://cdrn.xyz/blog/whatsgoingonstables/">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta property="og:title" content="Stablecoins: What happens when the risk free rate is money">
+    <meta property="og:description" content="a quick run down on the coming war for your yield">
+    <meta property="og:url" content="https://cdrn.xyz/blog/whatsgoingonstables/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Chris Doran">
+    <meta property="og:image" content="https://cdrn.xyz/apple-touch-icon.png">
+    <meta property="article:published_time" content="2025-03-27">
+    <meta property="article:author" content="Chris">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Stablecoins: What happens when the risk free rate is money">
+    <meta name="twitter:description" content="a quick run down on the coming war for your yield">
+    <meta name="twitter:image" content="https://cdrn.xyz/apple-touch-icon.png">
     <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Chris Doran">
     <link rel="alternate" href="/feed/feed.json" type="application/json" title="Chris Doran">
     
@@ -378,13 +390,11 @@ article {
 	margin-bottom: 0.5em;
 }
 
-/* Reading time */
-.reading-time {
-	display: block;
-	margin: 1em 0;
-	padding: 0.5em 0;
-	border-top: 1px solid var(--text-color);
-	border-bottom: 1px solid var(--text-color);
+/* Reading time (inline next to post date) */
+.post-reading-time {
+	margin-left: 1em;
+	color: var(--text-color-muted);
+	font-size: 0.9em;
 }
 
 /* Typography - improved hierarchy */
@@ -449,6 +459,19 @@ a[href]:hover {
 
 .links-nextprev li {
 	margin: 0.5em 0;
+}
+
+/* Footer */
+footer {
+	margin-top: 4em;
+	padding: 1em 0;
+	border-top: 1px solid var(--text-color);
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+}
+
+footer a {
+	color: var(--text-color-muted);
 }
 
 /* Two-column layout */
@@ -568,7 +591,7 @@ th {
         document.documentElement.setAttribute('data-theme', theme);
       })();
     </script>
-    <script src="/js/theme-toggle.js"> </script>
+    <script src="/js/theme-toggle.js" defer></script>
   </head>
   <body>
     <a href="#skip" class="visually-hidden">Skip to content</a>
@@ -591,17 +614,21 @@ th {
                 </li>
             </ul>
           </nav>
-          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">DARK</button>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"></button>
+          <script>
+            // Set initial label synchronously so dark-mode loads don't flash "DARK"
+            document.getElementById('theme-toggle').textContent =
+              (localStorage.getItem('theme') || 'light') === 'light' ? 'DARK' : 'LIGHT';
+          </script>
         </div>
       </div>
     </header>
     <main id="skip">
       
-      
 <h1>Stablecoins: What happens when the risk free rate is money</h1>
 
 <ul class="post-metadata">
-	<li><time datetime="2025-03-27">27 March 2025</time></li>
+	<li><time datetime="2025-03-27">27 March 2025</time><span class="post-reading-time">7 min read</span></li>
 	<li><a href="/tags/thonk/" class="post-tag">thonk</a>,</li>
 	<li><a href="/tags/stablecoins/" class="post-tag">stablecoins</a>,</li>
 	<li><a href="/tags/defi/" class="post-tag">DEFI</a>,</li>
@@ -634,7 +661,11 @@ th {
 </ul>
 
     </main>
-    <footer></footer>
+    <footer>
+      <a href="/feed/feed.xml">RSS</a>
+      ·
+      <a href="https://github.com/cdrn/cdrn.github.io">Source</a>
+    </footer>
     <!-- Current page: /blog/whatsgoingonstables/ -->
     <!-- 100% privacy-first analytics -->
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>

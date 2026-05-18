@@ -4,10 +4,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gauloi: compliant cross-chain settlement</title>
-    <meta
-    name="description" content="Intent-based optimistic settlement for stablecoins with maker-side compliance">
+    <meta name="description" content="Intent-based optimistic settlement for stablecoins with maker-side compliance">
+    <link rel="canonical" href="https://cdrn.xyz/blog/gauloi/">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta property="og:title" content="Gauloi: compliant cross-chain settlement">
+    <meta property="og:description" content="Intent-based optimistic settlement for stablecoins with maker-side compliance">
+    <meta property="og:url" content="https://cdrn.xyz/blog/gauloi/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Chris Doran">
+    <meta property="og:image" content="https://cdrn.xyz/apple-touch-icon.png">
+    <meta property="article:published_time" content="2026-02-10">
+    <meta property="article:author" content="Chris">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Gauloi: compliant cross-chain settlement">
+    <meta name="twitter:description" content="Intent-based optimistic settlement for stablecoins with maker-side compliance">
+    <meta name="twitter:image" content="https://cdrn.xyz/apple-touch-icon.png">
     <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Chris Doran">
     <link rel="alternate" href="/feed/feed.json" type="application/json" title="Chris Doran">
     
@@ -378,13 +390,11 @@ article {
 	margin-bottom: 0.5em;
 }
 
-/* Reading time */
-.reading-time {
-	display: block;
-	margin: 1em 0;
-	padding: 0.5em 0;
-	border-top: 1px solid var(--text-color);
-	border-bottom: 1px solid var(--text-color);
+/* Reading time (inline next to post date) */
+.post-reading-time {
+	margin-left: 1em;
+	color: var(--text-color-muted);
+	font-size: 0.9em;
 }
 
 /* Typography - improved hierarchy */
@@ -449,6 +459,19 @@ a[href]:hover {
 
 .links-nextprev li {
 	margin: 0.5em 0;
+}
+
+/* Footer */
+footer {
+	margin-top: 4em;
+	padding: 1em 0;
+	border-top: 1px solid var(--text-color);
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+}
+
+footer a {
+	color: var(--text-color-muted);
 }
 
 /* Two-column layout */
@@ -568,7 +591,7 @@ th {
         document.documentElement.setAttribute('data-theme', theme);
       })();
     </script>
-    <script src="/js/theme-toggle.js"> </script>
+    <script src="/js/theme-toggle.js" defer></script>
   </head>
   <body>
     <a href="#skip" class="visually-hidden">Skip to content</a>
@@ -591,17 +614,21 @@ th {
                 </li>
             </ul>
           </nav>
-          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">DARK</button>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"></button>
+          <script>
+            // Set initial label synchronously so dark-mode loads don't flash "DARK"
+            document.getElementById('theme-toggle').textContent =
+              (localStorage.getItem('theme') || 'light') === 'light' ? 'DARK' : 'LIGHT';
+          </script>
         </div>
       </div>
     </header>
     <main id="skip">
       
-      
 <h1>Gauloi: compliant cross-chain settlement</h1>
 
 <ul class="post-metadata">
-	<li><time datetime="2026-02-10">10 February 2026</time></li>
+	<li><time datetime="2026-02-10">10 February 2026</time><span class="post-reading-time">13 min read</span></li>
 	<li><a href="/tags/thonk/" class="post-tag">thonk</a>,</li>
 	<li><a href="/tags/crypto/" class="post-tag">crypto</a>,</li>
 	<li><a href="/tags/stablecoins/" class="post-tag">stablecoins</a>,</li>
@@ -610,7 +637,7 @@ th {
 </ul>
 
 <h2 id="1-preamble" tabindex="-1">1. Preamble <a class="header-anchor" href="#1-preamble">#</a></h2>
-<p><img src="gauloi.jpeg" alt="Stone relief of a Phoenician gauloi - a round-hulled merchant vessel with a single square sail, carved in ancient Sidon"></p>
+<p><picture><source type="image/avif" srcset="/img/XN8u2Rg36x-250.avif 250w" sizes="(max-width: 991px) 400px, 800px"><source type="image/webp" srcset="/img/XN8u2Rg36x-250.webp 250w" sizes="(max-width: 991px) 400px, 800px"><img alt="Stone relief of a Phoenician gauloi - a round-hulled merchant vessel with a single square sail, carved in ancient Sidon" loading="lazy" decoding="async" src="/img/XN8u2Rg36x-250.jpeg" width="250" height="201"></picture></p>
 <p>A gauloi didn't care about gods or kings. Only cargo and ports. A Phoenician merchant ship that connected economies which couldn't trade directly. The analogy felt apt.</p>
 <p>I first designed Gauloi with <a href="https://github.com/0x330a">0x330a</a>, drawing on my experience building cross-chain infrastructure at Chainflip. The <a href="https://nifty-novel-3d0.notion.site/Gauloi-overview-start-here-46c173bf028b42c985d7a6138d8d515e">original</a> was an HTLC-based atomic swap protocol with a peer-to-peer marketplace - Kademlia routing, proof-of-work spam prevention, the works. We phased it Sidon, Tyre, Carthage after the Phoenician trade cities. The thesis was simple: there's no way to swap between Bitcoin and Ethereum reliably without delegating your funds to a multisig, and multisigs get hacked. Atomic swaps solve this. Peer to peer. No intermediaries. Your funds never leave your custody.</p>
 <p>That thesis was right. The mechanism was wrong. I'll explain why, what's changed, and where this needs to go.</p>
@@ -670,7 +697,11 @@ th {
 </ul>
 
     </main>
-    <footer></footer>
+    <footer>
+      <a href="/feed/feed.xml">RSS</a>
+      ·
+      <a href="https://github.com/cdrn/cdrn.github.io">Source</a>
+    </footer>
     <!-- Current page: /blog/gauloi/ -->
     <!-- 100% privacy-first analytics -->
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>

@@ -4,17 +4,25 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tagged “devcon7”</title>
-    <meta
-    name="description" content="blög">
+    <meta name="description" content="blög">
+    <link rel="canonical" href="https://cdrn.xyz/tags/devcon7/">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta property="og:title" content="Tagged “devcon7”">
+    <meta property="og:description" content="blög">
+    <meta property="og:url" content="https://cdrn.xyz/tags/devcon7/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chris Doran">
+    <meta property="og:image" content="https://cdrn.xyz/apple-touch-icon.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Tagged “devcon7”">
+    <meta name="twitter:description" content="blög">
+    <meta name="twitter:image" content="https://cdrn.xyz/apple-touch-icon.png">
     <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Chris Doran">
     <link rel="alternate" href="/feed/feed.json" type="application/json" title="Chris Doran">
     
     <style>
-    .postlist { counter-reset: start-from 2
-  }
-* { box-sizing: border-box; }
+    * { box-sizing: border-box; }
 /* Minimal but readable styling */
 :root {
 	--font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
@@ -212,13 +220,11 @@ article {
 	margin-bottom: 0.5em;
 }
 
-/* Reading time */
-.reading-time {
-	display: block;
-	margin: 1em 0;
-	padding: 0.5em 0;
-	border-top: 1px solid var(--text-color);
-	border-bottom: 1px solid var(--text-color);
+/* Reading time (inline next to post date) */
+.post-reading-time {
+	margin-left: 1em;
+	color: var(--text-color-muted);
+	font-size: 0.9em;
 }
 
 /* Typography - improved hierarchy */
@@ -283,6 +289,19 @@ a[href]:hover {
 
 .links-nextprev li {
 	margin: 0.5em 0;
+}
+
+/* Footer */
+footer {
+	margin-top: 4em;
+	padding: 1em 0;
+	border-top: 1px solid var(--text-color);
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+}
+
+footer a {
+	color: var(--text-color-muted);
 }
 
 /* Two-column layout */
@@ -402,7 +421,7 @@ th {
         document.documentElement.setAttribute('data-theme', theme);
       })();
     </script>
-    <script src="/js/theme-toggle.js"> </script>
+    <script src="/js/theme-toggle.js" defer></script>
   </head>
   <body>
     <a href="#skip" class="visually-hidden">Skip to content</a>
@@ -425,15 +444,18 @@ th {
                 </li>
             </ul>
           </nav>
-          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">DARK</button>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"></button>
+          <script>
+            // Set initial label synchronously so dark-mode loads don't flash "DARK"
+            document.getElementById('theme-toggle').textContent =
+              (localStorage.getItem('theme') || 'light') === 'light' ? 'DARK' : 'LIGHT';
+          </script>
         </div>
       </div>
     </header>
     <main id="skip">
       
-      
 <h1>Tagged “devcon7”</h1>
-
 
 
 <ul class="postlist">
@@ -447,7 +469,7 @@ th {
       <div class="postlist-meta">
         <time class="postlist-date" datetime="2024-10-12">12 October 2024</time>
         
-          <span class="postlist-reading-time">4 MIN READ</span>
+          <span class="postlist-reading-time">5 MIN READ</span>
         
       </div>
       
@@ -482,7 +504,11 @@ th {
 
 
     </main>
-    <footer></footer>
+    <footer>
+      <a href="/feed/feed.xml">RSS</a>
+      ·
+      <a href="https://github.com/cdrn/cdrn.github.io">Source</a>
+    </footer>
     <!-- Current page: /tags/devcon7/ -->
     <!-- 100% privacy-first analytics -->
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
