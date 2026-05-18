@@ -4,19 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sigil</title>
-    <meta name="description" content="Claude can sign, but never see.">
+    <meta name="description" content="Claude can sign, but never see. MCP for managing crypto keys.">
     <link rel="canonical" href="https://cdrn.xyz/projects/sigil/">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <meta property="og:title" content="Sigil">
-    <meta property="og:description" content="Claude can sign, but never see.">
+    <meta property="og:description" content="Claude can sign, but never see. MCP for managing crypto keys.">
     <meta property="og:url" content="https://cdrn.xyz/projects/sigil/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Chris Doran">
     <meta property="og:image" content="https://cdrn.xyz/apple-touch-icon.png">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Sigil">
-    <meta name="twitter:description" content="Claude can sign, but never see.">
+    <meta name="twitter:description" content="Claude can sign, but never see. MCP for managing crypto keys.">
     <meta name="twitter:image" content="https://cdrn.xyz/apple-touch-icon.png">
     <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Chris Doran">
     <link rel="alternate" href="/feed/feed.json" type="application/json" title="Chris Doran">
@@ -595,8 +595,8 @@ th {
 
 
 <div class="project-body">
-<p>A local signing tool and Claude Code MCP integration. Claude (or any LLM agent) can request signatures for Ethereum transactions, EIP-191 personal messages, or EIP-712 typed data — but never sees the key material, only opaque handles like <code>eth:executor</code>. Keys are encrypted at rest with XChaCha20-Poly1305 + Argon2id, held in process memory only after explicit unlock from a separate terminal, and zeroized on shutdown. A policy engine bounds what each key can sign (chain ID, destination allowlist, per-tx value cap, function-selector allowlist).</p>
-<p>Born out of wanting to delegate on-chain work to agentic tooling without handing them my keys. Pre-alpha — the MCP server, CLI, unlock flow, and static policy checks all work end-to-end, but don't point it at real funds yet.</p>
+<p>A local signing tool and Claude Code MCP integration. Claude (or any LLM agent) can request signatures for Ethereum transactions, EIP-191 personal messages, or EIP-712 typed data, but never sees the key material, only opaque handles like <code>eth:executor</code>. Keys are encrypted at rest with XChaCha20-Poly1305 + Argon2id, held in process memory only after explicit unlock from a separate terminal, and zeroized on shutdown. A policy engine bounds what each key can sign (chain ID, destination allowlist, per-tx value cap, function-selector allowlist).</p>
+<p>Born out of wanting to delegate on-chain work to agentic tooling without handing them my keys.</p>
 
 </div>
 
