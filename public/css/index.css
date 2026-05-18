@@ -10,8 +10,10 @@
 	--text-color-link: #0000ee;
 	--text-color-link-visited: #551a8b;
 	--text-color-muted: #666666;
+	--border-color: #d4d4d4;
+	--code-bg: #f2f2f2;
 
-	--max-width: 90ch;
+	--max-width: 72ch;
 }
 
 [data-theme="dark"] {
@@ -20,6 +22,8 @@
 	--text-color-link: #6b9bd1;
 	--text-color-link-visited: #8a7fc4;
 	--text-color-muted: #999999;
+	--border-color: #333333;
+	--code-bg: #2a2a2a;
 }
 
 /* Basic reset */
@@ -56,7 +60,7 @@ body {
 header {
 	margin-bottom: 2em;
 	padding-bottom: 1em;
-	border-bottom: 1px solid var(--text-color);
+	border-bottom: 1px solid var(--border-color);
 }
 
 .header-main {
@@ -106,7 +110,7 @@ header {
 	font-family: var(--font-family);
 	padding: 2px 8px;
 	margin-left: 1em;
-	border: 1px solid var(--text-color);
+	border: 1px solid var(--border-color);
 	background: var(--background-color);
 	color: var(--text-color);
 	cursor: pointer;
@@ -116,6 +120,64 @@ header {
 /* Main content */
 main {
 	padding: 0;
+}
+
+/* Visually hidden (a11y skip link, etc.) */
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.visually-hidden:focus {
+	position: static;
+	width: auto;
+	height: auto;
+	margin: 0;
+	overflow: visible;
+	clip: auto;
+	white-space: normal;
+}
+
+/* Tag filter pills */
+.tag-filter {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4em;
+	margin: 1em 0 2em;
+}
+
+.tag-pill {
+	font-family: var(--font-family);
+	font-size: 0.85em;
+	padding: 0.2em 0.7em;
+	border: 1px solid var(--border-color);
+	background: transparent;
+	color: var(--text-color-muted);
+	cursor: pointer;
+	border-radius: 999px;
+	line-height: 1.5;
+}
+
+.tag-pill:hover {
+	color: var(--text-color);
+	border-color: var(--text-color-muted);
+}
+
+.tag-pill.active {
+	background: var(--text-color);
+	color: var(--background-color);
+	border-color: var(--text-color);
+}
+
+.postlist-footer-link {
+	margin-top: 1.5em;
 }
 
 /* Post list - readable */
@@ -128,7 +190,7 @@ main {
 .postlist-item {
 	margin-bottom: 2.5em;
 	padding-bottom: 1.5em;
-	border-bottom: 1px solid var(--text-color);
+	border-bottom: 1px solid var(--border-color);
 }
 
 .postlist-link {
@@ -202,6 +264,52 @@ article {
 	font-size: 0.9em;
 }
 
+/* Table of contents for long posts (collapsed by default) */
+.toc {
+	margin: 1.5em 0;
+	font-size: 0.95em;
+}
+
+.toc > summary {
+	cursor: pointer;
+	color: var(--text-color-muted);
+	font-size: 0.85em;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	width: fit-content;
+}
+
+.toc > summary:hover {
+	color: var(--text-color);
+}
+
+.toc[open] > summary {
+	margin-bottom: 0.75em;
+}
+
+.toc ol {
+	list-style: none;
+	margin: 0;
+	padding-left: 0;
+}
+
+.toc ol ol {
+	padding-left: 1.5em;
+}
+
+.toc li {
+	margin: 0.25em 0;
+}
+
+.toc a {
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.toc a:hover {
+	text-decoration: underline;
+}
+
 /* Typography - improved hierarchy */
 h1, h2, h3, h4, h5, h6 {
 	font-weight: bold;
@@ -240,6 +348,13 @@ code {
 	font-size: 0.9em;
 }
 
+/* Inline code (not the highlighted blocks Prism owns) */
+:not(pre) > code {
+	background: var(--code-bg);
+	padding: 0.1em 0.35em;
+	border-radius: 3px;
+}
+
 /* Links - classic web style */
 a[href] {
 	color: var(--text-color-link);
@@ -258,7 +373,7 @@ a[href]:hover {
 	list-style: none;
 	padding: 0;
 	margin: 2em 0;
-	border-top: 1px solid var(--text-color);
+	border-top: 1px solid var(--border-color);
 	padding-top: 1em;
 }
 
@@ -270,7 +385,7 @@ a[href]:hover {
 footer {
 	margin-top: 4em;
 	padding: 1em 0;
-	border-top: 1px solid var(--text-color);
+	border-top: 1px solid var(--border-color);
 	font-size: 0.9em;
 	color: var(--text-color-muted);
 }
@@ -308,14 +423,14 @@ footer a {
 .project-card {
 	margin-bottom: 2em;
 	padding-bottom: 1.5em;
-	border-bottom: 1px solid var(--text-color);
+	border-bottom: 1px solid var(--border-color);
 	overflow: hidden;
 }
 
 .project-preview {
 	max-width: 100%;
 	height: auto;
-	border: 1px solid var(--text-color);
+	border: 1px solid var(--border-color);
 	margin: 0 0 0.5em;
 }
 
@@ -381,7 +496,7 @@ table {
 }
 
 th, td {
-	border: 1px solid var(--text-color);
+	border: 1px solid var(--border-color);
 	padding: 0.5em;
 	text-align: left;
 }

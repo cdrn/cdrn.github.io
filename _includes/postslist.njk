@@ -1,6 +1,7 @@
 <ul class="postlist">
   {% for post in postslist | reverse %}
-    <li class="postlist-item{% if post.url == url %} postlist-item-active{% endif %}">
+    {%- set postTags = post.data.tags | filterTagList -%}
+    <li class="postlist-item{% if post.url == url %} postlist-item-active{% endif %}" data-tags="{{ postTags | join(' ') }}">
       <a href="{{ post.url }}" class="postlist-link">
         {% if post.data.title %}
           {{ post.data.title }}
@@ -11,7 +12,7 @@
       <div class="postlist-meta">
         <time class="postlist-date" datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate }}</time>
         {% if post.templateContent %}
-          <span class="postlist-reading-time">{{ post.templateContent | readingTime }} MIN READ</span>
+          <span class="postlist-reading-time">{{ post.templateContent | readingTime }} min read</span>
         {% endif %}
       </div>
       {% if post.data.description %}

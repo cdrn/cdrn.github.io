@@ -2,10 +2,10 @@
 title: "Gauloi: compliant cross-chain settlement"
 description: Intent-based optimistic settlement for stablecoins with maker-side compliance
 date: 2026-02-10
-tags: [thonk, crypto, stablecoins, settlement, orderflow]
+tags: [thonk, stablecoins, settlement, orderflow, compliance]
 ---
 
-## 1. Preamble
+## Preamble
 
 {% image "./gauloi.jpeg", "Stone relief of a Phoenician gauloi - a round-hulled merchant vessel with a single square sail, carved in ancient Sidon", ["400px", "800px"], "(max-width: 991px) 400px, 800px" %}
 
@@ -15,7 +15,7 @@ I first designed Gauloi with [0x330a](https://github.com/0x330a), drawing on my 
 
 That thesis was right. The mechanism was wrong. I'll explain why, what's changed, and where this needs to go.
 
-## 2. What was wrong with v1
+## What was wrong with v1
 
 The original Gauloi used hashed time-locked contracts. HTLCs are elegant in theory: two parties lock funds on their respective chains, a shared hash locks both sides, revealing the preimage on one chain lets you claim on the other. Atomic. Trustless. No multisig.
 
@@ -33,7 +33,7 @@ Since then, the landscape shifted. Intent-based architectures emerged. The stabl
 
 Gauloi v2 keeps the peer-to-peer ethos and drops the settlement primitive that made it unusable.
 
-## 3. The gap
+## The gap
 
 I've written about these problems individually over the past year. Why stablecoin issuers will [compete on yield](https://cdrn.xyz/blog/whatsgoingonstables/) until the spread between money and t-bills trends toward zero. Why `blacklist()` [catches static funds](https://cdrn.xyz/blog/speed-of-law-vs-blocks/) and dumb attackers but can't touch anything that moves - 44 minutes to freeze an address that can exit in 12 seconds. Why bridges lost the value war to aggregators and solvers who own the orderflow.
 
@@ -43,7 +43,7 @@ On the retail side it's more mundane but equally broken. User holds USDT because
 
 What's missing is a settlement layer that doesn't care which stablecoin you hold or which chain it's on, handles compliance at the participant level rather than the protocol level, and is cheap enough that makers can quote tight on what are essentially 1:1 swaps.
 
-## 4. Why stablecoins
+## Why stablecoins
 
 The original Gauloi was for BTC/ETH. Why narrow the scope?
 
@@ -55,7 +55,7 @@ The other reason is that stablecoins are where the compliance problem is most ac
 
 And there's a market timing argument. An explosion of issuer-specific stablecoins is coming - every bank, every fintech, every payments company wants to issue one. For payments to actually work, they need to interoperate. Circle's [CCTP](https://www.circle.com/cross-chain-transfer-protocol) handles USDC-to-USDC across chains but it's a single-issuer solution, not a market. Nobody is building the neutral settlement layer for cross-stable, cross-chain flows with compliance that actually works. That's the gap.
 
-## 5. The architecture
+## The architecture
 
 Gauloi is an intent-based cross-chain settlement protocol for stablecoins.
 
@@ -73,7 +73,7 @@ Settlement being optimistic rather than atomic is the key evolution from v1. Ins
 
 If this sounds like [Across](https://across.to), it should. Across pioneered intent-based optimistic settlement for cross-chain transfers, using UMA's oracle for dispute resolution with a 60-minute batch window. It works. But Across is a general purpose bridge with permissionless relayers - anyone can fill, there's no screening, and the protocol makes no distinction between a Coinbase treasury wallet and a Lazarus proxy. That's fine for ETH and general token transfers where compliance is someone else's problem. It's not fine for stablecoins, where the issuer has a freeze function and the regulator has an opinion. Gauloi takes the intent-plus-optimistic-settlement model and makes compliance native to the quote flow. The maker screens before filling. The protocol stays neutral but the participants aren't anonymous to each other. Same settlement guarantees, different trust model at the edges.
 
-## 6. Compliance as a market function
+## Compliance as a market function
 
 The standard approach to on-chain compliance is access control. Whitelist addresses, blacklist addresses, freeze at the contract level. I've [argued before](https://cdrn.xyz/blog/speed-of-law-vs-blocks/) that this is structurally broken - too slow, too blunt, trivially routed around by anyone who understands the asset model.
 
@@ -87,7 +87,7 @@ These aren't separate systems. Same liquidity, same makers, same settlement laye
 
 This is how risk gets priced everywhere else. Insurance premiums, credit spreads, lending rates - they're all compliance and risk decisions expressed as prices rather than binary access controls. On-chain, we've been doing it backwards: blocking at the gate instead of pricing at the quote.
 
-## 7. Maker economics
+## Maker economics
 
 Stablecoin-to-stablecoin pairs are quasi-pegged. USDC/USDT, USDT/PYUSD, USDC/EURC - these aren't volatile. Inventory risk for a maker here is a totally different animal to holding ETH against USDC.
 
@@ -97,7 +97,7 @@ All in, for a clean counterparty on a major stablecoin pair across liquid chains
 
 Better screening means tighter quotes which means more orderflow which means more revenue. Compliance capability gets directly monetised. The maker with the best risk infrastructure wins.
 
-## 8. The wedge
+## The wedge
 
 The go-to-market isn't consumer. Not yet.
 
@@ -109,7 +109,7 @@ The endgame is consumer settlement. "Pay in any stable" - user holds USDT, merch
 
 B2B first gets volume without needing distribution. Institutional second builds the compliance track record. Consumer third is where the orderflow moat compounds, but only once the plumbing is proven.
 
-## 9. What's next
+## What's next
 
 Part 2 will cover mechanism design in detail: dispute resolution, fraud proof construction, game theory of the optimistic settlement window, and the smart contract architecture. There are hard problems in there, particularly around cross-chain finality guarantees and what happens when the dispute window spans chains with different security models.
 

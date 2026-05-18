@@ -2,7 +2,7 @@
 title: "Gauloi Part 3: disputes"
 description: Cross-chain dispute resolution, collusion resistance, and the path from committee attestation to storage proofs
 date: 2026-03-19
-tags: [thonk, crypto, stablecoins, settlement, game theory]
+tags: [thonk, stablecoins, settlement]
 ---
 
 ## The problem
