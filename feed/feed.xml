@@ -4,12 +4,43 @@
 	<subtitle>Notes on stablecoins, cross-chain settlement, orderflow, and the protocol design underneath.</subtitle>
 	<link href="https://cdrn.xyz/feed/feed.xml" rel="self"/>
 	<link href="https://cdrn.xyz/"/>
-	<updated>2026-03-19T00:00:00Z</updated>
+	<updated>2026-05-18T00:00:00Z</updated>
 	<id>https://cdrn.xyz</id>
 	<author>
 		<name>Chris</name>
 		<email>chrisdoran at protonmail dot com</email>
 	</author>
+	
+	<entry>
+		<title>A tick shaped honeypot</title>
+		<link href="https://cdrn.xyz/blog/tick-honeypot/"/>
+		<updated>2026-05-18T00:00:00Z</updated>
+		<id>https://cdrn.xyz/blog/tick-honeypot/</id>
+		<content type="html">&lt;h2 id=&quot;the-setup&quot; tabindex=&quot;-1&quot;&gt;The setup &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.xyz/blog/tick-honeypot/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Felt like dipping my toes back into MEV this weekend. I don&#39;t have the connections with block builders to tackle the greats, so I spun up some infra to watch contract deploys across eth, arb, base, to get a feel for the current meta.&lt;/p&gt;
+&lt;p&gt;Ended up looking at arbitrageur and sniper bots, trying to imitate their strategies on Base. Centralised sequencer and volume seemed ideal. Ran the scanner for about 36 hours.&lt;/p&gt;
+&lt;p&gt;No fat 5bip arbs. Which makes sense.&lt;/p&gt;
+&lt;p&gt;What I did find was honeypots. Hundreds of them. And not your grandpa&#39;s salmonella honeypots either.&lt;/p&gt;
+&lt;h2 id=&quot;a-trap-so-deranged&quot; tabindex=&quot;-1&quot;&gt;A trap so deranged &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.xyz/blog/tick-honeypot/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;There exists a trap so deranged, so unhinged I hesitate to even post about it. But I will. Because I&#39;m brave. And the best part is it leaves the &lt;code&gt;_transfer&lt;/code&gt; function completely unmodified.&lt;/p&gt;
+&lt;p&gt;The trick is in Uniswap V3&#39;s tick-based liquidity.&lt;/p&gt;
+&lt;p&gt;We set up a V3 pool whose current tick is at &lt;code&gt;n&lt;/code&gt;. We provide liquidity at &lt;code&gt;[n+200, upper_bound]&lt;/code&gt;, single-sided, all token, zero WETH. The current tick is below our range, so the position holds 100% token by definition.&lt;/p&gt;
+&lt;p&gt;A buy (victim) moves the tick up. It fast-forwards through the empty 200-tick gap (no liquidity, no cost), enters our range, and starts trading against our tokens. WETH accumulates in the pool. Buyer walks away with tokens, thinking they got in early.&lt;/p&gt;
+&lt;p&gt;A sell moves the tick down. There is no initialised tick below the current one. The swap has nothing to trade against and reverts. Tokens are now unsellable on this pool. No liquidity at the current tick.&lt;/p&gt;
+&lt;p&gt;We own the LP NFT. When we want out, we call &lt;code&gt;decreaseLiquidity&lt;/code&gt; + &lt;code&gt;collect&lt;/code&gt; on the position manager. We get our remaining tokens back plus all the WETH buyers paid in. On-chain it looks like a normal LP exit.&lt;/p&gt;
+&lt;h2 id=&quot;why-this-works&quot; tabindex=&quot;-1&quot;&gt;Why this works &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.xyz/blog/tick-honeypot/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Bots that make money run real sims. Bots that don&#39;t read selectors and assume V2 mechanics fall for it. The honeypots, I believe, are priced for the second group.&lt;/p&gt;
+&lt;h2 id=&quot;receipts&quot; tabindex=&quot;-1&quot;&gt;Receipts &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.xyz/blog/tick-honeypot/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;If you want to inspect one yourself:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Pool: &lt;a href=&quot;https://basescan.org/address/0xA3c1ee252A9A6A999fE79Bc3E75D71FFF586c4Bf&quot;&gt;0xA3c1...c4Bf&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Operator: &lt;a href=&quot;https://basescan.org/address/0x91508018F75F93AF3C8C7C501757f1Db57f19804&quot;&gt;0x9150...9804&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Mint tx: &lt;a href=&quot;https://basescan.org/tx/0x31cc55cbceab450f&quot;&gt;0x31cc55cb...&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;NPM holding the LP NFT: &lt;a href=&quot;https://basescan.org/address/0x03a520b32C04BF3bEEf7BEb72E919cf822Ed34f1&quot;&gt;0x03a5...34f1&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Stay safe out there. Sim your doompas. Don&#39;t get caught.&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Gauloi Part 3: disputes</title>

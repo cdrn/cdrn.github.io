@@ -3,26 +3,339 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tagged “thonk”</title>
-    <meta name="description" content="Notes on stablecoins, cross-chain settlement, orderflow, and the protocol design underneath.">
-    <link rel="canonical" href="https://cdrn.xyz/tags/thonk/">
+    <title>A tick shaped honeypot</title>
+    <meta name="description" content="A Uniswap V3 honeypot that leaves the ERC20 contract completely untouched.">
+    <link rel="canonical" href="https://cdrn.xyz/blog/tick-honeypot/">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <meta property="og:title" content="Tagged “thonk”">
-    <meta property="og:description" content="Notes on stablecoins, cross-chain settlement, orderflow, and the protocol design underneath.">
-    <meta property="og:url" content="https://cdrn.xyz/tags/thonk/">
-    <meta property="og:type" content="website">
+    <meta property="og:title" content="A tick shaped honeypot">
+    <meta property="og:description" content="A Uniswap V3 honeypot that leaves the ERC20 contract completely untouched.">
+    <meta property="og:url" content="https://cdrn.xyz/blog/tick-honeypot/">
+    <meta property="og:type" content="article">
     <meta property="og:site_name" content="Chris Doran">
     <meta property="og:image" content="https://cdrn.xyz/apple-touch-icon.png">
+    <meta property="article:published_time" content="2026-05-18">
+    <meta property="article:author" content="Chris">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Tagged “thonk”">
-    <meta name="twitter:description" content="Notes on stablecoins, cross-chain settlement, orderflow, and the protocol design underneath.">
+    <meta name="twitter:title" content="A tick shaped honeypot">
+    <meta name="twitter:description" content="A Uniswap V3 honeypot that leaves the ERC20 contract completely untouched.">
     <meta name="twitter:image" content="https://cdrn.xyz/apple-touch-icon.png">
     <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Chris Doran">
     <link rel="alternate" href="/feed/feed.json" type="application/json" title="Chris Doran">
     
     <style>
-    * { box-sizing: border-box; }
+    /**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: black;
+	background: none;
+	text-shadow: 0 1px white;
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+@media print {
+	code[class*="language-"],
+	pre[class*="language-"] {
+		text-shadow: none;
+	}
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #f5f2f0;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: slategray;
+}
+
+.token.punctuation {
+	color: #999;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #9a6e3a;
+	/* This background color was intended by the author of this theme. */
+	background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #07a;
+}
+
+.token.function,
+.token.class-name {
+	color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #e90;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+[data-theme="dark"] {
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
 /* Minimal but readable styling */
 :root {
 	--font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
@@ -588,180 +901,38 @@ th {
     </header>
     <main id="skip">
       
-<h1>Tagged “thonk”</h1>
-
-
-<ul class="postlist">
-  <li class="postlist-item" data-tags="thonk mev">
-      <a href="/blog/tick-honeypot/" class="postlist-link">
-        
-          A tick shaped honeypot
-        
-      </a>
-      <div class="postlist-meta">
-        <time class="postlist-date" datetime="2026-05-18">18 May 2026</time>
-        
-          <span class="postlist-reading-time">3 min read</span>
-        
-      </div>
-      
-        <p class="postlist-excerpt">A Uniswap V3 honeypot that leaves the ERC20 contract completely untouched.</p>
-      
-      <div class="postlist-tags">
-        
-          
-          <a href="/tags/thonk/" class="post-tag">thonk</a>
-        
-          
-          <a href="/tags/mev/" class="post-tag">mev</a>
-        
-      </div>
-    </li>
-  <li class="postlist-item" data-tags="thonk stablecoins settlement">
-      <a href="/blog/gauloi-pt3/" class="postlist-link">
-        
-          Gauloi Part 3: disputes
-        
-      </a>
-      <div class="postlist-meta">
-        <time class="postlist-date" datetime="2026-03-19">19 March 2026</time>
-        
-          <span class="postlist-reading-time">24 min read</span>
-        
-      </div>
-      
-        <p class="postlist-excerpt">Cross-chain dispute resolution, collusion resistance, and the path from committee attestation to storage proofs</p>
-      
-      <div class="postlist-tags">
-        
-          
-          <a href="/tags/thonk/" class="post-tag">thonk</a>
-        
-          
-          <a href="/tags/stablecoins/" class="post-tag">stablecoins</a>
-        
-          
-          <a href="/tags/settlement/" class="post-tag">settlement</a>
-        
-      </div>
-    </li>
-  <li class="postlist-item" data-tags="thonk stablecoins settlement orderflow compliance">
-      <a href="/blog/gauloi/" class="postlist-link">
-        
-          Gauloi: compliant cross-chain settlement
-        
-      </a>
-      <div class="postlist-meta">
-        <time class="postlist-date" datetime="2026-02-10">10 February 2026</time>
-        
-          <span class="postlist-reading-time">13 min read</span>
-        
-      </div>
-      
-        <p class="postlist-excerpt">Intent-based optimistic settlement for stablecoins with maker-side compliance</p>
-      
-      <div class="postlist-tags">
-        
-          
-          <a href="/tags/thonk/" class="post-tag">thonk</a>
-        
-          
-          <a href="/tags/stablecoins/" class="post-tag">stablecoins</a>
-        
-          
-          <a href="/tags/settlement/" class="post-tag">settlement</a>
-        
-          
-          <a href="/tags/orderflow/" class="post-tag">orderflow</a>
-        
-          
-          <a href="/tags/compliance/" class="post-tag">compliance</a>
-        
-      </div>
-    </li>
-  <li class="postlist-item" data-tags="thonk orderflow">
-      <a href="/blog/bridgenotproduct/" class="postlist-link">
-        
-          The bridge is not the product
-        
-      </a>
-      <div class="postlist-meta">
-        <time class="postlist-date" datetime="2025-12-30">30 December 2025</time>
-        
-          <span class="postlist-reading-time">6 min read</span>
-        
-      </div>
-      
-        <p class="postlist-excerpt">Or why value accrues to orderflow</p>
-      
-      <div class="postlist-tags">
-        
-          
-          <a href="/tags/thonk/" class="post-tag">thonk</a>
-        
-          
-          <a href="/tags/orderflow/" class="post-tag">orderflow</a>
-        
-      </div>
-    </li>
-  <li class="postlist-item" data-tags="thonk stablecoins compliance">
-      <a href="/blog/speed-of-law-vs-blocks/" class="postlist-link">
-        
-          On the speed of law versus the speed of blocks
-        
-      </a>
-      <div class="postlist-meta">
-        <time class="postlist-date" datetime="2025-12-27">27 December 2025</time>
-        
-          <span class="postlist-reading-time">9 min read</span>
-        
-      </div>
-      
-        <p class="postlist-excerpt">Freeze functions, fast exits, and the limits of on-chain compliance</p>
-      
-      <div class="postlist-tags">
-        
-          
-          <a href="/tags/thonk/" class="post-tag">thonk</a>
-        
-          
-          <a href="/tags/stablecoins/" class="post-tag">stablecoins</a>
-        
-          
-          <a href="/tags/compliance/" class="post-tag">compliance</a>
-        
-      </div>
-    </li>
-  <li class="postlist-item" data-tags="thonk stablecoins">
-      <a href="/blog/whatsgoingonstables/" class="postlist-link">
-        
-          Stablecoins: What happens when the risk free rate is money
-        
-      </a>
-      <div class="postlist-meta">
-        <time class="postlist-date" datetime="2025-03-27">27 March 2025</time>
-        
-          <span class="postlist-reading-time">7 min read</span>
-        
-      </div>
-      
-        <p class="postlist-excerpt">a quick run down on the coming war for your yield</p>
-      
-      <div class="postlist-tags">
-        
-          
-          <a href="/tags/thonk/" class="post-tag">thonk</a>
-        
-          
-          <a href="/tags/stablecoins/" class="post-tag">stablecoins</a>
-        
-      </div>
-    </li>
-  
+<h1>A tick shaped honeypot</h1><ul class="post-metadata">
+	<li><time datetime="2026-05-18">18 May 2026</time><span class="post-reading-time">3 min read</span></li>
+	<li><a href="/tags/thonk/" class="post-tag">thonk</a>,</li>
+	<li><a href="/tags/mev/" class="post-tag">mev</a></li>
 </ul>
 
-<p>See <a href="/tags/">all tags</a>.</p>
+<h2 id="the-setup" tabindex="-1">The setup <a class="header-anchor" href="#the-setup">#</a></h2>
+<p>Felt like dipping my toes back into MEV this weekend. I don't have the connections with block builders to tackle the greats, so I spun up some infra to watch contract deploys across eth, arb, base, to get a feel for the current meta.</p>
+<p>Ended up looking at arbitrageur and sniper bots, trying to imitate their strategies on Base. Centralised sequencer and volume seemed ideal. Ran the scanner for about 36 hours.</p>
+<p>No fat 5bip arbs. Which makes sense.</p>
+<p>What I did find was honeypots. Hundreds of them. And not your grandpa's salmonella honeypots either.</p>
+<h2 id="a-trap-so-deranged" tabindex="-1">A trap so deranged <a class="header-anchor" href="#a-trap-so-deranged">#</a></h2>
+<p>There exists a trap so deranged, so unhinged I hesitate to even post about it. But I will. Because I'm brave. And the best part is it leaves the <code>_transfer</code> function completely unmodified.</p>
+<p>The trick is in Uniswap V3's tick-based liquidity.</p>
+<p>We set up a V3 pool whose current tick is at <code>n</code>. We provide liquidity at <code>[n+200, upper_bound]</code>, single-sided, all token, zero WETH. The current tick is below our range, so the position holds 100% token by definition.</p>
+<p>A buy (victim) moves the tick up. It fast-forwards through the empty 200-tick gap (no liquidity, no cost), enters our range, and starts trading against our tokens. WETH accumulates in the pool. Buyer walks away with tokens, thinking they got in early.</p>
+<p>A sell moves the tick down. There is no initialised tick below the current one. The swap has nothing to trade against and reverts. Tokens are now unsellable on this pool. No liquidity at the current tick.</p>
+<p>We own the LP NFT. When we want out, we call <code>decreaseLiquidity</code> + <code>collect</code> on the position manager. We get our remaining tokens back plus all the WETH buyers paid in. On-chain it looks like a normal LP exit.</p>
+<h2 id="why-this-works" tabindex="-1">Why this works <a class="header-anchor" href="#why-this-works">#</a></h2>
+<p>Bots that make money run real sims. Bots that don't read selectors and assume V2 mechanics fall for it. The honeypots, I believe, are priced for the second group.</p>
+<h2 id="receipts" tabindex="-1">Receipts <a class="header-anchor" href="#receipts">#</a></h2>
+<p>If you want to inspect one yourself:</p>
+<ul>
+<li>Pool: <a href="https://basescan.org/address/0xA3c1ee252A9A6A999fE79Bc3E75D71FFF586c4Bf">0xA3c1...c4Bf</a></li>
+<li>Operator: <a href="https://basescan.org/address/0x91508018F75F93AF3C8C7C501757f1Db57f19804">0x9150...9804</a></li>
+<li>Mint tx: <a href="https://basescan.org/tx/0x31cc55cbceab450f">0x31cc55cb...</a></li>
+<li>NPM holding the LP NFT: <a href="https://basescan.org/address/0x03a520b32C04BF3bEEf7BEb72E919cf822Ed34f1">0x03a5...34f1</a></li>
+</ul>
+<p>Stay safe out there. Sim your doompas. Don't get caught.</p>
 
+<ul class="links-nextprev"><li>Previous: <a href="/blog/gauloi-pt3/">Gauloi Part 3: disputes</a></li>
+</ul>
 
     </main>
     <footer>
@@ -769,7 +940,7 @@ th {
       ·
       <a href="https://github.com/cdrn/cdrn.github.io">Source</a>
     </footer>
-    <!-- Current page: /tags/thonk/ -->
+    <!-- Current page: /blog/tick-honeypot/ -->
     <!-- 100% privacy-first analytics -->
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
   </body>
