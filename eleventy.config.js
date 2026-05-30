@@ -1,5 +1,6 @@
 const { DateTime } = require("luxon");
 const markdownItAnchor = require("markdown-it-anchor");
+const markdownItFootnote = require("markdown-it-footnote");
 
 const pluginRss = require("@11ty/eleventy-plugin-rss");
 const pluginSyntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
@@ -152,6 +153,13 @@ module.exports = function(eleventyConfig) {
 			slugify: eleventyConfig.getFilter("slugify"),
 			linkify: true,
 		});
+		mdLib.use(markdownItFootnote);
+		// Drop the [brackets] around the superscript marker (default is "[1]")
+		mdLib.renderer.rules.footnote_caption = (tokens, idx) => {
+			let n = Number(tokens[idx].meta.id + 1).toString();
+			if (tokens[idx].meta.subId > 0) n += `:${tokens[idx].meta.subId}`;
+			return n;
+		};
 	});
 
 	// Features to make your build faster (when you need them)
