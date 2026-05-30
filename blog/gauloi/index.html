@@ -715,6 +715,45 @@ a[href]:hover {
 	padding-top: 1em;
 }
 
+/* Footnotes */
+.footnote-ref {
+	font-size: 0.75em;
+	margin: 0 0.05em;
+}
+
+.footnote-ref a {
+	text-decoration: none;
+}
+
+.footnotes-sep {
+	margin-top: 3em;
+	border: 0;
+	border-top: 1px solid var(--border-color);
+}
+
+.footnotes {
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+	margin-top: 1.5em;
+}
+
+.footnotes-list {
+	padding-left: 1.5em;
+}
+
+.footnotes-list li {
+	margin: 0.6em 0;
+}
+
+.footnotes a {
+	color: inherit;
+}
+
+.footnote-backref {
+	text-decoration: none;
+	margin-left: 0.3em;
+}
+
 .links-nextprev li {
 	margin: 0.5em 0;
 }
@@ -902,7 +941,7 @@ th {
     <main id="skip">
       
 <h1>Gauloi: compliant cross-chain settlement</h1><ul class="post-metadata">
-	<li><time datetime="2026-02-10">10 February 2026</time><span class="post-reading-time">13 min read</span></li>
+	<li><time datetime="2026-02-10">10 February 2026</time><span class="post-reading-time">14 min read</span></li>
 	<li><a href="/tags/thonk/" class="post-tag">thonk</a>,</li>
 	<li><a href="/tags/stablecoins/" class="post-tag">stablecoins</a>,</li>
 	<li><a href="/tags/settlement/" class="post-tag">settlement</a>,</li>
@@ -914,12 +953,12 @@ th {
 <h2 id="preamble" tabindex="-1">Preamble <a class="header-anchor" href="#preamble">#</a></h2>
 <p><picture><source type="image/avif" srcset="/img/XN8u2Rg36x-250.avif 250w" sizes="(max-width: 991px) 400px, 800px"><source type="image/webp" srcset="/img/XN8u2Rg36x-250.webp 250w" sizes="(max-width: 991px) 400px, 800px"><img alt="Stone relief of a Phoenician gauloi - a round-hulled merchant vessel with a single square sail, carved in ancient Sidon" loading="lazy" decoding="async" src="/img/XN8u2Rg36x-250.jpeg" width="250" height="201"></picture></p>
 <p>A gauloi didn't care about gods or kings. Only cargo and ports. A Phoenician merchant ship that connected economies which couldn't trade directly. The analogy felt apt.</p>
-<p>I first designed Gauloi with <a href="https://github.com/0x330a">0x330a</a>, drawing on my experience building cross-chain infrastructure at Chainflip. The <a href="https://nifty-novel-3d0.notion.site/Gauloi-overview-start-here-46c173bf028b42c985d7a6138d8d515e">original</a> was an HTLC-based atomic swap protocol with a peer-to-peer marketplace - Kademlia routing, proof-of-work spam prevention, the works. We phased it Sidon, Tyre, Carthage after the Phoenician trade cities. The thesis was simple: there's no way to swap between Bitcoin and Ethereum reliably without delegating your funds to a multisig, and multisigs get hacked. Atomic swaps solve this. Peer to peer. No intermediaries. Your funds never leave your custody.</p>
+<p>I first designed Gauloi with <a href="https://github.com/0x330a">0x330a</a>, drawing on my experience building cross-chain infrastructure at Chainflip. The original<sup class="footnote-ref"><a href="#fn1" id="fnref1">1</a></sup> was an HTLC-based atomic swap protocol with a peer-to-peer marketplace - Kademlia routing, proof-of-work spam prevention, the works. We phased it Sidon, Tyre, Carthage after the Phoenician trade cities. The thesis was simple: there's no way to swap between Bitcoin and Ethereum reliably without delegating your funds to a multisig, and multisigs get hacked. Atomic swaps solve this. Peer to peer. No intermediaries. Your funds never leave your custody.</p>
 <p>That thesis was right. The mechanism was wrong. I'll explain why, what's changed, and where this needs to go.</p>
 <h2 id="what-was-wrong-with-v1" tabindex="-1">What was wrong with v1 <a class="header-anchor" href="#what-was-wrong-with-v1">#</a></h2>
 <p>The original Gauloi used hashed time-locked contracts. HTLCs are elegant in theory: two parties lock funds on their respective chains, a shared hash locks both sides, revealing the preimage on one chain lets you claim on the other. Atomic. Trustless. No multisig.</p>
 <p>In practice, they have three problems that make them unusable as a spot market.</p>
-<p>First, the optionality problem. James Prestwich <a href="https://prestwi.ch">wrote about this</a> extensively. In an HTLC swap, until funds are committed on both ends and the preimage is revealed, either party can back out. The worst case: your counterparty locks funds, you lock funds, and they simply... wait. They now hold a free option on the underlying asset for the duration of the timelock. Price moves in their favour? Complete the swap. Doesn't? Let it expire. You've given someone a free call option and locked your capital to do it.</p>
+<p>First, the optionality problem. James Prestwich wrote about this extensively<sup class="footnote-ref"><a href="#fn2" id="fnref2">2</a></sup>. In an HTLC swap, until funds are committed on both ends and the preimage is revealed, either party can back out. The worst case: your counterparty locks funds, you lock funds, and they simply... wait. They now hold a free option on the underlying asset for the duration of the timelock. Price moves in their favour? Complete the swap. Doesn't? Let it expire. You've given someone a free call option and locked your capital to do it.</p>
 <p>Second, the UX. Both parties must be online. Timelocks must be staggered across chains with different block times and finality guarantees. Reorgs can create race conditions where a preimage is revealed too close to expiry. You need watchtowers to enforce claims if you go offline. The surface area of things that can go wrong is large, and every edge case locks someone's funds for hours.</p>
 <p>Third, coincidence of wants. HTLCs don't have pools or passive liquidity - just two people who happen to want opposite sides of the same trade at the same time. Fine for large bilateral trades. Doesn't scale to a market.</p>
 <p>We knew these problems when we wrote the original spec. We thought reputation systems, spam prevention and market makers quoting implied volatility over the timelock window could patch them. They can't. The problems are structural to HTLCs, not incidental.</p>
@@ -967,6 +1006,15 @@ th {
 <p>Part 2 will cover mechanism design in detail: dispute resolution, fraud proof construction, game theory of the optimistic settlement window, and the smart contract architecture. There are hard problems in there, particularly around cross-chain finality guarantees and what happens when the dispute window spans chains with different security models.</p>
 <p>If you're a maker, a bridge operator, or an institution that moves stablecoins cross-chain and hates every option available - I want to talk.</p>
 <p>cdrn.xyz</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p><a href="https://nifty-novel-3d0.notion.site/Gauloi-overview-start-here-46c173bf028b42c985d7a6138d8d515e">https://nifty-novel-3d0.notion.site/Gauloi-overview-start-here-46c173bf028b42c985d7a6138d8d515e</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p><a href="https://prestwi.ch">https://prestwi.ch</a> <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
 
 <ul class="links-nextprev"><li>Previous: <a href="/blog/bridgenotproduct/">The bridge is not the product</a></li><li>Next: <a href="/blog/gauloi-pt2/">Gauloi Part 2: mechanism design</a></li>
 </ul>

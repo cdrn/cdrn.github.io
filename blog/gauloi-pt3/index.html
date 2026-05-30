@@ -715,6 +715,45 @@ a[href]:hover {
 	padding-top: 1em;
 }
 
+/* Footnotes */
+.footnote-ref {
+	font-size: 0.75em;
+	margin: 0 0.05em;
+}
+
+.footnote-ref a {
+	text-decoration: none;
+}
+
+.footnotes-sep {
+	margin-top: 3em;
+	border: 0;
+	border-top: 1px solid var(--border-color);
+}
+
+.footnotes {
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+	margin-top: 1.5em;
+}
+
+.footnotes-list {
+	padding-left: 1.5em;
+}
+
+.footnotes-list li {
+	margin: 0.6em 0;
+}
+
+.footnotes a {
+	color: inherit;
+}
+
+.footnote-backref {
+	text-decoration: none;
+	margin-left: 0.3em;
+}
+
 .links-nextprev li {
 	margin: 0.5em 0;
 }
@@ -914,9 +953,9 @@ th {
 <p>The setup: a maker claims they filled an intent on chain B. They submit a transaction hash to the escrow on chain A. The escrow needs to decide whether that fill actually happened. It can't check chain B directly. Someone has to tell it, and that someone might be lying.</p>
 <p>This is a cross-chain oracle problem. Every bridge has it. The question is who you trust and what happens when that trust breaks.</p>
 <h2 id="cross-chain-oracles-in-the-wild" tabindex="-1">Cross chain oracles in the wild <a class="header-anchor" href="#cross-chain-oracles-in-the-wild">#</a></h2>
-<p><a href="https://across.to/">Across</a> uses UMA's <a href="https://medium.com/uma-project/umas-data-verification-mechanism-3c5342759eb8">Data Verification Mechanism</a>. When a dispute is raised, it escalates to the full set of UMA tokenholders, who vote in a commit-reveal Schelling point game over 48 hours. Voters who get it wrong or don't show up lose 0.1% of their staked UMA. Voters on the correct side earn the slashed tokens pro-rata.</p>
+<p><a href="https://across.to/">Across</a> uses UMA's Data Verification Mechanism<sup class="footnote-ref"><a href="#fn1" id="fnref1">1</a></sup>. When a dispute is raised, it escalates to the full set of UMA tokenholders, who vote in a commit-reveal Schelling point game over 48 hours. Voters who get it wrong or don't show up lose 0.1% of their staked UMA. Voters on the correct side earn the slashed tokens pro-rata.</p>
 <p>This works. The security budget is backed by UMA's market cap, the attestor set (tokenholders) is economically independent from the relayers, and the slashing mechanism forces participation. But it introduces a hard dependency on UMA infrastructure, a governance token, and a 48-96 hour resolution time. The governance token part is the bit I wanted to avoid. Token voting is a rug pull factory and the last thing I want on a settlement layer is a speculative asset backing its security model.</p>
-<p>LayerZero's <a href="https://docs.layerzero.network/v2/developers/evm/lzread/overview">lzRead</a> lets you read state from chain B on chain A via their Decentralized Verifier Network. Cleaner than running your own attestor set, but it's still a trust assumption on LayerZero's infra. For a protocol positioning itself as neutral settlement infrastructure, depending on someone else's oracle feels wrong.</p>
+<p>LayerZero's lzRead<sup class="footnote-ref"><a href="#fn2" id="fnref2">2</a></sup> lets you read state from chain B on chain A via their Decentralized Verifier Network. Cleaner than running your own attestor set, but it's still a trust assumption on LayerZero's infra. For a protocol positioning itself as neutral settlement infrastructure, depending on someone else's oracle feels wrong.</p>
 <p>Storage proofs. If chain A has chain B's state root (which it does for L2-L1 pairs - Arbitrum posts state roots to Ethereum, OP stack does the same), you can submit a merkle proof that a specific ERC20 transfer happened on chain B and verify it against the state root on-chain. No attestors, no oracles, just maths. But it only works for chain pairs with shared state roots, verification is gas-heavy, and each chain pair needs its own adapter. Different chains, different proof formats, different failure modes. Hard to reason about uniformly.</p>
 <h2 id="what-i-built-first" tabindex="-1">What I built first <a class="header-anchor" href="#what-i-built-first">#</a></h2>
 <p>I wanted one mechanism that works the same way on every chain pair, doesn't depend on external infrastructure, and doesn't need a governance token. One failure mode I can reason about formally. That means an attestor council.</p>
@@ -937,7 +976,7 @@ th {
 </ol>
 <p>The cost of this attack is zero. The reward is the fill amount. That's obviously broken.</p>
 <h2 id="fixing-it" tabindex="-1">Fixing it <a class="header-anchor" href="#fixing-it">#</a></h2>
-<p>The same idea that secures fill detection - the <a href="https://docs.optimism.io/stack/fault-proofs/fp-security">single honest challenger model</a> - can be applied to resolution itself. Optimism assumes state roots are valid unless someone proves otherwise. One honest watcher is enough. Apply the same logic to dispute outcomes.</p>
+<p>The same idea that secures fill detection - the single honest challenger model<sup class="footnote-ref"><a href="#fn3" id="fnref3">3</a></sup> - can be applied to resolution itself. Optimism assumes state roots are valid unless someone proves otherwise. One honest watcher is enough. Apply the same logic to dispute outcomes.</p>
 <h3 id="resolution-challenge-window" tabindex="-1">Resolution challenge window <a class="header-anchor" href="#resolution-challenge-window">#</a></h3>
 <p><code>resolveDispute()</code> no longer produces a final outcome. It proposes one. A 24-hour challenge window opens after resolution, during which attestor identities and stake weights are recorded on-chain. Anyone who thinks the resolution was wrong can challenge it.</p>
 <p>When challenged, round-1 attestors are excluded from the second round and face slashing if the resolution is overturned. That's the fix for costless collusion - attestors now risk their stake when they sign.</p>
@@ -1409,11 +1448,24 @@ slashAmount = min(fillAmount * multiplier, makerStake)
 <p>Attestors are unpaid during normal operation. Their rewards come from slashed stakes and lost bonds, so if disputes are rare (which is the goal), they rarely earn anything. UMA pays staking rewards to tokenholders regardless of dispute activity. We don't. The bet is that makers are already watching the network for their fill operations and attestation is one RPC call plus a signature, near zero marginal cost. If that turns out to be wrong, slashing for non-participation is a known mechanism we can bolt on later.</p>
 <p>Finally, and this is arguably the biggest hole, staking does too many jobs. A staked maker is meant to provide sybil resistance, capacity cap, voting power, and be a fraud deterrent. These goals may not always be congruent. In the current design, being staked proves you have capital, but doesn't necessarily prove independence of incentive. In this way, the protocol's operation is still dependent on a critical mass of (weighted) honest capital.</p>
 <h2 id="the-committee-is-scaffolding" tabindex="-1">The committee is scaffolding <a class="header-anchor" href="#the-committee-is-scaffolding">#</a></h2>
-<p>Arbitrum posts state assertions to L1 via RollupCore. After the challenge period (~7 days, shrinking <a href="https://docs.arbitrum.io/how-arbitrum-works/bold/gentle-introduction">with BOLD</a>), the assertion is confirmed and canonical. It commits to all L2 blocks, receipts, and event logs. A proof that a USDC transfer happened is a chain of Merkle inclusions from event log up to confirmed assertion on L1. There's no new oracle here; you're reading data the rollup already publishes for its own security. The OP stack works the same way with a different proof format. Each chain pair gets its own verifier behind an <code>IProofVerifier</code> interface.</p>
+<p>Arbitrum posts state assertions to L1 via RollupCore. After the challenge period (~7 days, shrinking with BOLD<sup class="footnote-ref"><a href="#fn4" id="fnref4">4</a></sup>), the assertion is confirmed and canonical. It commits to all L2 blocks, receipts, and event logs. A proof that a USDC transfer happened is a chain of Merkle inclusions from event log up to confirmed assertion on L1. There's no new oracle here; you're reading data the rollup already publishes for its own security. The OP stack works the same way with a different proof format. Each chain pair gets its own verifier behind an <code>IProofVerifier</code> interface.</p>
 <p>Gauloi would still settle optimistically. Proofs only come into play on dispute, and at that point the maker waits for the assertion to hit L1 and submits.</p>
 <p>The migration: right now, makers are the attestors. Known participants, social trust, owner admin. Before mainnet, the protocol needs emergency exits, a timelock admin, and graceful shutdown. After that, <code>settleWithProof(order, proof)</code> on the escrow verifies a storage proof that the fill happened and skips the dispute window entirely. That gives three resolution paths tried in order: proof (trustless), optimistic (no dispute), and committee (fallback). As proof coverage expands per chain pair, the committee handles fewer disputes. Each pair migrates independently, and eventually the committee only exists for exotic chains without proof infrastructure.</p>
 <p>The whale problem, the sybil problem, staking doing too many jobs; all of these can be obviated by Merkle inclusion once cross-chain proof infrastructure catches up. Or I build my own. But for now, this is a good enough, consistent enough solution to keep makers honest.</p>
 <p><a href="https://github.com/cdrn/gauloi-v2">gauloi-v2 on github</a></p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p><a href="https://medium.com/uma-project/umas-data-verification-mechanism-3c5342759eb8">https://medium.com/uma-project/umas-data-verification-mechanism-3c5342759eb8</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p><a href="https://docs.layerzero.network/v2/developers/evm/lzread/overview">https://docs.layerzero.network/v2/developers/evm/lzread/overview</a> <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p><a href="https://docs.optimism.io/stack/fault-proofs/fp-security">https://docs.optimism.io/stack/fault-proofs/fp-security</a> <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p><a href="https://docs.arbitrum.io/how-arbitrum-works/bold/gentle-introduction">https://docs.arbitrum.io/how-arbitrum-works/bold/gentle-introduction</a> <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
 
 <ul class="links-nextprev"><li>Previous: <a href="/blog/gauloi-pt2/">Gauloi Part 2: mechanism design</a></li><li>Next: <a href="/blog/tick-honeypot/">A tick shaped honeypot</a></li>
 </ul>
