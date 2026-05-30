@@ -7,15 +7,15 @@ tags: [thonk, stablecoins, compliance]
 
 ## 1. A short history of blacklist()
 
-Since the beginning, stablecoins have shipped with [freeze](https://etherscan.io/address/0x43506849d7c04f9138d1a2050bbf3a0c054402dd#code#F15#L71), [blacklist](https://etherscan.io/address/0xdac17f958d2ee523a2206206994597c13d831ec7#code#L269) functions. And it makes sense - centralised stablecoin issuers, exposed to US treasuries and ostensibly operating a privately issued US dollar need to have some compliance story - and the blacklist gets used. [Tether has frozen $3.3B](https://crypto.news/tether-freezes-30x-more-value-than-circle-as-stablecoin-blacklists-surge/) since 2023, working with 275 law enforcement agencies across 59 jurisdictions. Circle has been surprisingly more conservative - $109M, court orders only. There is a real capability that exists today.
+Since the beginning, stablecoins have shipped with freeze[^usdc-freeze], blacklist[^usdt-blacklist] functions. And it makes sense - centralised stablecoin issuers, exposed to US treasuries and ostensibly operating a privately issued US dollar need to have some compliance story - and the blacklist gets used. Tether has frozen $3.3B[^tether-freezes] since 2023, working with 275 law enforcement agencies across 59 jurisdictions. Circle has been surprisingly more conservative - $109M, court orders only. There is a real capability that exists today.
 
-The GENIUS act [codifies](https://www.banking.senate.gov/newsroom/majority/myth-vs-fact-the-genius-act) this: issuers must have "technological capability to comply with any lawful order to freeze funds". What was a nod is now a mandate, but mandating a capability doesn't necessarily make it fast.
+The GENIUS act codifies[^genius] this: issuers must have "technological capability to comply with any lawful order to freeze funds". What was a nod is now a mandate, but mandating a capability doesn't necessarily make it fast.
 
 ## 2. The race to broadcast
 
 A swap on Thorchain settles in under a minute. Uniswap is one block, which is 12 seconds on Ethereum mainnet and soon to be 6. The attacker's workflow is: receive funds, approve, swap, done. The future blacklistee is  holding native BTC or ETH which no blacklist function in the world can touch (That's the point!). Hackers and bad actors are constrained only by how quickly they can dump funds into liquid pools, and whether there are sufficient willing, able or ignorant marketmakers to replenish them. For small denominations, this is almost meaningless and there is sufficient liquidity in pools to cover substantial amounts of the hacked funds in the next block.
 
-The issuer side is a different story. Tether runs a multisig. This means the issuer is forced to play an awkward co-ordination game for every action. One needs multiple signers to coordinate, sign, broadcast for every blacklist action. Amlbot [clocked their average observed latency](https://blog.amlbot.com/tether-freeze-gap-becomes-laundering-loophole-for-criminals-an-analytical-report/) at 44 minutes from freeze decision to on-chain enforcement. During that window, $78mm walked out of addresses that had been publicly flagged. The blacklist transaction was still pending. One can imagine this arms race escalating with faster signing (threshold signatures), improved governance procedures, a contract that makes blacklisting simpler and requires fewer quorum. However, one can also imagine Lazarus bribing a block builder for top of block to get their transfers in before blacklist function calls. Are issuers now required to have sophisticated MEV capabilities? We can move the problem around the plate, but it appears, not solve it.
+The issuer side is a different story. Tether runs a multisig. This means the issuer is forced to play an awkward co-ordination game for every action. One needs multiple signers to coordinate, sign, broadcast for every blacklist action. Amlbot clocked their average observed latency[^amlbot] at 44 minutes from freeze decision to on-chain enforcement. During that window, $78mm walked out of addresses that had been publicly flagged. The blacklist transaction was still pending. One can imagine this arms race escalating with faster signing (threshold signatures), improved governance procedures, a contract that makes blacklisting simpler and requires fewer quorum. However, one can also imagine Lazarus bribing a block builder for top of block to get their transfers in before blacklist function calls. Are issuers now required to have sophisticated MEV capabilities? We can move the problem around the plate, but it appears, not solve it.
 
 The law imagines freeze like a bank: point at account, flip a bit, funds stop, but a bank ledger is a single database with atomic writes. on-chain you're broadcasting a tx that has to confirm, and the attacker is broadcasting theirs at the same time. It's a race. and 12 seconds vs 44 minutes isn't a race.
 
@@ -23,13 +23,13 @@ The law imagines freeze like a bank: point at account, flip a bit, funds stop, b
 
 Here's the standing tally
 
-Bybit, February 2025: [Lazarus Group takes $1.5B](https://www.bleepingcomputer.com/news/security/fbi-confirms-lazarus-hackers-were-behind-15b-bybit-crypto-heist/) in ETH and staking derivatives. They don't touch USDC. Within 48 hours, $160M has been converted to native BTC via THORChain. Within 10 days, the entire haul - all $1.4B - has been [swapped and distributed](https://beincrypto.com/lazarus-laundered-bybit-hack-funds-via-thorchain/) across 6,954 wallets. THORChain processes $5.5B in volume during the laundering window. Chainflip handles some of the flow too. A THORChain core developer [resigns in protest](https://cointelegraph.com/news/timeline-bybit-lost-ethereum-north-korea-money-launder). Validators attempt to block the transactions and get overruled by the protocol's governance.
+Bybit, February 2025: Lazarus Group takes $1.5B[^bybit-fbi] in ETH and staking derivatives. They don't touch USDC. Within 48 hours, $160M has been converted to native BTC via THORChain. Within 10 days, the entire haul - all $1.4B - has been swapped and distributed[^thorchain-launder] across 6,954 wallets. THORChain processes $5.5B in volume during the laundering window. Chainflip handles some of the flow too. A THORChain core developer resigns in protest[^thorchain-resign]. Validators attempt to block the transactions and get overruled by the protocol's governance.
 
-Tether [freezes $181k](https://www.ccn.com/education/crypto/ben-zhou-bybit-1-5-billion-hack-explained/). That's 0.012% of the stolen funds.
+Tether freezes $181k[^bybit-freeze]. That's 0.012% of the stolen funds.
 
 The attackers understood the asset model. They never held freezable assets for longer than it took to swap out of them. The blacklist function was irrelevant - not because it didn't work, but because they routed around it entirely.
 
-Multichain, July 2023: An attacker, possibly an insider, [drains $126M](https://www.chainalysis.com/blog/multichain-exploit-july-2023/) from the bridge protocol. Around $65M is USDC and USDT. And then... nothing. No swaps. No bridges. The funds sit in the exploit addresses. Within 24 hours, Circle and Tether freeze $67.5M - over half the total haul. That money is still frozen. A New York bankruptcy court [extended the freeze order](https://www.theblock.co/post/377094/multichain-extends-freeze-stolen-usdc) in October 2025.
+Multichain, July 2023: An attacker, possibly an insider, drains $126M[^multichain] from the bridge protocol. Around $65M is USDC and USDT. And then... nothing. No swaps. No bridges. The funds sit in the exploit addresses. Within 24 hours, Circle and Tether freeze $67.5M - over half the total haul. That money is still frozen. A New York bankruptcy court extended the freeze order[^multichain-freeze] in October 2025.
 
 Same capability. Wildly different outcomes. The difference isn't the freeze function. It's attacker competence.
 
@@ -65,3 +65,14 @@ Beyond this, "compliant cross-chain" might not be coherent under AMM architectur
 
 Intent based systems have the capability to be different. The maker sees the counterparty before filling. They can screen, price the risk, or walk away. The protocol stays neutral. The compliance decision moves to the entity with something to lose and the risk gets priced into the spread rather than blocked at the gate. In this way it might be possible to have both. An explosion of issuer-specific stablecoins is coming. For payments to work, they need to interoperate. The first group to do this correctly (on neutral ground) stands to take the whole pie, but the devil is in the details. The immutable parts must be immutable, and the makers responsible for their own fills. I will expand on this in a later post. For now: freeze catches what sits still. It's a dragnet for the left end of the bell curve. Everything else is in motion.
 
+[^usdc-freeze]: <https://etherscan.io/address/0x43506849d7c04f9138d1a2050bbf3a0c054402dd#code#F15#L71>
+[^usdt-blacklist]: <https://etherscan.io/address/0xdac17f958d2ee523a2206206994597c13d831ec7#code#L269>
+[^tether-freezes]: <https://crypto.news/tether-freezes-30x-more-value-than-circle-as-stablecoin-blacklists-surge/>
+[^genius]: <https://www.banking.senate.gov/newsroom/majority/myth-vs-fact-the-genius-act>
+[^amlbot]: <https://blog.amlbot.com/tether-freeze-gap-becomes-laundering-loophole-for-criminals-an-analytical-report/>
+[^bybit-fbi]: <https://www.bleepingcomputer.com/news/security/fbi-confirms-lazarus-hackers-were-behind-15b-bybit-crypto-heist/>
+[^thorchain-launder]: <https://beincrypto.com/lazarus-laundered-bybit-hack-funds-via-thorchain/>
+[^thorchain-resign]: <https://cointelegraph.com/news/timeline-bybit-lost-ethereum-north-korea-money-launder>
+[^bybit-freeze]: <https://www.ccn.com/education/crypto/ben-zhou-bybit-1-5-billion-hack-explained/>
+[^multichain]: <https://www.chainalysis.com/blog/multichain-exploit-july-2023/>
+[^multichain-freeze]: <https://www.theblock.co/post/377094/multichain-extends-freeze-stolen-usdc>

@@ -15,11 +15,11 @@ This is a cross-chain oracle problem. Every bridge has it. The question is who y
 
 ## Cross chain oracles in the wild
 
-[Across](https://across.to/) uses UMA's [Data Verification Mechanism](https://medium.com/uma-project/umas-data-verification-mechanism-3c5342759eb8). When a dispute is raised, it escalates to the full set of UMA tokenholders, who vote in a commit-reveal Schelling point game over 48 hours. Voters who get it wrong or don't show up lose 0.1% of their staked UMA. Voters on the correct side earn the slashed tokens pro-rata.
+[Across](https://across.to/) uses UMA's Data Verification Mechanism[^uma-dvm]. When a dispute is raised, it escalates to the full set of UMA tokenholders, who vote in a commit-reveal Schelling point game over 48 hours. Voters who get it wrong or don't show up lose 0.1% of their staked UMA. Voters on the correct side earn the slashed tokens pro-rata.
 
 This works. The security budget is backed by UMA's market cap, the attestor set (tokenholders) is economically independent from the relayers, and the slashing mechanism forces participation. But it introduces a hard dependency on UMA infrastructure, a governance token, and a 48-96 hour resolution time. The governance token part is the bit I wanted to avoid. Token voting is a rug pull factory and the last thing I want on a settlement layer is a speculative asset backing its security model.
 
-LayerZero's [lzRead](https://docs.layerzero.network/v2/developers/evm/lzread/overview) lets you read state from chain B on chain A via their Decentralized Verifier Network. Cleaner than running your own attestor set, but it's still a trust assumption on LayerZero's infra. For a protocol positioning itself as neutral settlement infrastructure, depending on someone else's oracle feels wrong.
+LayerZero's lzRead[^lzread] lets you read state from chain B on chain A via their Decentralized Verifier Network. Cleaner than running your own attestor set, but it's still a trust assumption on LayerZero's infra. For a protocol positioning itself as neutral settlement infrastructure, depending on someone else's oracle feels wrong.
 
 Storage proofs. If chain A has chain B's state root (which it does for L2-L1 pairs - Arbitrum posts state roots to Ethereum, OP stack does the same), you can submit a merkle proof that a specific ERC20 transfer happened on chain B and verify it against the state root on-chain. No attestors, no oracles, just maths. But it only works for chain pairs with shared state roots, verification is gas-heavy, and each chain pair needs its own adapter. Different chains, different proof formats, different failure modes. Hard to reason about uniformly.
 
@@ -52,7 +52,7 @@ The cost of this attack is zero. The reward is the fill amount. That's obviously
 
 ## Fixing it
 
-The same idea that secures fill detection - the [single honest challenger model](https://docs.optimism.io/stack/fault-proofs/fp-security) - can be applied to resolution itself. Optimism assumes state roots are valid unless someone proves otherwise. One honest watcher is enough. Apply the same logic to dispute outcomes.
+The same idea that secures fill detection - the single honest challenger model[^optimism-fp] - can be applied to resolution itself. Optimism assumes state roots are valid unless someone proves otherwise. One honest watcher is enough. Apply the same logic to dispute outcomes.
 
 ### Resolution challenge window
 
@@ -558,7 +558,7 @@ Finally, and this is arguably the biggest hole, staking does too many jobs. A st
 
 ## The committee is scaffolding
 
-Arbitrum posts state assertions to L1 via RollupCore. After the challenge period (~7 days, shrinking [with BOLD](https://docs.arbitrum.io/how-arbitrum-works/bold/gentle-introduction)), the assertion is confirmed and canonical. It commits to all L2 blocks, receipts, and event logs. A proof that a USDC transfer happened is a chain of Merkle inclusions from event log up to confirmed assertion on L1. There's no new oracle here; you're reading data the rollup already publishes for its own security. The OP stack works the same way with a different proof format. Each chain pair gets its own verifier behind an `IProofVerifier` interface.
+Arbitrum posts state assertions to L1 via RollupCore. After the challenge period (~7 days, shrinking with BOLD[^bold]), the assertion is confirmed and canonical. It commits to all L2 blocks, receipts, and event logs. A proof that a USDC transfer happened is a chain of Merkle inclusions from event log up to confirmed assertion on L1. There's no new oracle here; you're reading data the rollup already publishes for its own security. The OP stack works the same way with a different proof format. Each chain pair gets its own verifier behind an `IProofVerifier` interface.
 
 Gauloi would still settle optimistically. Proofs only come into play on dispute, and at that point the maker waits for the assertion to hit L1 and submits.
 
@@ -567,3 +567,8 @@ The migration: right now, makers are the attestors. Known participants, social t
 The whale problem, the sybil problem, staking doing too many jobs; all of these can be obviated by Merkle inclusion once cross-chain proof infrastructure catches up. Or I build my own. But for now, this is a good enough, consistent enough solution to keep makers honest.
 
 [gauloi-v2 on github](https://github.com/cdrn/gauloi-v2)
+
+[^uma-dvm]: <https://medium.com/uma-project/umas-data-verification-mechanism-3c5342759eb8>
+[^lzread]: <https://docs.layerzero.network/v2/developers/evm/lzread/overview>
+[^optimism-fp]: <https://docs.optimism.io/stack/fault-proofs/fp-security>
+[^bold]: <https://docs.arbitrum.io/how-arbitrum-works/bold/gentle-introduction>

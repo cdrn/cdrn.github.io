@@ -11,7 +11,7 @@ tags: [thonk, stablecoins, settlement, orderflow, compliance]
 
 A gauloi didn't care about gods or kings. Only cargo and ports. A Phoenician merchant ship that connected economies which couldn't trade directly. The analogy felt apt.
 
-I first designed Gauloi with [0x330a](https://github.com/0x330a), drawing on my experience building cross-chain infrastructure at Chainflip. The [original](https://nifty-novel-3d0.notion.site/Gauloi-overview-start-here-46c173bf028b42c985d7a6138d8d515e) was an HTLC-based atomic swap protocol with a peer-to-peer marketplace - Kademlia routing, proof-of-work spam prevention, the works. We phased it Sidon, Tyre, Carthage after the Phoenician trade cities. The thesis was simple: there's no way to swap between Bitcoin and Ethereum reliably without delegating your funds to a multisig, and multisigs get hacked. Atomic swaps solve this. Peer to peer. No intermediaries. Your funds never leave your custody.
+I first designed Gauloi with [0x330a](https://github.com/0x330a), drawing on my experience building cross-chain infrastructure at Chainflip. The original[^gauloi-v1] was an HTLC-based atomic swap protocol with a peer-to-peer marketplace - Kademlia routing, proof-of-work spam prevention, the works. We phased it Sidon, Tyre, Carthage after the Phoenician trade cities. The thesis was simple: there's no way to swap between Bitcoin and Ethereum reliably without delegating your funds to a multisig, and multisigs get hacked. Atomic swaps solve this. Peer to peer. No intermediaries. Your funds never leave your custody.
 
 That thesis was right. The mechanism was wrong. I'll explain why, what's changed, and where this needs to go.
 
@@ -21,7 +21,7 @@ The original Gauloi used hashed time-locked contracts. HTLCs are elegant in theo
 
 In practice, they have three problems that make them unusable as a spot market.
 
-First, the optionality problem. James Prestwich [wrote about this](https://prestwi.ch) extensively. In an HTLC swap, until funds are committed on both ends and the preimage is revealed, either party can back out. The worst case: your counterparty locks funds, you lock funds, and they simply... wait. They now hold a free option on the underlying asset for the duration of the timelock. Price moves in their favour? Complete the swap. Doesn't? Let it expire. You've given someone a free call option and locked your capital to do it.
+First, the optionality problem. James Prestwich wrote about this extensively[^prestwich]. In an HTLC swap, until funds are committed on both ends and the preimage is revealed, either party can back out. The worst case: your counterparty locks funds, you lock funds, and they simply... wait. They now hold a free option on the underlying asset for the duration of the timelock. Price moves in their favour? Complete the swap. Doesn't? Let it expire. You've given someone a free call option and locked your capital to do it.
 
 Second, the UX. Both parties must be online. Timelocks must be staggered across chains with different block times and finality guarantees. Reorgs can create race conditions where a preimage is revealed too close to expiry. You need watchtowers to enforce claims if you go offline. The surface area of things that can go wrong is large, and every edge case locks someone's funds for hours.
 
@@ -116,3 +116,6 @@ Part 2 will cover mechanism design in detail: dispute resolution, fraud proof co
 If you're a maker, a bridge operator, or an institution that moves stablecoins cross-chain and hates every option available - I want to talk.
 
 cdrn.xyz
+
+[^gauloi-v1]: <https://nifty-novel-3d0.notion.site/Gauloi-overview-start-here-46c173bf028b42c985d7a6138d8d515e>
+[^prestwich]: <https://prestwi.ch>
