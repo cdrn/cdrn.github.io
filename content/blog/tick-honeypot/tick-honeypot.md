@@ -7,31 +7,31 @@ tags: [thonk, mev]
 
 ## The setup
 
-Felt like dipping my toes back into MEV this weekend. I don't have the connections with block builders to tackle the greats, so I spun up some infra to watch contract deploys across eth, arb, base, to get a feel for the current meta.
+I felt like dipping my toes back into MEV this weekend. I don't have the connections with block builders to tackle the greats, so I spun up some infra to watch contract deploys across eth, arb, base, to get a feel for the current meta.
 
-Ended up looking at arbitrageur and sniper bots, trying to imitate their strategies on Base. Centralised sequencer and volume seemed ideal. Ran the scanner for about 36 hours.
+As every good challenger does, I ended up looking at arbitrageur and sniper bots, trying to imitate their strategies on various L2s. My reasoning was: I can just fight on price with the centralised sequencer, and if I can get in on the action, maybe I can make some pocket change.
 
-No fat 5bip arbs. Which makes sense.
-
-What I did find was honeypots. Hundreds of them. And not your grandpa's salmonella honeypots either.
+Predictably, I did not find any fat 5bip arbs. But what I did find was honeypots. Hundreds of them. And not your grandpa's salmonella honeypots either.
 
 ## A trap so deranged
 
-There exists a trap so deranged, so unhinged I hesitate to even post about it. But I will. Because I'm brave. And the best part is it leaves the `_transfer` function completely unmodified.
+There exists a trap so deranged, so unhinged I hesitate to even post about it. But I will. Because I'm brave. And the best part is that unlike other honeypots, it leaves the `_transfer` function completely unmodified, making it indistinguishable from a normal ERC20 on-chain. The honeypot is not in the token contract, but in the liquidity pool.
 
-The trick is in Uniswap V3's tick-based liquidity.
+Let me walk you through it:
 
 We set up a V3 pool whose current tick is at `n`. We provide liquidity at `[n+200, upper_bound]`, single-sided, all token, zero WETH. The current tick is below our range, so the position holds 100% token by definition.
 
 A buy (victim) moves the tick up. It fast-forwards through the empty 200-tick gap (no liquidity, no cost), enters our range, and starts trading against our tokens. WETH accumulates in the pool. Buyer walks away with tokens, thinking they got in early.
 
-A sell moves the tick down. There is no initialised tick below the current one. The swap has nothing to trade against and reverts. Tokens are now unsellable on this pool. No liquidity at the current tick.
+A sell moves the tick down. There is no initialised tick below the current one. The swap has nothing to trade against and reverts. Tokens are now unsellable on this pool.
 
 We own the LP NFT. When we want out, we call `decreaseLiquidity` + `collect` on the position manager. We get our remaining tokens back plus all the WETH buyers paid in. On-chain it looks like a normal LP exit.
 
 ## Why this works
 
-Bots that make money run real sims. Bots that don't read selectors and assume V2 mechanics fall for it. The honeypots, I believe, are priced for the second group.
+Bots that make money run real sims. At the most sophisticated edge of MEV and on chain arbitrage, there exists a delicate balance between simming every transaction and reacting to events. However, there are still bots that don't read selectors and assume V2 mechanics. They see the `_transfer` function, they see the token contract, they see the pool, and they assume they can sell. They don't simulate the swap, so they don't see the revert. 
+
+The trick of MEV is believing you are the fisherman when in reality, you are the fish.
 
 ## Receipts
 
