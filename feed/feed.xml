@@ -4,7 +4,7 @@
 	<subtitle>Notes on stablecoins, cross-chain settlement, orderflow, and the protocol design underneath.</subtitle>
 	<link href="https://cdrn.xyz/feed/feed.xml" rel="self"/>
 	<link href="https://cdrn.xyz/"/>
-	<updated>2026-06-03T00:00:00Z</updated>
+	<updated>2026-06-08T00:00:00Z</updated>
 	<id>https://cdrn.xyz</id>
 	<author>
 		<name>Chris</name>
@@ -14,7 +14,7 @@
 	<entry>
 		<title>Company scrip, company store</title>
 		<link href="https://cdrn.xyz/blog/company-scrip/"/>
-		<updated>2026-06-03T00:00:00Z</updated>
+		<updated>2026-06-08T00:00:00Z</updated>
 		<id>https://cdrn.xyz/blog/company-scrip/</id>
 		<content type="html">&lt;h2 id=&quot;the-art-of-the-peg&quot; tabindex=&quot;-1&quot;&gt;The art of the peg &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.xyz/blog/company-scrip/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Though the history of crypto is short, we&#39;ve already seen multiple stablecoin depegs. The first question is always &amp;quot;what happened to the reserves?&amp;quot; - and this is by and large the most prolific failure mode we have seen to date. UST&#39;s death spiral in May 2022&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://cdrn.xyz/blog/company-scrip/&quot; id=&quot;fnref1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, USDT wobbling to 95 cents in the contagion that followed&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://cdrn.xyz/blog/company-scrip/&quot; id=&quot;fnref2&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, USDC sliding to 87 cents over the SVB collapse weekend&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://cdrn.xyz/blog/company-scrip/&quot; id=&quot;fnref3&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. All lost their peg because the market stopped trusting the backing. When someone says &amp;quot;the stablecoin depegged&amp;quot;, this is what they mean. The issuer drifted - the reserves are blown, or were never there, and the illusion of redeemability is shattered. The coin is now worth less than a dollar because the issuer is worth less than a dollar.&lt;/p&gt;
