@@ -953,9 +953,9 @@ th {
 <h2 id="a-trap-so-deranged" tabindex="-1">A trap so deranged <a class="header-anchor" href="#a-trap-so-deranged">#</a></h2>
 <p>There exists a trap so deranged, so unhinged I hesitate to even post about it. But I will. Because I'm brave. And the best part is that unlike other honeypots, it leaves the <code>_transfer</code> function completely unmodified, making it indistinguishable from a normal ERC20 on-chain. The honeypot is not in the token contract, but in the liquidity pool.</p>
 <p>Let me walk you through it:</p>
-<p>We set up a V3 pool whose current tick is at <code>n</code>. We provide liquidity at <code>[n+200, upper_bound]</code>, single-sided, all token, zero WETH. The current tick is below our range, so the position holds 100% token by definition.</p>
+<p>We set up a V3 pool whose current tick<sup class="footnote-ref"><a href="#fn1" id="fnref1">1</a></sup> is at <code>n</code>. We provide liquidity at <code>[n+200, upper_bound]</code>, single-sided, all token, zero WETH. The current tick is below our range, so the position holds 100% token by definition.</p>
 <p>A buy (victim) moves the tick up. It fast-forwards through the empty 200-tick gap (no liquidity, no cost), enters our range, and starts trading against our tokens. WETH accumulates in the pool. Buyer walks away with tokens, thinking they got in early.</p>
-<p>A sell moves the tick down. There is no initialised tick below the current one. The swap has nothing to trade against and reverts. Tokens are now unsellable on this pool.</p>
+<p>A sell moves the tick down. There is no initialised tick below the current one. The swap has nothing to trade against and reverts. Tokens are now unsellable on this pool. No liquidity at the current tick.</p>
 <p>We own the LP NFT. When we want out, we call <code>decreaseLiquidity</code> + <code>collect</code> on the position manager. We get our remaining tokens back plus all the WETH buyers paid in. On-chain it looks like a normal LP exit.</p>
 <h2 id="why-this-works" tabindex="-1">Why this works <a class="header-anchor" href="#why-this-works">#</a></h2>
 <p>Bots that make money run real sims. At the most sophisticated edge of MEV and on chain arbitrage, there exists a delicate balance between simming every transaction and reacting to events. However, there are still bots that don't read selectors and assume V2 mechanics. They see the <code>_transfer</code> function, they see the token contract, they see the pool, and they assume they can sell. They don't simulate the swap, so they don't see the revert.</p>
@@ -969,8 +969,15 @@ th {
 <li>NPM holding the LP NFT: <a href="https://basescan.org/address/0x03a520b32C04BF3bEEf7BEb72E919cf822Ed34f1">0x03a5...34f1</a></li>
 </ul>
 <p>Stay safe out there. Sim your doompas. Don't get caught.</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p><a href="https://uniswap.org/whitepaper-v3.pdf">https://uniswap.org/whitepaper-v3.pdf</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
 
-<ul class="links-nextprev"><li>Previous: <a href="/blog/gauloi-pt3/">Gauloi Part 3: disputes</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/blog/gauloi-pt3/">Gauloi Part 3: disputes</a></li><li>Next: <a href="/blog/company-scrip/">Company scrip, company store</a></li>
 </ul>
 
     </main>

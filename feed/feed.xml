@@ -4,12 +4,507 @@
 	<subtitle>Notes on stablecoins, cross-chain settlement, orderflow, and the protocol design underneath.</subtitle>
 	<link href="https://cdrn.xyz/feed/feed.xml" rel="self"/>
 	<link href="https://cdrn.xyz/"/>
-	<updated>2026-05-18T00:00:00Z</updated>
+	<updated>2026-06-03T00:00:00Z</updated>
 	<id>https://cdrn.xyz</id>
 	<author>
 		<name>Chris</name>
 		<email>chrisdoran at protonmail dot com</email>
 	</author>
+	
+	<entry>
+		<title>Company scrip, company store</title>
+		<link href="https://cdrn.xyz/blog/company-scrip/"/>
+		<updated>2026-06-03T00:00:00Z</updated>
+		<id>https://cdrn.xyz/blog/company-scrip/</id>
+		<content type="html">&lt;h2 id=&quot;the-art-of-the-peg&quot; tabindex=&quot;-1&quot;&gt;The art of the peg &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.xyz/blog/company-scrip/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Though the history of crypto is short, we&#39;ve already seen multiple stablecoin depegs. The first question is always &amp;quot;what happened to the reserves?&amp;quot; - and this is by and large the most prolific failure mode we have seen to date. UST&#39;s death spiral in May 2022&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://cdrn.xyz/blog/company-scrip/&quot; id=&quot;fnref1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, USDT wobbling to 95 cents in the contagion that followed&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://cdrn.xyz/blog/company-scrip/&quot; id=&quot;fnref2&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, USDC sliding to 87 cents over the SVB collapse weekend&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://cdrn.xyz/blog/company-scrip/&quot; id=&quot;fnref3&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. All lost their peg because the market stopped trusting the backing. When someone says &amp;quot;the stablecoin depegged&amp;quot;, this is what they mean. The issuer drifted - the reserves are blown, or were never there, and the illusion of redeemability is shattered. The coin is now worth less than a dollar because the issuer is worth less than a dollar.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cdrn.xyz/blog/company-scrip/image.png&quot; alt=&quot;if you know what this is, DM me&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Given the proliferation of stablecoin issuers, the growth of alternative venues and the need for interoperability, I would like to posit a second type of stablecoin failure mode - which is less about the coin and more about the chain. In this scenario, the issuer is fine. The reserves are fine. The peg is fine. But your USDC on chain X is worth less than your USDC on chain Y. You may already be familiar with this phenomenon. It&#39;s the basis between USDC on Arbitrum and USDC on mainnet, or the arb between USDT on Tron and USDT on ethereum. Many play the game of bips here and successfully leverage it into millions of profit. But for the average user, it&#39;s a trap. You thought you were holding a stablecoin, but you were really holding company scrip(!). The chain is the company store, and the company store sets the prices.&lt;/p&gt;
+&lt;h2 id=&quot;what-controls-venue-drift&quot; tabindex=&quot;-1&quot;&gt;What controls venue drift &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.xyz/blog/company-scrip/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;There are a few factors that influence on chain venue drift in stablecoins. A wise man once told me that price is a factor of risk and time - you&#39;ll see both listed below in what I believe is the order of importance:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Exit infrastructure.&lt;/strong&gt; Does the chain have native CCTP, a canonical bridge, or only third-party bridges? The distinction that matters isn&#39;t canonical versus third-party — it&#39;s burn-and-mint versus lock-and-mint. A token burned on the source and natively minted on the destination is the issuer&#39;s own liability on both ends — no wrapper, no locked collateral — so the cross-chain basis is bounded by the cost of burning and minting your way out. A token that arrived by locking collateral in a bridge contract is a claim on that collateral, custodied by the bridge; closing its discount means trusting the bridge, so when the bridge is in doubt the basis has no floor. It&#39;s also worth noting that the compliance burden of operating exit infrastructure is far higher than operating the token itself. The token is, traditionally, an ERC-20 (or equivalent) with a couple of blunt admin levers - Circle reaches for &lt;code&gt;blacklist()&lt;/code&gt; rarely, and it&#39;s surgical and upstream, since a blacklisted address can&#39;t even burn. The exit is where the continuous machinery lives: every burn depends on Circle&#39;s centralised attestation service, the CCTP contracts carry their own denylist, and a finalised burn is never a guaranteed mint. The bridge is the choke point - not a token they have to freeze, but a permissioned rail they have to run.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Redemption queue capacity per chain.&lt;/strong&gt; Extending the above, issuers ration throughput. CCTP&#39;s Fast Transfer Allowance is a per-chain escrow cap - when it&#39;s drawn down, fast transfers fall back to standard finality and you wait. And finality itself differs per chain: an Ethereum burn settles on a different clock than a Solana one. When the fast lane is full or the source chain is slow, the basis opens up while you wait.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Withdrawal delays.&lt;/strong&gt; L2 fast bridges versus optimistic 7-day exits. Time is a basis. The longer you&#39;re trapped, the wider the spread someone will demand to take you out early. This is the reason why CCTP is so powerful - it gives you the option to exit immediately at par, rather than waiting for the market to offer you a price. But if CCTP isn&#39;t available, your time in the company store is a function of the exit infrastructure, and the basis is a function of that time.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Censorship and sequencer monopoly.&lt;/strong&gt; Centralised sequencers (i.e, in the case of an L2) can in principle ration access to exit transactions. They mostly haven&#39;t, but the option is sitting there. A chain that can throttle your exit is charging you, even when it doesn&#39;t. The ceiling on this is L1 force-inclusion: on most rollups you can eventually push a transaction through the L1 escape hatch if the sequencer stalls you, so censorship is bounded to a delay rather than an outright block. But a delay is still a basis - a chain that can make you wait to leave sets a floor under the spread on its coin.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Maker inventory.&lt;/strong&gt; When everyone wants out of chain X at the same time, makers run out of capital on the other side. The basis blows out until inventory rebalances. The depth of the spread is a function of the depth of the maker book. In many ways, this is downstream of all the other factors. The more exit friction, the more venue drift, the more inventory risk for makers, the wider the spread.&lt;/p&gt;
+&lt;p&gt;Here&#39;s a toy model. Two chains, the same exit demand, the same maker inventory on both sides. The only differences: Chain A has a native CCTP lane, Chain B doesn&#39;t, and Chain B&#39;s bridge is slower. (CCTP here stands in for any deep-liquidity 1:1 bridge primitive: the concept is &amp;quot;fast, par-clearing native exit,&amp;quot; CCTP is just the most recognisable instance.) Crank the demand slider and watch the basis diverge.&lt;/p&gt;
+&lt;div class=&quot;venue-sim&quot;&gt;
+&lt;style&gt;
+.venue-sim {
+  margin: 2em 0;
+  font-family: inherit;
+}
+.venue-sim .vs-section {
+  margin-bottom: 1.5em;
+}
+.venue-sim .vs-section-title {
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-color-muted);
+  margin-bottom: 0.75em;
+  font-weight: 600;
+}
+.venue-sim .vs-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  margin: 0.5em 0;
+}
+.venue-sim .vs-control label {
+  font-size: 0.82em;
+  color: var(--text-color-muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1em;
+}
+.venue-sim .vs-control label span {
+  font-family: &quot;Courier New&quot;, Courier, monospace;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-color);
+  font-weight: 600;
+}
+.venue-sim input[type=&quot;range&quot;] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  background: var(--text-color-muted);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  opacity: 0.5;
+}
+.venue-sim input[type=&quot;range&quot;]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--text-color);
+  cursor: pointer;
+}
+.venue-sim input[type=&quot;range&quot;]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--text-color);
+  cursor: pointer;
+  border: none;
+}
+.venue-sim .vs-chains {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+  margin-bottom: 1.5em;
+}
+.venue-sim .vs-chain {
+  border: 1px solid var(--text-color);
+  padding: 1em;
+}
+.venue-sim .vs-chain-name {
+  font-size: 0.78em;
+  color: var(--text-color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-bottom: 0.5em;
+}
+.venue-sim .vs-basis-display {
+  font-size: 1.8em;
+  font-weight: 600;
+  font-family: &quot;Courier New&quot;, Courier, monospace;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  margin-bottom: 0.4em;
+}
+.venue-sim .vs-verdict {
+  font-size: 0.78em;
+  font-weight: 600;
+  padding: 0.2em 0.55em;
+  border: 1px solid currentColor;
+  display: inline-block;
+  margin-bottom: 1em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.venue-sim .vs-verdict-healthy { color: #2a9e4a; }
+.venue-sim .vs-verdict-stressed { color: #cc9900; }
+.venue-sim .vs-verdict-blow-out { color: #cc3333; }
+.venue-sim .vs-verdict-no-quote { color: #cc3333; }
+[data-theme=&quot;dark&quot;] .venue-sim .vs-verdict-healthy { color: #4aff7a; }
+[data-theme=&quot;dark&quot;] .venue-sim .vs-verdict-stressed { color: #ffd94a; }
+[data-theme=&quot;dark&quot;] .venue-sim .vs-verdict-blow-out { color: #ff4a4a; }
+[data-theme=&quot;dark&quot;] .venue-sim .vs-verdict-no-quote { color: #ff4a4a; }
+.venue-sim .vs-bars {
+  margin-bottom: 0.75em;
+}
+.venue-sim .vs-bar-label {
+  font-size: 0.7em;
+  color: var(--text-color-muted);
+  margin-top: 0.5em;
+  margin-bottom: 0.2em;
+  display: flex;
+  justify-content: space-between;
+}
+.venue-sim .vs-bar-track {
+  height: 8px;
+  border: 1px solid var(--text-color-muted);
+  position: relative;
+  overflow: hidden;
+}
+.venue-sim .vs-bar-fill {
+  height: 100%;
+  background: var(--text-color-muted);
+  opacity: 0.6;
+  transition: width 0.15s ease;
+}
+.venue-sim .vs-bar-fill.vs-bar-hot {
+  background: #cc3333;
+  opacity: 0.75;
+}
+[data-theme=&quot;dark&quot;] .venue-sim .vs-bar-fill.vs-bar-hot { background: #ff4a4a; }
+.venue-sim .vs-config {
+  margin-top: 1em;
+}
+.venue-sim .vs-config summary {
+  cursor: pointer;
+  color: var(--text-color-muted);
+  font-size: 0.72em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  padding: 0.25em 0;
+}
+.venue-sim svg.vs-chart {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.venue-sim .vs-chart-axis line {
+  stroke: var(--text-color-muted);
+  stroke-width: 1;
+}
+.venue-sim .vs-chart-label {
+  font-size: 9px;
+  fill: var(--text-color-muted);
+  font-family: &quot;Courier New&quot;, Courier, monospace;
+}
+.venue-sim .vs-chart-line {
+  stroke-width: 2;
+  fill: none;
+}
+.venue-sim .vs-chart-line-a { stroke: #2a9e4a; }
+.venue-sim .vs-chart-line-b { stroke: #cc3333; }
+[data-theme=&quot;dark&quot;] .venue-sim .vs-chart-line-a { stroke: #4aff7a; }
+[data-theme=&quot;dark&quot;] .venue-sim .vs-chart-line-b { stroke: #ff4a4a; }
+.venue-sim .vs-chart-current {
+  stroke: var(--text-color);
+  stroke-width: 1;
+  stroke-dasharray: 3,3;
+  opacity: 0.6;
+}
+.venue-sim .vs-chart-noquote {
+  stroke-width: 1;
+  stroke-dasharray: 2,4;
+  opacity: 0.4;
+}
+.venue-sim .vs-chart-noquote-a { stroke: #2a9e4a; }
+.venue-sim .vs-chart-noquote-b { stroke: #cc3333; }
+[data-theme=&quot;dark&quot;] .venue-sim .vs-chart-noquote-a { stroke: #4aff7a; }
+[data-theme=&quot;dark&quot;] .venue-sim .vs-chart-noquote-b { stroke: #ff4a4a; }
+.venue-sim .vs-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25em;
+  font-size: 0.72em;
+  color: var(--text-color-muted);
+  margin-top: 0.5em;
+}
+.venue-sim .vs-chart-legend span::before {
+  content: &quot;■ &quot;;
+  margin-right: 0.2em;
+}
+.venue-sim .vs-chart-legend .vs-leg-a::before { color: #2a9e4a; }
+.venue-sim .vs-chart-legend .vs-leg-b::before { color: #cc3333; }
+[data-theme=&quot;dark&quot;] .venue-sim .vs-chart-legend .vs-leg-a::before { color: #4aff7a; }
+[data-theme=&quot;dark&quot;] .venue-sim .vs-chart-legend .vs-leg-b::before { color: #ff4a4a; }
+.venue-sim .vs-chart-legend .vs-leg-cur::before {
+  content: &quot;┊ &quot;;
+  color: var(--text-color);
+}
+.venue-sim .vs-note {
+  font-size: 0.72em;
+  color: var(--text-color-muted);
+  line-height: 1.5;
+  font-style: italic;
+  margin-top: 1em;
+}
+@media (max-width: 600px) {
+  .venue-sim .vs-chains { grid-template-columns: 1fr; }
+}
+&lt;/style&gt;
+&lt;div class=&quot;vs-section&quot;&gt;
+  &lt;div class=&quot;vs-section-title&quot;&gt;Exit demand (shared)&lt;/div&gt;
+  &lt;div class=&quot;vs-control&quot;&gt;
+    &lt;label&gt;Hourly demand to exit &lt;span id=&quot;vs-v-demand&quot;&gt;$100k/hr&lt;/span&gt;&lt;/label&gt;
+    &lt;input type=&quot;range&quot; id=&quot;vs-demand&quot; min=&quot;10000&quot; max=&quot;2000000&quot; value=&quot;100000&quot; step=&quot;10000&quot;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;vs-chains&quot;&gt;
+  &lt;div class=&quot;vs-chain&quot;&gt;
+    &lt;div class=&quot;vs-chain-name&quot;&gt;Chain A — has CCTP&lt;/div&gt;
+    &lt;div class=&quot;vs-basis-display&quot; id=&quot;vs-a-basis&quot;&gt;— bps&lt;/div&gt;
+    &lt;div class=&quot;vs-verdict vs-verdict-healthy&quot; id=&quot;vs-a-verdict&quot;&gt;Healthy&lt;/div&gt;
+    &lt;div class=&quot;vs-bars&quot;&gt;
+      &lt;div class=&quot;vs-bar-label&quot;&gt;&lt;span&gt;Native lane (CCTP)&lt;/span&gt;&lt;span id=&quot;vs-a-native-pct&quot;&gt;0%&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;vs-bar-track&quot;&gt;&lt;div class=&quot;vs-bar-fill&quot; id=&quot;vs-a-native-bar&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+      &lt;div class=&quot;vs-bar-label&quot;&gt;&lt;span&gt;Maker book&lt;/span&gt;&lt;span id=&quot;vs-a-maker-pct&quot;&gt;0%&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;vs-bar-track&quot;&gt;&lt;div class=&quot;vs-bar-fill&quot; id=&quot;vs-a-maker-bar&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;details class=&quot;vs-config&quot;&gt;
+      &lt;summary&gt;Chain A config&lt;/summary&gt;
+      &lt;div class=&quot;vs-control&quot;&gt;
+        &lt;label&gt;CCTP cap &lt;span id=&quot;vs-a-v-cctp&quot;&gt;$1.0M/hr&lt;/span&gt;&lt;/label&gt;
+        &lt;input type=&quot;range&quot; id=&quot;vs-a-cctp&quot; min=&quot;0&quot; max=&quot;2000000&quot; value=&quot;1000000&quot; step=&quot;50000&quot;&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;vs-control&quot;&gt;
+        &lt;label&gt;Maker inventory &lt;span id=&quot;vs-a-v-inv&quot;&gt;$500k&lt;/span&gt;&lt;/label&gt;
+        &lt;input type=&quot;range&quot; id=&quot;vs-a-inv&quot; min=&quot;0&quot; max=&quot;2000000&quot; value=&quot;500000&quot; step=&quot;50000&quot;&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;vs-control&quot;&gt;
+        &lt;label&gt;Bridge cycle &lt;span id=&quot;vs-a-v-cycle&quot;&gt;1.0 hr&lt;/span&gt;&lt;/label&gt;
+        &lt;input type=&quot;range&quot; id=&quot;vs-a-cycle&quot; min=&quot;0.5&quot; max=&quot;6&quot; value=&quot;1&quot; step=&quot;0.5&quot;&gt;
+      &lt;/div&gt;
+    &lt;/details&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;vs-chain&quot;&gt;
+    &lt;div class=&quot;vs-chain-name&quot;&gt;Chain B — no CCTP, slow bridge&lt;/div&gt;
+    &lt;div class=&quot;vs-basis-display&quot; id=&quot;vs-b-basis&quot;&gt;— bps&lt;/div&gt;
+    &lt;div class=&quot;vs-verdict vs-verdict-healthy&quot; id=&quot;vs-b-verdict&quot;&gt;Healthy&lt;/div&gt;
+    &lt;div class=&quot;vs-bars&quot;&gt;
+      &lt;div class=&quot;vs-bar-label&quot;&gt;&lt;span&gt;Native lane (none)&lt;/span&gt;&lt;span id=&quot;vs-b-native-pct&quot;&gt;0%&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;vs-bar-track&quot;&gt;&lt;div class=&quot;vs-bar-fill&quot; id=&quot;vs-b-native-bar&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+      &lt;div class=&quot;vs-bar-label&quot;&gt;&lt;span&gt;Maker book&lt;/span&gt;&lt;span id=&quot;vs-b-maker-pct&quot;&gt;0%&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;vs-bar-track&quot;&gt;&lt;div class=&quot;vs-bar-fill&quot; id=&quot;vs-b-maker-bar&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;details class=&quot;vs-config&quot;&gt;
+      &lt;summary&gt;Chain B config&lt;/summary&gt;
+      &lt;div class=&quot;vs-control&quot;&gt;
+        &lt;label&gt;CCTP cap &lt;span id=&quot;vs-b-v-cctp&quot;&gt;$0/hr&lt;/span&gt;&lt;/label&gt;
+        &lt;input type=&quot;range&quot; id=&quot;vs-b-cctp&quot; min=&quot;0&quot; max=&quot;2000000&quot; value=&quot;0&quot; step=&quot;50000&quot;&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;vs-control&quot;&gt;
+        &lt;label&gt;Maker inventory &lt;span id=&quot;vs-b-v-inv&quot;&gt;$500k&lt;/span&gt;&lt;/label&gt;
+        &lt;input type=&quot;range&quot; id=&quot;vs-b-inv&quot; min=&quot;0&quot; max=&quot;2000000&quot; value=&quot;500000&quot; step=&quot;50000&quot;&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;vs-control&quot;&gt;
+        &lt;label&gt;Bridge cycle &lt;span id=&quot;vs-b-v-cycle&quot;&gt;1.5 hr&lt;/span&gt;&lt;/label&gt;
+        &lt;input type=&quot;range&quot; id=&quot;vs-b-cycle&quot; min=&quot;0.5&quot; max=&quot;6&quot; value=&quot;1.5&quot; step=&quot;0.5&quot;&gt;
+      &lt;/div&gt;
+    &lt;/details&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;vs-section&quot;&gt;
+  &lt;div class=&quot;vs-section-title&quot;&gt;Basis curve vs demand&lt;/div&gt;
+  &lt;svg class=&quot;vs-chart&quot; id=&quot;vs-chart&quot; viewBox=&quot;0 0 600 220&quot; preserveAspectRatio=&quot;xMidYMid meet&quot;&gt;&lt;/svg&gt;
+  &lt;div class=&quot;vs-chart-legend&quot;&gt;
+    &lt;span class=&quot;vs-leg-a&quot;&gt;Chain A&lt;/span&gt;
+    &lt;span class=&quot;vs-leg-b&quot;&gt;Chain B&lt;/span&gt;
+    &lt;span class=&quot;vs-leg-cur&quot;&gt;Current demand&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p class=&quot;vs-note&quot;&gt;
+  Toy model. Basis = risk floor + native-lane congestion (cubic in utilization) + maker spread once you spill over (a base premium that scales with the bridge cycle, plus a convex penalty as the maker book saturates). No quote when spillover demand exceeds what makers can serve given inventory and cycle. Curves clip at 500 bps; &quot;no quote&quot; appears as a vertical dashed line where the curve drops off. Real markets are messier (multiple makers with discrete books, inventory rebalancing across many chains, MEV, depeg risk priced in) but the shape is the lesson: flat, then convex, with a cliff.
+&lt;/p&gt;
+&lt;script&gt;
+(function() {
+  var el = function(id) { return document.getElementById(id); };
+
+  function basis(demand, p) {
+    var nativeServed = Math.min(demand, p.cctp);
+    var nativeUtil = p.cctp &gt; 0 ? nativeServed / p.cctp : 0;
+    var spillover = demand - nativeServed;
+    var makerThroughput = p.inv / Math.max(0.5, p.cycle);
+
+    if (spillover &gt; makerThroughput) {
+      return {
+        basis: null,
+        regime: &#39;no-quote&#39;,
+        nativeUtil: Math.min(1, nativeUtil),
+        makerUtil: makerThroughput &gt; 0 ? Math.min(1.5, spillover / makerThroughput) : 1.5
+      };
+    }
+
+    var makerUtil = makerThroughput &gt; 0 ? spillover / makerThroughput : 0;
+    var nativeCongestion = 30 * Math.pow(nativeUtil, 3);
+    // Maker spread: base premium grows with bridge cycle (time-cost makers price in),
+    // plus convex penalty as their book saturates.
+    var makerPenalty = spillover &gt; 0 ? p.cycle * 10 + 400 * makerUtil * makerUtil : 0;
+    var totalBps = p.risk + nativeCongestion + makerPenalty;
+
+    var regime;
+    if (totalBps &lt; 20) regime = &#39;healthy&#39;;
+    else if (totalBps &lt; 100) regime = &#39;stressed&#39;;
+    else regime = &#39;blow-out&#39;;
+
+    return { basis: totalBps, regime: regime, nativeUtil: nativeUtil, makerUtil: makerUtil };
+  }
+
+  function fmtMoney(n) {
+    if (n &gt;= 1e6) return &#39;$&#39; + (n / 1e6).toFixed(1) + &#39;M&#39;;
+    if (n &gt;= 1e3) return &#39;$&#39; + Math.round(n / 1e3) + &#39;k&#39;;
+    return &#39;$&#39; + n;
+  }
+
+  function paramsFor(prefix, defaultRisk) {
+    return {
+      cctp: +el(&#39;vs-&#39; + prefix + &#39;-cctp&#39;).value,
+      inv: +el(&#39;vs-&#39; + prefix + &#39;-inv&#39;).value,
+      cycle: +el(&#39;vs-&#39; + prefix + &#39;-cycle&#39;).value,
+      risk: defaultRisk
+    };
+  }
+
+  var verdictLabel = {
+    &#39;healthy&#39;: &#39;Healthy&#39;,
+    &#39;stressed&#39;: &#39;Stressed&#39;,
+    &#39;blow-out&#39;: &#39;Blow-out&#39;,
+    &#39;no-quote&#39;: &#39;No quote&#39;
+  };
+
+  function updateChain(prefix, p, demand) {
+    var r = basis(demand, p);
+    var basisEl = el(&#39;vs-&#39; + prefix + &#39;-basis&#39;);
+    var verdictEl = el(&#39;vs-&#39; + prefix + &#39;-verdict&#39;);
+
+    if (r.regime === &#39;no-quote&#39;) {
+      basisEl.textContent = &#39;no quote&#39;;
+    } else {
+      basisEl.textContent = Math.round(r.basis) + &#39; bps&#39;;
+    }
+    verdictEl.textContent = verdictLabel[r.regime];
+    verdictEl.className = &#39;vs-verdict vs-verdict-&#39; + r.regime;
+
+    var nativeBar = el(&#39;vs-&#39; + prefix + &#39;-native-bar&#39;);
+    var nativePct = Math.min(100, r.nativeUtil * 100);
+    nativeBar.style.width = nativePct + &#39;%&#39;;
+    nativeBar.className = &#39;vs-bar-fill&#39; + (r.nativeUtil &gt;= 0.95 ? &#39; vs-bar-hot&#39; : &#39;&#39;);
+    el(&#39;vs-&#39; + prefix + &#39;-native-pct&#39;).textContent = Math.round(nativePct) + &#39;%&#39;;
+
+    var makerBar = el(&#39;vs-&#39; + prefix + &#39;-maker-bar&#39;);
+    var makerPct = Math.min(100, r.makerUtil * 100);
+    makerBar.style.width = makerPct + &#39;%&#39;;
+    makerBar.className = &#39;vs-bar-fill&#39; + (r.makerUtil &gt;= 0.95 ? &#39; vs-bar-hot&#39; : &#39;&#39;);
+    el(&#39;vs-&#39; + prefix + &#39;-maker-pct&#39;).textContent = r.makerUtil &gt; 1 ? &#39;&gt;100%&#39; : Math.round(makerPct) + &#39;%&#39;;
+  }
+
+  function drawChart(demand) {
+    var svg = el(&#39;vs-chart&#39;);
+    var width = 600, height = 220;
+    var padLeft = 45, padBottom = 30, padTop = 10, padRight = 10;
+    var plotW = width - padLeft - padRight;
+    var plotH = height - padTop - padBottom;
+    var maxDemand = +el(&#39;vs-demand&#39;).max;
+    var maxBasis = 500;
+
+    function x(d) { return padLeft + (d / maxDemand) * plotW; }
+    function y(b) { return padTop + plotH - Math.min(b, maxBasis) / maxBasis * plotH; }
+
+    function buildPath(p) {
+      var pts = [];
+      var noQuoteX = null;
+      for (var i = 0; i &lt;= 100; i++) {
+        var d = (i / 100) * maxDemand;
+        var r = basis(d, p);
+        if (r.basis === null) {
+          noQuoteX = x(d);
+          break;
+        }
+        pts.push([x(d).toFixed(1), y(r.basis).toFixed(1)]);
+      }
+      var path = pts.map(function(pt, i) {
+        return (i === 0 ? &#39;M&#39; : &#39;L&#39;) + pt[0] + &#39; &#39; + pt[1];
+      }).join(&#39; &#39;);
+      return { path: path, noQuoteX: noQuoteX };
+    }
+
+    var pA = paramsFor(&#39;a&#39;, 5);
+    var pB = paramsFor(&#39;b&#39;, 15);
+    var lineA = buildPath(pA);
+    var lineB = buildPath(pB);
+    var currentX = x(demand);
+
+    svg.innerHTML =
+      &#39;&lt;g class=&quot;vs-chart-axis&quot;&gt;&#39; +
+        &#39;&lt;line x1=&quot;&#39; + padLeft + &#39;&quot; y1=&quot;&#39; + padTop + &#39;&quot; x2=&quot;&#39; + padLeft + &#39;&quot; y2=&quot;&#39; + (height - padBottom) + &#39;&quot; /&gt;&#39; +
+        &#39;&lt;line x1=&quot;&#39; + padLeft + &#39;&quot; y1=&quot;&#39; + (height - padBottom) + &#39;&quot; x2=&quot;&#39; + (width - padRight) + &#39;&quot; y2=&quot;&#39; + (height - padBottom) + &#39;&quot; /&gt;&#39; +
+        &#39;&lt;text x=&quot;&#39; + (padLeft - 5) + &#39;&quot; y=&quot;&#39; + (padTop + 4) + &#39;&quot; class=&quot;vs-chart-label&quot; text-anchor=&quot;end&quot;&gt;500+ bps&lt;/text&gt;&#39; +
+        &#39;&lt;text x=&quot;&#39; + (padLeft - 5) + &#39;&quot; y=&quot;&#39; + (padTop + plotH / 2) + &#39;&quot; class=&quot;vs-chart-label&quot; text-anchor=&quot;end&quot;&gt;250 bps&lt;/text&gt;&#39; +
+        &#39;&lt;text x=&quot;&#39; + (padLeft - 5) + &#39;&quot; y=&quot;&#39; + (height - padBottom + 3) + &#39;&quot; class=&quot;vs-chart-label&quot; text-anchor=&quot;end&quot;&gt;0&lt;/text&gt;&#39; +
+        &#39;&lt;text x=&quot;&#39; + (width - padRight) + &#39;&quot; y=&quot;&#39; + (height - padBottom + 15) + &#39;&quot; class=&quot;vs-chart-label&quot; text-anchor=&quot;end&quot;&gt;&#39; + fmtMoney(maxDemand) + &#39;/hr →&lt;/text&gt;&#39; +
+        &#39;&lt;text x=&quot;&#39; + padLeft + &#39;&quot; y=&quot;&#39; + (height - padBottom + 15) + &#39;&quot; class=&quot;vs-chart-label&quot; text-anchor=&quot;start&quot;&gt;$0&lt;/text&gt;&#39; +
+      &#39;&lt;/g&gt;&#39; +
+      (lineA.path ? &#39;&lt;path d=&quot;&#39; + lineA.path + &#39;&quot; class=&quot;vs-chart-line vs-chart-line-a&quot; /&gt;&#39; : &#39;&#39;) +
+      (lineB.path ? &#39;&lt;path d=&quot;&#39; + lineB.path + &#39;&quot; class=&quot;vs-chart-line vs-chart-line-b&quot; /&gt;&#39; : &#39;&#39;) +
+      (lineA.noQuoteX !== null ? &#39;&lt;line x1=&quot;&#39; + lineA.noQuoteX + &#39;&quot; y1=&quot;&#39; + padTop + &#39;&quot; x2=&quot;&#39; + lineA.noQuoteX + &#39;&quot; y2=&quot;&#39; + (height - padBottom) + &#39;&quot; class=&quot;vs-chart-noquote vs-chart-noquote-a&quot; /&gt;&#39; : &#39;&#39;) +
+      (lineB.noQuoteX !== null ? &#39;&lt;line x1=&quot;&#39; + lineB.noQuoteX + &#39;&quot; y1=&quot;&#39; + padTop + &#39;&quot; x2=&quot;&#39; + lineB.noQuoteX + &#39;&quot; y2=&quot;&#39; + (height - padBottom) + &#39;&quot; class=&quot;vs-chart-noquote vs-chart-noquote-b&quot; /&gt;&#39; : &#39;&#39;) +
+      &#39;&lt;line x1=&quot;&#39; + currentX + &#39;&quot; y1=&quot;&#39; + padTop + &#39;&quot; x2=&quot;&#39; + currentX + &#39;&quot; y2=&quot;&#39; + (height - padBottom) + &#39;&quot; class=&quot;vs-chart-current&quot; /&gt;&#39;;
+  }
+
+  function update() {
+    var demand = +el(&#39;vs-demand&#39;).value;
+    el(&#39;vs-v-demand&#39;).textContent = fmtMoney(demand) + &#39;/hr&#39;;
+    el(&#39;vs-a-v-cctp&#39;).textContent = fmtMoney(+el(&#39;vs-a-cctp&#39;).value) + &#39;/hr&#39;;
+    el(&#39;vs-a-v-inv&#39;).textContent = fmtMoney(+el(&#39;vs-a-inv&#39;).value);
+    el(&#39;vs-a-v-cycle&#39;).textContent = (+el(&#39;vs-a-cycle&#39;).value).toFixed(1) + &#39; hr&#39;;
+    el(&#39;vs-b-v-cctp&#39;).textContent = fmtMoney(+el(&#39;vs-b-cctp&#39;).value) + &#39;/hr&#39;;
+    el(&#39;vs-b-v-inv&#39;).textContent = fmtMoney(+el(&#39;vs-b-inv&#39;).value);
+    el(&#39;vs-b-v-cycle&#39;).textContent = (+el(&#39;vs-b-cycle&#39;).value).toFixed(1) + &#39; hr&#39;;
+
+    updateChain(&#39;a&#39;, paramsFor(&#39;a&#39;, 5), demand);
+    updateChain(&#39;b&#39;, paramsFor(&#39;b&#39;, 15), demand);
+    drawChart(demand);
+  }
+
+  var sliders = document.querySelectorAll(&#39;.venue-sim input[type=&quot;range&quot;]&#39;);
+  for (var i = 0; i &lt; sliders.length; i++) {
+    sliders[i].addEventListener(&#39;input&#39;, update);
+  }
+  update();
+})();
+&lt;/script&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;likely-outcomes&quot; tabindex=&quot;-1&quot;&gt;Likely outcomes &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.xyz/blog/company-scrip/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Two paths:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;More extractive.&lt;/strong&gt; Every issuer launches their own chain. That&#39;s already happening (Plasma, Stable, Codex). And now every payment rail launches their own stablecoin. Stripe spent $1.1B on Bridge in 2024. Mastercard bought BVNK earlier this year. Coinbase already runs a white-label stablecoin service and a chain. The reported Stripe-Visa-Mastercard stablecoin platform - with Coinbase said to be weighing whether to join&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://cdrn.xyz/blog/company-scrip/&quot; id=&quot;fnref4&quot;&gt;4&lt;/a&gt;&lt;/sup&gt; - is the union of those positions. Payment rails, merchant acceptance, custody, and a chain, all under one stable.&lt;/p&gt;
+&lt;p&gt;The product they&#39;re building isn&#39;t a USDC competitor. It&#39;s a competitor to the entire issuer-only stablecoin model. Compete on yield? They won&#39;t bother. Their value proposition is &lt;em&gt;distribution&lt;/em&gt;: the stable clears at par across every merchant terminal and checkout in the western world. That&#39;s the company-store model in pure form. You take the scrip because there&#39;s nowhere else to spend.&lt;/p&gt;
+&lt;p&gt;And the basis design is intentional, not accidental. A consortium that owns the rails &lt;em&gt;can guarantee&lt;/em&gt; 1:1 inside its ecosystem and shape the friction at the edges. CCTP-style escape hatches are not on the roadmap. The venue drift is the moat.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Less extractive.&lt;/strong&gt; Neutral settlement infrastructure that compresses the basis. Makers who can move clean stablecoins between chains cheaply, screen counterparties, and quote the basis as their spread. The basis becomes the price of exit, paid to whoever does the work cheapest. Not a chain. Not an issuer. A market. The basis here doesn&#39;t vanish - it&#39;s still a tax — but in an open market it&#39;s competed down toward the cost of doing the work and paid to liquidity providers, not rentiers. A spread anyone can undercut rewards better exit infrastructure and more efficient markets; a moat rewards owning the captive audience. Same toll, opposite incentive.&lt;/p&gt;
+&lt;p&gt;Regulators won&#39;t bring this. Most regulatory action widens venue drift, not narrows it. Every freeze opens a new basis on tainted addresses. Every &amp;quot;must be issued by a state-chartered entity&amp;quot; rule creates a new venue. The fix has to come from market structure.&lt;/p&gt;
+&lt;h2 id=&quot;closing&quot; tabindex=&quot;-1&quot;&gt;Closing &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.xyz/blog/company-scrip/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The historical scrip didn&#39;t die because workers refused it. It died because somebody built the infrastructure that made it pointless to issue.&lt;/p&gt;
+&lt;p&gt;The on-chain version isn&#39;t dying. It&#39;s consolidating. The biggest rails and acquirers are forming a guild&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://cdrn.xyz/blog/company-scrip/&quot; id=&quot;fnref5&quot;&gt;5&lt;/a&gt;&lt;/sup&gt; - the biggest exchange circling - to issue scrip backed by the largest captive merchant network ever assembled. The company store has subsidiaries now.&lt;/p&gt;
+&lt;p&gt;What kills it is the same thing that killed it last time: convertibility. Not the legal kind (that ship sailed). The market kind. Settlement infrastructure that prices the venue basis honestly and lets you exit at fair value, no matter which chain you took the job on.&lt;/p&gt;
+&lt;p&gt;Until then, the chain is the company store, and the company store sets the prices.&lt;/p&gt;
+&lt;hr class=&quot;footnotes-sep&quot;&gt;
+&lt;section class=&quot;footnotes&quot;&gt;
+&lt;ol class=&quot;footnotes-list&quot;&gt;
+&lt;li id=&quot;fn1&quot; class=&quot;footnote-item&quot;&gt;&lt;p&gt;TerraUSD collapsed from its dollar peg toward zero in May 2022 as its algorithmic LUNA backstop hyperinflated under a redemption run. &lt;a href=&quot;https://www.chainalysis.com/blog/how-terrausd-collapsed/&quot;&gt;https://www.chainalysis.com/blog/how-terrausd-collapsed/&lt;/a&gt; &lt;a href=&quot;https://cdrn.xyz/blog/company-scrip/&quot; class=&quot;footnote-backref&quot;&gt;↩︎&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&quot;fn2&quot; class=&quot;footnote-item&quot;&gt;&lt;p&gt;Tether fell to roughly $0.95 on 12 May 2022 amid the Terra-driven panic and renewed doubts over reserve quality, recovering after processing billions in redemptions. &lt;a href=&quot;https://www.coindesk.com/markets/2022/07/26/tether-finds-stable-dollar-peg-after-terras-collapse&quot;&gt;https://www.coindesk.com/markets/2022/07/26/tether-finds-stable-dollar-peg-after-terras-collapse&lt;/a&gt; &lt;a href=&quot;https://cdrn.xyz/blog/company-scrip/&quot; class=&quot;footnote-backref&quot;&gt;↩︎&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&quot;fn3&quot; class=&quot;footnote-item&quot;&gt;&lt;p&gt;Circle disclosed that $3.3B of USDC&#39;s ~$40B in reserves was stranded at the failed Silicon Valley Bank; USDC fell to about $0.87 on 11 March 2023 before recovering once the FDIC backstopped deposits. &lt;a href=&quot;https://www.cnbc.com/2023/03/11/stablecoin-usdc-breaks-dollar-peg-after-firm-reveals-it-has-3point3-billion-in-svb-exposure.html&quot;&gt;https://www.cnbc.com/2023/03/11/stablecoin-usdc-breaks-dollar-peg-after-firm-reveals-it-has-3point3-billion-in-svb-exposure.html&lt;/a&gt; &lt;a href=&quot;https://cdrn.xyz/blog/company-scrip/&quot; class=&quot;footnote-backref&quot;&gt;↩︎&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&quot;fn4&quot; class=&quot;footnote-item&quot;&gt;&lt;p&gt;&lt;a href=&quot;https://www.coindesk.com/business/2026/06/03/payment-giants-stripe-visa-mastercard-said-to-be-among-backers-of-soon-to-debut-stablecoin-platform&quot;&gt;https://www.coindesk.com/business/2026/06/03/payment-giants-stripe-visa-mastercard-said-to-be-among-backers-of-soon-to-debut-stablecoin-platform&lt;/a&gt; &lt;a href=&quot;https://cdrn.xyz/blog/company-scrip/&quot; class=&quot;footnote-backref&quot;&gt;↩︎&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&quot;fn5&quot; class=&quot;footnote-item&quot;&gt;&lt;p&gt;The reported consortium (Stripe, Visa, Mastercard confirmed; Coinbase said to be weighing participation): &lt;a href=&quot;https://www.coindesk.com/business/2026/06/03/payment-giants-stripe-visa-mastercard-said-to-be-among-backers-of-soon-to-debut-stablecoin-platform&quot;&gt;https://www.coindesk.com/business/2026/06/03/payment-giants-stripe-visa-mastercard-said-to-be-among-backers-of-soon-to-debut-stablecoin-platform&lt;/a&gt;. On the card networks&#39; own stablecoin pushes, see Mastercard&#39;s on-chain settlement expansion (&lt;a href=&quot;https://www.coindesk.com/markets/2026/06/03/mastercard-expands-on-chain-settlement-in-bet-on-stablecoins-and-always-on-finance&quot;&gt;https://www.coindesk.com/markets/2026/06/03/mastercard-expands-on-chain-settlement-in-bet-on-stablecoins-and-always-on-finance&lt;/a&gt;) and Visa&#39;s stablecoin settlement network (&lt;a href=&quot;https://www.coindesk.com/business/2026/04/29/visa-expands-stablecoin-settlement-network-as-volume-hits-usd7-billion-run-rate&quot;&gt;https://www.coindesk.com/business/2026/04/29/visa-expands-stablecoin-settlement-network-as-volume-hits-usd7-billion-run-rate&lt;/a&gt;). &lt;a href=&quot;https://cdrn.xyz/blog/company-scrip/&quot; class=&quot;footnote-backref&quot;&gt;↩︎&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>A tick shaped honeypot</title>
@@ -23,9 +518,9 @@
 &lt;h2 id=&quot;a-trap-so-deranged&quot; tabindex=&quot;-1&quot;&gt;A trap so deranged &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.xyz/blog/tick-honeypot/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;There exists a trap so deranged, so unhinged I hesitate to even post about it. But I will. Because I&#39;m brave. And the best part is that unlike other honeypots, it leaves the &lt;code&gt;_transfer&lt;/code&gt; function completely unmodified, making it indistinguishable from a normal ERC20 on-chain. The honeypot is not in the token contract, but in the liquidity pool.&lt;/p&gt;
 &lt;p&gt;Let me walk you through it:&lt;/p&gt;
-&lt;p&gt;We set up a V3 pool whose current tick is at &lt;code&gt;n&lt;/code&gt;. We provide liquidity at &lt;code&gt;[n+200, upper_bound]&lt;/code&gt;, single-sided, all token, zero WETH. The current tick is below our range, so the position holds 100% token by definition.&lt;/p&gt;
+&lt;p&gt;We set up a V3 pool whose current tick&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://cdrn.xyz/blog/tick-honeypot/&quot; id=&quot;fnref1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; is at &lt;code&gt;n&lt;/code&gt;. We provide liquidity at &lt;code&gt;[n+200, upper_bound]&lt;/code&gt;, single-sided, all token, zero WETH. The current tick is below our range, so the position holds 100% token by definition.&lt;/p&gt;
 &lt;p&gt;A buy (victim) moves the tick up. It fast-forwards through the empty 200-tick gap (no liquidity, no cost), enters our range, and starts trading against our tokens. WETH accumulates in the pool. Buyer walks away with tokens, thinking they got in early.&lt;/p&gt;
-&lt;p&gt;A sell moves the tick down. There is no initialised tick below the current one. The swap has nothing to trade against and reverts. Tokens are now unsellable on this pool.&lt;/p&gt;
+&lt;p&gt;A sell moves the tick down. There is no initialised tick below the current one. The swap has nothing to trade against and reverts. Tokens are now unsellable on this pool. No liquidity at the current tick.&lt;/p&gt;
 &lt;p&gt;We own the LP NFT. When we want out, we call &lt;code&gt;decreaseLiquidity&lt;/code&gt; + &lt;code&gt;collect&lt;/code&gt; on the position manager. We get our remaining tokens back plus all the WETH buyers paid in. On-chain it looks like a normal LP exit.&lt;/p&gt;
 &lt;h2 id=&quot;why-this-works&quot; tabindex=&quot;-1&quot;&gt;Why this works &lt;a class=&quot;header-anchor&quot; href=&quot;https://cdrn.xyz/blog/tick-honeypot/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Bots that make money run real sims. At the most sophisticated edge of MEV and on chain arbitrage, there exists a delicate balance between simming every transaction and reacting to events. However, there are still bots that don&#39;t read selectors and assume V2 mechanics. They see the &lt;code&gt;_transfer&lt;/code&gt; function, they see the token contract, they see the pool, and they assume they can sell. They don&#39;t simulate the swap, so they don&#39;t see the revert.&lt;/p&gt;
@@ -39,6 +534,13 @@
 &lt;li&gt;NPM holding the LP NFT: &lt;a href=&quot;https://basescan.org/address/0x03a520b32C04BF3bEEf7BEb72E919cf822Ed34f1&quot;&gt;0x03a5...34f1&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Stay safe out there. Sim your doompas. Don&#39;t get caught.&lt;/p&gt;
+&lt;hr class=&quot;footnotes-sep&quot;&gt;
+&lt;section class=&quot;footnotes&quot;&gt;
+&lt;ol class=&quot;footnotes-list&quot;&gt;
+&lt;li id=&quot;fn1&quot; class=&quot;footnote-item&quot;&gt;&lt;p&gt;&lt;a href=&quot;https://uniswap.org/whitepaper-v3.pdf&quot;&gt;https://uniswap.org/whitepaper-v3.pdf&lt;/a&gt; &lt;a href=&quot;https://cdrn.xyz/blog/tick-honeypot/&quot; class=&quot;footnote-backref&quot;&gt;↩︎&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
 </content>
 	</entry>
 	
