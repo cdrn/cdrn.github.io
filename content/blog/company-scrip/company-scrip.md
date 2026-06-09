@@ -1,7 +1,7 @@
 ---
 title: "Company scrip, company store"
 description: "Same coin, same issuer, different chain, different price."
-date: 2026-06-03
+date: 2026-06-08
 tags: [thonk, stablecoins, orderflow]
 ---
 
