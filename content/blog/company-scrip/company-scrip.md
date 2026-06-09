@@ -9,9 +9,12 @@ tags: [thonk, stablecoins, orderflow]
 
 Though the history of crypto is short, we've already seen multiple stablecoin depegs. The first question is always "what happened to the reserves?" - and this is by and large the most prolific failure mode we have seen to date. UST's death spiral in May 2022[^ust], USDT wobbling to 95 cents in the contagion that followed[^usdt], USDC sliding to 87 cents over the SVB collapse weekend[^usdc]. All lost their peg because the market stopped trusting the backing. When someone says "the stablecoin depegged", this is what they mean. The issuer drifted - the reserves are blown, or were never there, and the illusion of redeemability is shattered. The coin is now worth less than a dollar because the issuer is worth less than a dollar.
 
-![if you know what this is, DM me](image.png)
 
-Given the proliferation of stablecoin issuers, the growth of alternative venues and the need for interoperability, I would like to posit a second type of stablecoin failure mode - which is less about the coin and more about the chain. In this scenario, the issuer is fine. The reserves are fine. The peg is fine. But your USDC on chain X is worth less than your USDC on chain Y. You may already be familiar with this phenomenon. It's the basis between USDC on Arbitrum and USDC on mainnet, or the arb between USDT on Tron and USDT on ethereum. Many play the game of bips here and successfully leverage it into millions of profit. But for the average user, it's a trap. You thought you were holding a stablecoin, but you were really holding company scrip(!). The chain is the company store, and the company store sets the prices.
+![if you know what this is, DM me](image.png)
+_An early form of UST_
+
+
+Given the proliferation of stablecoin issuers, the growth of alternative venues and the need for interoperability, I would like to posit a second type of stablecoin failure mode - which is less about the coin and more about the chain. In this scenario, the issuer is fine. The reserves are fine. The peg is fine. But your USDC on chain X is worth less than your USDC on chain Y. You may already be familiar with this phenomenon. It's the basis between USDC on Arbitrum and USDC on mainnet, or the arb between USDT on Tron and USDT on ethereum. Many play the game of bips here and successfully leverage it into millions of profit. But for the average user, it's a trap - you thought you were holding a stablecoin, but you were really holding company scrip(!). The chain is the company store, and the company store sets the prices.
 
 ## What controls venue drift
 
