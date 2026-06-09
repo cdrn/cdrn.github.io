@@ -17,8 +17,10 @@ module.exports = function(eleventyConfig) {
 		if (!content) {
 			return 0;
 		}
+		// Strip <script> and <style> blocks — they're inline UI/code, not prose.
+		const stripped = content.toString().replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, "");
 		const wordsPerMinute = 180;
-		const words = content.toString().trim().split(/\s+/).length;
+		const words = stripped.trim().split(/\s+/).filter(Boolean).length;
 		const minutes = Math.ceil(words / wordsPerMinute);
 		return minutes;
 	});

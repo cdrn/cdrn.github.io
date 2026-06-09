@@ -19,11 +19,11 @@ There exists a trap so deranged, so unhinged I hesitate to even post about it. B
 
 Let me walk you through it:
 
-We set up a V3 pool whose current tick is at `n`. We provide liquidity at `[n+200, upper_bound]`, single-sided, all token, zero WETH. The current tick is below our range, so the position holds 100% token by definition.
+We set up a V3 pool whose current tick[^v3-ticks] is at `n`. We provide liquidity at `[n+200, upper_bound]`, single-sided, all token, zero WETH. The current tick is below our range, so the position holds 100% token by definition.
 
 A buy (victim) moves the tick up. It fast-forwards through the empty 200-tick gap (no liquidity, no cost), enters our range, and starts trading against our tokens. WETH accumulates in the pool. Buyer walks away with tokens, thinking they got in early.
 
-A sell moves the tick down. There is no initialised tick below the current one. The swap has nothing to trade against and reverts. Tokens are now unsellable on this pool.
+A sell moves the tick down. There is no initialised tick below the current one. The swap has nothing to trade against and reverts. Tokens are now unsellable on this pool. No liquidity at the current tick.
 
 We own the LP NFT. When we want out, we call `decreaseLiquidity` + `collect` on the position manager. We get our remaining tokens back plus all the WETH buyers paid in. On-chain it looks like a normal LP exit.
 
@@ -43,3 +43,5 @@ If you want to inspect one yourself:
 - NPM holding the LP NFT: [0x03a5...34f1](https://basescan.org/address/0x03a520b32C04BF3bEEf7BEb72E919cf822Ed34f1)
 
 Stay safe out there. Sim your doompas. Don't get caught.
+
+[^v3-ticks]: <https://uniswap.org/whitepaper-v3.pdf>
