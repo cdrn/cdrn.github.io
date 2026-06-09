@@ -491,7 +491,7 @@ Here's a toy model to illustrate some of the above. Two chains, the same exit de
 
 Two paths:
 
-**More extractive.** Every issuer launches their own chain. That's already happening (Plasma, Stable, Codex). And now every payment rail launches their own stablecoin. Stripe spent $1.1B on Bridge in 2024. Mastercard bought BVNK earlier this year. Coinbase already runs a white-label stablecoin service and a chain. The reported Stripe-Visa-Mastercard stablecoin platform - with Coinbase said to be weighing whether to join[^consortium] - is the union of those positions. Payment rails, merchant acceptance, custody, and a chain, all under one stable.
+**More extractive.** Every issuer launches their own chain. That's already happening (Plasma, Stable, Codex, Tempo, Arc). And now every payment rail launches their own stablecoin. Stripe spent $1.1B on Bridge in 2024. Mastercard bought BVNK earlier this year. Coinbase already runs a white-label stablecoin service and a chain. The reported Stripe-Visa-Mastercard stablecoin platform - with Coinbase said to be weighing whether to join[^consortium] - is the union of those positions. Payment rails, merchant acceptance, custody, and a chain, all under one stable.
 
 The product they're building isn't a USDC competitor. It's a competitor to the entire issuer-only stablecoin model. Compete on yield? They won't bother. Their value proposition is *distribution*: the stable clears at par across every merchant terminal and checkout in the western world. That's the company-store model in pure form. You take the scrip because there's nowhere else to spend.
 
