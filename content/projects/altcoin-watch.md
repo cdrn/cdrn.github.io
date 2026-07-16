@@ -1,5 +1,6 @@
 ---
 title: Altcoin.watch
+date: 2021-06-01
 byline: Social-media token discovery dashboard.
 preview: /img/placeholder.png
 tech: Typescript, mongo, react

@@ -1,5 +1,6 @@
 ---
 title: Sigil
+date: 2026-05-17
 byline: Claude can sign, but never see. MCP for managing crypto keys.
 preview: /img/placeholder.png
 tech: TypeScript, MCP, XChaCha20-Poly1305, Argon2id

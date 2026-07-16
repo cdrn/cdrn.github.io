@@ -1,5 +1,6 @@
 ---
 title: Eth Melbourne
+date: 2023-01-01
 byline: Official Melbourne Ethereum meetup.
 preview: /img/eth-melb.png
 tech: eye contact, peer to peer communication
