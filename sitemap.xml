@@ -53,17 +53,12 @@
       </url>
       
       <url>
-        <loc>https://cdrn.xyz/tags/orderflow/</loc>
-        <lastmod>2026-07-16</lastmod>
-      </url>
-      
-      <url>
         <loc>https://cdrn.xyz/tags/stablecoins/</loc>
         <lastmod>2026-07-16</lastmod>
       </url>
       
       <url>
-        <loc>https://cdrn.xyz/tags/ethereum/</loc>
+        <loc>https://cdrn.xyz/tags/orderflow/</loc>
         <lastmod>2026-07-16</lastmod>
       </url>
       
@@ -78,17 +73,22 @@
       </url>
       
       <url>
+        <loc>https://cdrn.xyz/tags/ethereum/</loc>
+        <lastmod>2026-07-16</lastmod>
+      </url>
+      
+      <url>
         <loc>https://cdrn.xyz/tags/indexing/</loc>
         <lastmod>2026-07-16</lastmod>
       </url>
       
       <url>
-        <loc>https://cdrn.xyz/tags/mev/</loc>
+        <loc>https://cdrn.xyz/tags/ai/</loc>
         <lastmod>2026-07-16</lastmod>
       </url>
       
       <url>
-        <loc>https://cdrn.xyz/tags/ai/</loc>
+        <loc>https://cdrn.xyz/tags/mev/</loc>
         <lastmod>2026-07-16</lastmod>
       </url>
       
