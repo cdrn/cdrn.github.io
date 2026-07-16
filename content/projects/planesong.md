@@ -1,5 +1,6 @@
 ---
 title: Planesong
+date: 2026-06-17
 byline: Server-driven browser-based multiplayer RPG experiment.
 preview: /img/planesong.jpg
 tech: Three.js, WebSockets, Node

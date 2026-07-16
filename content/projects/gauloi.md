@@ -1,5 +1,6 @@
 ---
 title: Gauloi
+date: 2024-06-01
 byline: Eth<>BTC atomic swaps with a peer-to-peer orderbook. The first attempt.
 preview: /img/placeholder.png
 tech: Rust, BDK, TS.
