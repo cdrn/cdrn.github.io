@@ -1,7 +1,7 @@
 ---
 title: Permanent Underpod
 date: 2026-07-15
-byline: AI, stablecoins, Bitcoin, and the future of tech. Three veterans on a couch.
+byline: AI, stablecoins, Bitcoin, and the future of tech.
 preview: /img/permanent-underpod.jpg
 tech: A couch, three mics, and too many hot takes
 tags: projects
