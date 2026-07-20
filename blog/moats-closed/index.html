@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moat&#39;s closed</title>
+    <meta name="description" content="If you&#39;re brave enough, everything&#39;s a polymarket">
+    <link rel="canonical" href="https://cdrn.xyz/blog/moats-closed/">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta property="og:title" content="Moat&#39;s closed">
+    <meta property="og:description" content="If you&#39;re brave enough, everything&#39;s a polymarket">
+    <meta property="og:url" content="https://cdrn.xyz/blog/moats-closed/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Chris Doran">
+    <meta property="og:image" content="https://cdrn.xyz/apple-touch-icon.png">
+    <meta property="article:published_time" content="2026-07-19">
+    <meta property="article:author" content="Chris">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Moat&#39;s closed">
+    <meta name="twitter:description" content="If you&#39;re brave enough, everything&#39;s a polymarket">
+    <meta name="twitter:image" content="https://cdrn.xyz/apple-touch-icon.png">
+    <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Chris Doran">
+    <link rel="alternate" href="/feed/feed.json" type="application/json" title="Chris Doran">
+    
+    <style>
+    /**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: black;
+	background: none;
+	text-shadow: 0 1px white;
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+@media print {
+	code[class*="language-"],
+	pre[class*="language-"] {
+		text-shadow: none;
+	}
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #f5f2f0;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: slategray;
+}
+
+.token.punctuation {
+	color: #999;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #9a6e3a;
+	/* This background color was intended by the author of this theme. */
+	background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #07a;
+}
+
+.token.function,
+.token.class-name {
+	color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #e90;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+[data-theme="dark"] {
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Minimal but readable styling */
+:root {
+	--font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+	--font-size-base: 17px;
+	--line-height-base: 1.7;
+
+	/* Light theme */
+	--background-color: #ffffff;
+	--text-color: #000000;
+	--text-color-link: #0000ee;
+	--text-color-link-visited: #551a8b;
+	--text-color-muted: #666666;
+	--border-color: #d4d4d4;
+	--code-bg: #f2f2f2;
+
+	--max-width: 72ch;
+}
+
+[data-theme="dark"] {
+	--background-color: #1a1a1a;
+	--text-color: #e0e0e0;
+	--text-color-link: #6b9bd1;
+	--text-color-link-visited: #8a7fc4;
+	--text-color-muted: #999999;
+	--border-color: #333333;
+	--code-bg: #2a2a2a;
+}
+
+/* Basic reset */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0;
+	font-family: var(--font-family);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
+	color: var(--text-color);
+	background-color: var(--background-color);
+	font-weight: 500;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+html.theme-transition,
+html.theme-transition body {
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+	max-width: var(--max-width);
+	margin: 0 auto;
+	padding: 1em;
+}
+
+/* Header - minimal */
+header {
+	margin-bottom: 2em;
+	padding-bottom: 1em;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.header-main {
+	margin-bottom: 0.5em;
+}
+
+.nav-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.home-link {
+	font-weight: bold;
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.home-link:hover {
+	text-decoration: underline;
+}
+
+/* Navigation - simple list */
+.nav {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline;
+	margin-right: 1em;
+}
+
+.nav-item a {
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.nav-item a:hover,
+.nav-item a[aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Theme toggle - minimal button */
+.theme-toggle {
+	font-family: var(--font-family);
+	padding: 2px 8px;
+	margin-left: 1em;
+	border: 1px solid var(--border-color);
+	background: var(--background-color);
+	color: var(--text-color);
+	cursor: pointer;
+	font-size: var(--font-size-base);
+}
+
+/* Main content */
+main {
+	padding: 0;
+}
+
+/* Visually hidden (a11y skip link, etc.) */
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.visually-hidden:focus {
+	position: static;
+	width: auto;
+	height: auto;
+	margin: 0;
+	overflow: visible;
+	clip: auto;
+	white-space: normal;
+}
+
+/* Tag filter pills */
+.tag-filter {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4em;
+	margin: 1em 0 2em;
+}
+
+.tag-pill {
+	font-family: var(--font-family);
+	font-size: 0.85em;
+	padding: 0.2em 0.7em;
+	border: 1px solid var(--border-color);
+	background: transparent;
+	color: var(--text-color-muted);
+	cursor: pointer;
+	border-radius: 999px;
+	line-height: 1.5;
+}
+
+.tag-pill:hover {
+	color: var(--text-color);
+	border-color: var(--text-color-muted);
+}
+
+.tag-pill.active {
+	background: var(--text-color);
+	color: var(--background-color);
+	border-color: var(--text-color);
+}
+
+.postlist-footer-link {
+	margin-top: 1.5em;
+}
+
+/* Post list - readable */
+.postlist {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.postlist-item {
+	margin-bottom: 2.5em;
+	padding-bottom: 1.5em;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.postlist-link {
+	font-weight: bold;
+	font-size: 1.15em;
+	color: var(--text-color);
+	text-decoration: none;
+	line-height: 1.4;
+	display: block;
+	margin-bottom: 0.5em;
+}
+
+.postlist-link:hover {
+	text-decoration: underline;
+}
+
+.postlist-meta {
+	margin: 0.5em 0;
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+}
+
+.postlist-reading-time {
+	margin-left: 1em;
+}
+
+.postlist-excerpt {
+	margin: 0.75em 0;
+	line-height: 1.6;
+}
+
+.postlist-tags {
+	margin-top: 0.75em;
+	font-size: 0.9em;
+}
+
+.post-tag {
+	text-decoration: none;
+	color: var(--text-color-muted);
+	font-size: 0.9em;
+}
+
+.post-tag:hover {
+	text-decoration: underline;
+}
+
+/* Article - minimal */
+article {
+	margin: 2em 0;
+}
+
+.post-metadata {
+	list-style: none;
+	padding: 0;
+	margin: 1em 0;
+}
+
+.post-metadata li {
+	display: inline;
+}
+
+.post-metadata li:first-child {
+	display: block;
+	margin-bottom: 0.5em;
+}
+
+/* Reading time (inline next to post date) */
+.post-reading-time {
+	margin-left: 1em;
+	color: var(--text-color-muted);
+	font-size: 0.9em;
+}
+
+/* Table of contents for long posts (collapsed by default) */
+.toc {
+	margin: 1.5em 0;
+	font-size: 0.95em;
+}
+
+.toc > summary {
+	cursor: pointer;
+	color: var(--text-color-muted);
+	font-size: 0.85em;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	width: fit-content;
+}
+
+.toc > summary:hover {
+	color: var(--text-color);
+}
+
+.toc[open] > summary {
+	margin-bottom: 0.75em;
+}
+
+.toc ol {
+	list-style: none;
+	margin: 0;
+	padding-left: 0;
+}
+
+.toc ol ol {
+	padding-left: 1.5em;
+}
+
+.toc li {
+	margin: 0.25em 0;
+}
+
+.toc a {
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.toc a:hover {
+	text-decoration: underline;
+}
+
+/* Typography - improved hierarchy */
+h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
+	margin-top: 1.5em;
+	margin-bottom: 0.75em;
+	line-height: 1.3;
+}
+
+h1 {
+	font-size: 1.8em;
+	margin-top: 0;
+	margin-bottom: 1em;
+}
+h2 {
+	font-size: 1.4em;
+	margin-top: 2em;
+}
+h3 { font-size: 1.15em; }
+
+p {
+	margin: 1em 0;
+}
+
+/* Code blocks - always monospace */
+pre {
+	margin: 1em 0;
+	padding: 0.5em;
+	overflow-x: auto;
+	border-left: 3px solid var(--text-color);
+	font-family: "Courier New", Courier, monospace;
+	font-size: 0.9em;
+}
+
+code {
+	font-family: "Courier New", Courier, monospace;
+	font-size: 0.9em;
+}
+
+/* Inline code (not the highlighted blocks Prism owns) */
+:not(pre) > code {
+	background: var(--code-bg);
+	padding: 0.1em 0.35em;
+	border-radius: 3px;
+}
+
+/* Links - classic web style */
+a[href] {
+	color: var(--text-color-link);
+	text-decoration: underline;
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover {
+	text-decoration: none;
+}
+
+.links-nextprev {
+	list-style: none;
+	padding: 0;
+	margin: 2em 0;
+	border-top: 1px solid var(--border-color);
+	padding-top: 1em;
+}
+
+/* Footnotes */
+.footnote-ref {
+	font-size: 0.75em;
+	margin: 0 0.05em;
+}
+
+.footnote-ref a {
+	text-decoration: none;
+}
+
+.footnotes-sep {
+	margin-top: 3em;
+	border: 0;
+	border-top: 1px solid var(--border-color);
+}
+
+.footnotes {
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+	margin-top: 1.5em;
+}
+
+.footnotes-list {
+	padding-left: 1.5em;
+}
+
+.footnotes-list li {
+	margin: 0.6em 0;
+}
+
+.footnotes a {
+	color: inherit;
+}
+
+.footnote-backref {
+	text-decoration: none;
+	margin-left: 0.3em;
+}
+
+.links-nextprev li {
+	margin: 0.5em 0;
+}
+
+/* Footer */
+footer {
+	margin-top: 4em;
+	padding: 1em 0;
+	border-top: 1px solid var(--border-color);
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+}
+
+footer a {
+	color: var(--text-color-muted);
+}
+
+/* Two-column layout */
+.two-column-layout {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 4em;
+	margin: 2em 0;
+}
+
+.two-column-layout .column h2:first-child {
+	margin-top: 0;
+}
+
+@media (max-width: 768px) {
+	.two-column-layout {
+		grid-template-columns: 1fr;
+		gap: 3em;
+	}
+}
+
+/* Projects list */
+.projects-list {
+	list-style: none;
+	padding: 0;
+	margin: 2em 0;
+}
+
+.project-list-item {
+	margin: 1.5em 0;
+}
+
+.project-list-title {
+	font-weight: bold;
+	font-size: 1.1em;
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.project-list-title:hover {
+	text-decoration: underline;
+}
+
+.project-list-byline {
+	margin-top: 0.15em;
+	color: var(--text-color);
+}
+
+/* Project detail page */
+.project-back {
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+	margin: 0 0 1em;
+}
+
+.project-back a {
+	color: var(--text-color-muted);
+}
+
+.project-preview {
+	max-width: 100%;
+	height: auto;
+	border: 1px solid var(--border-color);
+	margin: 0 0 1em;
+}
+
+@media (min-width: 769px) {
+	.project-preview {
+		max-width: 300px;
+		float: right;
+		margin: 0 0 1em 1.5em;
+	}
+}
+
+.project-body {
+	margin-bottom: 1.5em;
+}
+
+.project-tech {
+	color: var(--text-color-muted);
+	margin: 0.5em 0;
+}
+
+.project-links {
+	margin-top: 1em;
+}
+
+.project-link {
+	margin-right: 1.5em;
+}
+
+
+/* Content container */
+.content-container {
+	margin: 2em 0;
+}
+
+/* Images */
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Lists */
+ul, ol {
+	margin: 1em 0;
+	padding-left: 2em;
+}
+
+blockquote {
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid var(--text-color);
+}
+
+/* Tables */
+table {
+	border-collapse: collapse;
+	margin: 1em 0;
+}
+
+th, td {
+	border: 1px solid var(--border-color);
+	padding: 0.5em;
+	text-align: left;
+}
+
+th {
+	font-weight: bold;
+}</style>
+    <script>
+      // Set theme immediately to prevent flash
+      (function() {
+        const theme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+    <script src="/js/theme-toggle.js" defer></script>
+  </head>
+  <body>
+    <a href="#skip" class="visually-hidden">Skip to content</a>
+    <header>
+      <div>
+        <div class="header-main">
+          <a href="/" class="home-link">Chris Doran</a>
+        </div>
+        <div class="nav-row">
+          <nav>
+            <ul class="nav">
+                <li class="nav-item">
+                  <a href="/" >Home</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/projects/" >Projects</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/about/" >About</a>
+                </li>
+            </ul>
+          </nav>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"></button>
+          <script>
+            // Set initial label synchronously so dark-mode loads don't flash "DARK"
+            document.getElementById('theme-toggle').textContent =
+              (localStorage.getItem('theme') || 'light') === 'light' ? 'DARK' : 'LIGHT';
+          </script>
+        </div>
+      </div>
+    </header>
+    <main id="skip">
+      
+<h1>Moat&#39;s closed</h1><ul class="post-metadata">
+	<li><time datetime="2026-07-19">19 July 2026</time><span class="post-reading-time">11 min read</span></li>
+	<li><a href="/tags/thonk/" class="post-tag">thonk</a>,</li>
+	<li><a href="/tags/stablecoins/" class="post-tag">stablecoins</a></li>
+</ul>
+<details class="toc"><summary>Contents</summary><ol><li><a href="#expressed-vs-revealed-preference">Expressed vs. revealed preference</a></li><li><a href="#reading-the-t-bill-leaves">Reading the T(bill) leaves</a></li><li><a href="#the-code-was-never-the-moat">The code was never the moat</a></li></ol></details>
+
+<h2 id="expressed-vs-revealed-preference" tabindex="-1">Expressed vs. revealed preference <a class="header-anchor" href="#expressed-vs-revealed-preference">#</a></h2>
+<p>Almost everyone in this industry has a stated view about where value is going, and almost no one's balance sheet agrees with their mouth. We all know someone who professes daily that the tech is the whole game, yet spends every dollar they raise on distribution. This isn't a new observation - it might be one of the few reliably replicable findings in economics. People systematically overstate what they'd pay for things when the statement costs them nothing. Or, in other words <em>talk is cheap</em>. And when chat is free and chatting has upside - misdirecting your competitors, farming exit liquidity - the stable equilibrium of chat trends toward <em>chatting shit</em>.</p>
+<p>What is actually enduringly expensive is <em>choice</em>. A stated opinion is free, so it's worth about what you paid for it. Allocations have prices, and if you believe the fundamental conceit of prediction markets, this forces a degree of honesty (or, for home gamers, DSIC<sup class="footnote-ref"><a href="#fn1" id="fnref1">1</a></sup>). So, if we'd like to intuit what people actually believe, we should look at their bets - not their chat.</p>
+<p>The trouble is that individual utility functions are extremely difficult to measure. How do we price in the cost of precarity? How do we price in loss aversion bias? People are complex in ways that are difficult to model, and some of the best examples are even motivated by utility functions other than profit. Conveniently, these are issues that corporations (and indeed, many institutions) are conspicuously, relatively free of!</p>
+<h2 id="reading-the-t-bill-leaves" tabindex="-1">Reading the T(bill) leaves <a class="header-anchor" href="#reading-the-t-bill-leaves">#</a></h2>
+<p>Institutions are the cleanest subjects revealed preference ever gets. Their constraints are disclosed in filings. Their allocation decisions are made deliberately, repeatedly, by committees whose entire job is to bet the balance sheet on a view of the future. They are incentive-compatible at billion-dollar scale, and unlike your friend making rent, an institution's positions are enormous and a matter of public record.</p>
+<p>Which means we can do something fun: treat the corporate landscape as a prediction market. We will be ignoring the keynotes, well known to be the mouth. Instead, we'll focus on capex, the acquisitions, the charters applied for, and the balance sheet composition. Every one of these is a position, sized in billions and marked to market. And if there's one set of institutions I feel qualified to read, it's the moneyers.</p>
+<p>So! let's read the book.</p>
+<p><strong>The charter stampede.</strong> Eleven companies filed for or received OCC national trust bank charters in eighty-three days: Circle, Ripple, Paxos, Fidelity, Bridge, Morgan Stanley among them, with Coinbase pending behind<sup class="footnote-ref"><a href="#fn2" id="fnref2">2</a></sup>. No coordinated announcement. Eleven independent actors, crypto-natives to century-old banks, reading the same odds and placing the same bet inside one quarter. A charter is expensive and irreversible: capital requirements, examinations, a permanent leash of OCC supervision. Eleven firms deciding the leash is worth wearing are eleven firms telling you the settlement tech is a solved problem, and that <em>permission</em> is the thing worth paying for.</p>
+<p>Yes, the timing is supply-side. The GENIUS Act created the regime<sup class="footnote-ref"><a href="#fn3" id="fnref3">3</a></sup>, a friendly OCC opened the door, a queue formed. But supply explains the timing, not the willingness to pay. Filing in the first eighty-three days is a bet that the window closes and early standing matters. The bank lobby reportedly weighing litigation to shut the door is its own revealed preference<sup class="footnote-ref"><a href="#fn4" id="fnref4">4</a></sup>. You don't sue to stop people acquiring something worthless.</p>
+<p><strong>The incumbents' counter.</strong> JPMorgan, Citi, BofA, Wells Fargo and a dozen peers announced a shared tokenised deposit network via The Clearing House, targeting 2027<sup class="footnote-ref"><a href="#fn5" id="fnref5">5</a></sup>, to defend against deposit flight from US banks that Standard Chartered sized at up to $500 billion by 2028<sup class="footnote-ref"><a href="#fn6" id="fnref6">6</a></sup>. The entire position fits in one sentence: a tokenised deposit never leaves the bank's balance sheet. Same &quot;cryptography&quot; as a stablecoin, opposite answer to who holds the money while it moves. This is the incumbent playing its two real assets, the licenses and the depositors: we'll adopt your rails and keep our seat. One of its own architects admitted clients aren't &quot;beating down the door&quot;<sup class="footnote-ref"><a href="#fn7" id="fnref7">7</a></sup>, which tells you how much of this is conviction and how much is insurance. But insurance is a position too.</p>
+<p><strong>The commons.</strong> Meanwhile the open rails compounded without asking anyone. Stablecoin supply doubled in two years to ~$320 billion<sup class="footnote-ref"><a href="#fn8" id="fnref8">8</a></sup>, settlement volume hit $33 trillion in 2025, past Visa's annual throughput<sup class="footnote-ref"><a href="#fn9" id="fnref9">9</a></sup>. Cross-chain movement went from the industry's recurring catastrophe to boring plumbing, which is what winning looks like for a commons. If the tech were the moat, this is the group that would be running away with it, because the tech is theirs and it's free.</p>
+<p>And there are some big tells here. We can watch the flagships of the &quot;commons&quot; and what they do with their winnings. Circle, whose entire existence is open, compounding, permissionless dollars, is building Arc: its own L1, with USDC as native gas, partners including BlackRock and Visa<sup class="footnote-ref"><a href="#fn10" id="fnref10">10</a></sup>. Tether, which got big on other people's chains, is behind Plasma: an L1 built around USDT, with zero-fee transfers and gas payable in the stablecoin itself<sup class="footnote-ref"><a href="#fn11" id="fnref11">11</a></sup>. The two biggest issuers on the open rails are both building their own. Nobody who wins on open rails wants to stay on them.</p>
+<p>The key here being that nobody <em>wants</em> to. Whether anyone <em>can</em> leave and retain their business is a different question. Massive companies have never struggled to coordinate, when coordinating is mutually beneficial. The Clearing House has been settling accounts between competitor banks since 1853. SWIFT is a cooperative, Visa was born as one - a bank consortium that only IPO'd in 2008. If a coalition of giants could solve this, they'd have solved it decades ago. What the consortium has never once solved is coordination <em>beyond</em> the club: getting your competitors, your members' competitors, and strangers with no seat at the table to commit real capital to rails you control. Facebook Diem had the best distribution on earth and died on exactly this rock, because everyone could see whose network it was (and no-one trusted it not to cannibalise their other business).</p>
+<p>That problem is what credible neutrality solves. USDC settled $33 trillion because it ran on rails that, nominally, nobody owned, so an exchange, a market maker, or a rival issuer could build on top of it without trusting Circle any further than they already did by holding the coin. Neutrality reads as ideology to chain natives, but for these transactions it's load-bearing. Which makes Arc, Plasma and the rest of <a href="/blog/company-scrip/">the house-chain wave</a><sup class="footnote-ref"><a href="#fn12" id="fnref12">12</a></sup> strange positions: Circle is asking the ecosystem to do for it what the world refused to do for Facebook. Its distribution may be big enough by now to cover the neutrality it's spending - but attempts have run dry before.</p>
+<h2 id="the-code-was-never-the-moat" tabindex="-1">The code was never the moat <a class="header-anchor" href="#the-code-was-never-the-moat">#</a></h2>
+<p>Put the positions side by side and they nearly all say the same thing, which is the opposite of what the industry says about itself. The code is commoditised, settlement is a solved problem, the source is open, the volumes are enormous and the marginal cost is approaching zero. But &quot;the tech&quot;, here at least, was always two things: the code, which became free, and the credible neutrality of the rails, which didn't, because you can't fork it. Copy Ethereum's code and you get a (somewhat shitty) chain. You don't get ten years of nobody owning it. The moats left standing are permission, distribution, and - the one nobody is ready to talk about - <strong>neutrality</strong>. Only the first two are for sale.</p>
+<p>So the book is split. The crypto-natives are buying permission with charters, while the banks are defending distribution with commoditised consortiums, hoping it will be enough. Circle is spending its neutrality to buy control, betting its distribution covers the difference. Against all of that, $33 trillion a year still settles on rails nobody owns. Commoditising the code didn't democratise the industry - it relocated the fight from the thing that got cheap to the things that didn't.</p>
+<p>For me, that's what the book says, and it's less settled than the eulogies for open rails would suggest. The dollar is a solved problem, sure (at least if the US Treasury's model is to be believed). Who gets to issue it, move it, and stand in front of you when you want out, is not. Every enclosure under construction is a bet that those answers can be owned - but the counter-bet is simpler: a chain with a landlord is <a href="/blog/company-scrip/">a company store</a>, and we know how company stores end. We can see which side the incumbents' money is on, and I'm not convinced they're right.</p>
+<p>I think the way these rails play out is an evergreen pattern of conflict - what Thucydides might have called <em>to anthropinon</em><sup class="footnote-ref"><a href="#fn13" id="fnref13">13</a></sup>. And so, I'll leave this post with some reasoning by analogy. If cognition commoditises the way settlement did - cheap, open, everywhere - don't expect the commoditisation itself to democratise anything. Watch the same three moats: who holds permission, who holds distribution, and whether anyone manages to build the credibly neutral substrate that forces the giants to share rails rather than build their own. In settlement, the neutral rails got a ten-year head start before the giants took them seriously - the cover required to build distributed, resilient networks. So far, cognition is running the other way. The giants are the substrate, and nobody's Ethereum is coming unless someone builds it.</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p><a href="https://en.wikipedia.org/wiki/Incentive_compatibility">https://en.wikipedia.org/wiki/Incentive_compatibility</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>The eleven: Circle, Ripple, BitGo, Paxos, Fidelity Digital Assets, Bridge, Crypto.com, Protego, Morgan Stanley, Payoneer, Zerohash. The window runs from the OCC's first conditional approvals in December 2025 to the eleventh filing in early March 2026. <a href="https://www.fintechweekly.com/news/occ-national-trust-bank-charter-crypto-fintech-2026">https://www.fintechweekly.com/news/occ-national-trust-bank-charter-crypto-fintech-2026</a> <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p><a href="https://www.mayerbrown.com/en/insights/publications/2025/07/genius-act-signed-into-law-us-enacts-federal-stablecoin-legislation">https://www.mayerbrown.com/en/insights/publications/2025/07/genius-act-signed-into-law-us-enacts-federal-stablecoin-legislation</a> <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p><a href="https://www.theblock.co/post/392839/us-banking-lobby-weighs-lawsuit-against-occ-over-crypto-fintech-national-trust-charters-report">https://www.theblock.co/post/392839/us-banking-lobby-weighs-lawsuit-against-occ-over-crypto-fintech-national-trust-charters-report</a> <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5" class="footnote-item"><p><a href="https://www.ledgerinsights.com/us-banks-tap-the-clearing-house-for-tokenized-deposit-network/">https://www.ledgerinsights.com/us-banks-tap-the-clearing-house-for-tokenized-deposit-network/</a> <a href="#fnref5" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn6" class="footnote-item"><p>Standard Chartered's US-specific estimate (January 2026). The same analysis puts emerging-market deposit flight near $1 trillion by 2028. <a href="https://finance.yahoo.com/news/us-banks-may-lose-500-172100068.html">https://finance.yahoo.com/news/us-banks-may-lose-500-172100068.html</a> <a href="#fnref6" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn7" class="footnote-item"><p>Mark Monaco, Bank of America's head of global payments solutions, to the WSJ. <a href="https://www.pymnts.com/blockchain/2026/big-banks-launch-tokenized-deposit-network-to-fight-off-stablecoin-threat/">https://www.pymnts.com/blockchain/2026/big-banks-launch-tokenized-deposit-network-to-fight-off-stablecoin-threat/</a> <a href="#fnref7" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn8" class="footnote-item"><p><a href="https://defillama.com/stablecoins">https://defillama.com/stablecoins</a> <a href="#fnref8" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn9" class="footnote-item"><p>A record $33 trillion in 2025, led by USDC. Some coverage has it past Visa and Mastercard combined. <a href="https://www.bloomberg.com/news/articles/2026-01-08/stablecoin-transactions-rose-to-record-33-trillion-led-by-usdc">https://www.bloomberg.com/news/articles/2026-01-08/stablecoin-transactions-rose-to-record-33-trillion-led-by-usdc</a> <a href="#fnref9" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn10" class="footnote-item"><p><a href="https://www.circle.com/pressroom/circle-launches-arc-public-testnet">https://www.circle.com/pressroom/circle-launches-arc-public-testnet</a> <a href="#fnref10" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn11" class="footnote-item"><p>Mainnet beta launched September 2025 with ~$2B in stablecoin liquidity on day one. <a href="https://www.theblock.co/post/371228/bitfinex-plasma-blockchain-mainnet-launch">https://www.theblock.co/post/371228/bitfinex-plasma-blockchain-mainnet-launch</a> <a href="#fnref11" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn12" class="footnote-item"><p><a href="https://blockeden.xyz/blog/2026/03/27/stablechains-purpose-built-stablecoin-l1-race-plasma-circle-arc-stripe-tempo/">https://blockeden.xyz/blog/2026/03/27/stablechains-purpose-built-stablecoin-l1-race-plasma-circle-arc-stripe-tempo/</a> <a href="#fnref12" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn13" class="footnote-item"><p><em>To anthrōpinon</em>, &quot;the human thing&quot; - Thucydides' claim that, human nature being what it is, events will repeat in much the same way. His justification for writing history at all. <a href="https://en.wikipedia.org/wiki/Thucydides">https://en.wikipedia.org/wiki/Thucydides</a> <a href="#fnref13" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+<ul class="links-nextprev"><li>Previous: <a href="/blog/company-scrip/">Company scrip, company store</a></li>
+</ul>
+
+    </main>
+    <footer>
+      <a href="/feed/feed.xml">RSS</a>
+      ·
+      <a href="https://github.com/cdrn/cdrn.github.io">Source</a>
+    </footer>
+    <!-- Current page: /blog/moats-closed/ -->
+    <!-- 100% privacy-first analytics -->
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+  </body>
+</html>
