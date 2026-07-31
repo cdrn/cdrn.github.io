@@ -100,6 +100,17 @@ module.exports = function(eleventyConfig) {
 		return DateTime.fromJSDate(dateObj, {zone: 'utc'}).toFormat('yyyy-LL-dd');
 	});
 
+	// First image in rendered content as an absolute URL, for og:image cards
+	eleventyConfig.addFilter("firstImage", (content, baseUrl, pageUrl) => {
+		if (typeof content !== "string") return null;
+		let match = content.match(/<img[^>]+src="([^"]+)"/);
+		if (!match) return null;
+		let src = match[1];
+		if (/^https?:\/\//.test(src)) return src;
+		if (src.startsWith("/")) return baseUrl + src;
+		return baseUrl + pageUrl + src;
+	});
+
 	// Get the first `n` elements of a collection.
 	eleventyConfig.addFilter("head", (array, n) => {
 		if(!Array.isArray(array) || array.length === 0) {
