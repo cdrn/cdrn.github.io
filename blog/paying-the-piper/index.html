@@ -1,0 +1,1029 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paying the piper</title>
+    <meta name="description" content="unter allerlei Ausflüchten">
+    <link rel="canonical" href="https://cdrn.xyz/blog/paying-the-piper/">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta property="og:title" content="Paying the piper">
+    <meta property="og:description" content="unter allerlei Ausflüchten">
+    <meta property="og:url" content="https://cdrn.xyz/blog/paying-the-piper/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Chris Doran">
+    <meta property="og:image" content="https://cdrn.xyz/blog/paying-the-piper/oracle.png">
+    <meta property="article:published_time" content="2026-07-31">
+    <meta property="article:author" content="Chris">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Paying the piper">
+    <meta name="twitter:description" content="unter allerlei Ausflüchten">
+    <meta name="twitter:image" content="https://cdrn.xyz/blog/paying-the-piper/oracle.png">
+    <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Chris Doran">
+    <link rel="alternate" href="/feed/feed.json" type="application/json" title="Chris Doran">
+    
+    <style>
+    /**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: black;
+	background: none;
+	text-shadow: 0 1px white;
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+@media print {
+	code[class*="language-"],
+	pre[class*="language-"] {
+		text-shadow: none;
+	}
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #f5f2f0;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: slategray;
+}
+
+.token.punctuation {
+	color: #999;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #9a6e3a;
+	/* This background color was intended by the author of this theme. */
+	background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #07a;
+}
+
+.token.function,
+.token.class-name {
+	color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #e90;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+[data-theme="dark"] {
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Minimal but readable styling */
+:root {
+	--font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+	--font-size-base: 17px;
+	--line-height-base: 1.7;
+
+	/* Light theme */
+	--background-color: #ffffff;
+	--text-color: #000000;
+	--text-color-link: #0000ee;
+	--text-color-link-visited: #551a8b;
+	--text-color-muted: #666666;
+	--border-color: #d4d4d4;
+	--code-bg: #f2f2f2;
+
+	--max-width: 72ch;
+}
+
+[data-theme="dark"] {
+	--background-color: #1a1a1a;
+	--text-color: #e0e0e0;
+	--text-color-link: #6b9bd1;
+	--text-color-link-visited: #8a7fc4;
+	--text-color-muted: #999999;
+	--border-color: #333333;
+	--code-bg: #2a2a2a;
+}
+
+/* Basic reset */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0;
+	font-family: var(--font-family);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
+	color: var(--text-color);
+	background-color: var(--background-color);
+	font-weight: 500;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+html.theme-transition,
+html.theme-transition body {
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+	max-width: var(--max-width);
+	margin: 0 auto;
+	padding: 1em;
+}
+
+/* Header - minimal */
+header {
+	margin-bottom: 2em;
+	padding-bottom: 1em;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.header-main {
+	margin-bottom: 0.5em;
+}
+
+.nav-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.home-link {
+	font-weight: bold;
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.home-link:hover {
+	text-decoration: underline;
+}
+
+/* Navigation - simple list */
+.nav {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline;
+	margin-right: 1em;
+}
+
+.nav-item a {
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.nav-item a:hover,
+.nav-item a[aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Theme toggle - minimal button */
+.theme-toggle {
+	font-family: var(--font-family);
+	padding: 2px 8px;
+	margin-left: 1em;
+	border: 1px solid var(--border-color);
+	background: var(--background-color);
+	color: var(--text-color);
+	cursor: pointer;
+	font-size: var(--font-size-base);
+}
+
+/* Main content */
+main {
+	padding: 0;
+}
+
+/* Visually hidden (a11y skip link, etc.) */
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.visually-hidden:focus {
+	position: static;
+	width: auto;
+	height: auto;
+	margin: 0;
+	overflow: visible;
+	clip: auto;
+	white-space: normal;
+}
+
+/* Tag filter pills */
+.tag-filter {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4em;
+	margin: 1em 0 2em;
+}
+
+.tag-pill {
+	font-family: var(--font-family);
+	font-size: 0.85em;
+	padding: 0.2em 0.7em;
+	border: 1px solid var(--border-color);
+	background: transparent;
+	color: var(--text-color-muted);
+	cursor: pointer;
+	border-radius: 999px;
+	line-height: 1.5;
+}
+
+.tag-pill:hover {
+	color: var(--text-color);
+	border-color: var(--text-color-muted);
+}
+
+.tag-pill.active {
+	background: var(--text-color);
+	color: var(--background-color);
+	border-color: var(--text-color);
+}
+
+.postlist-footer-link {
+	margin-top: 1.5em;
+}
+
+/* Post list - readable */
+.postlist {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.postlist-item {
+	margin-bottom: 2.5em;
+	padding-bottom: 1.5em;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.postlist-link {
+	font-weight: bold;
+	font-size: 1.15em;
+	color: var(--text-color);
+	text-decoration: none;
+	line-height: 1.4;
+	display: block;
+	margin-bottom: 0.5em;
+}
+
+.postlist-link:hover {
+	text-decoration: underline;
+}
+
+.postlist-meta {
+	margin: 0.5em 0;
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+}
+
+.postlist-reading-time {
+	margin-left: 1em;
+}
+
+.postlist-excerpt {
+	margin: 0.75em 0;
+	line-height: 1.6;
+}
+
+.postlist-tags {
+	margin-top: 0.75em;
+	font-size: 0.9em;
+}
+
+.post-tag {
+	text-decoration: none;
+	color: var(--text-color-muted);
+	font-size: 0.9em;
+}
+
+.post-tag:hover {
+	text-decoration: underline;
+}
+
+/* Article - minimal */
+article {
+	margin: 2em 0;
+}
+
+.post-metadata {
+	list-style: none;
+	padding: 0;
+	margin: 1em 0;
+}
+
+.post-metadata li {
+	display: inline;
+}
+
+.post-metadata li:first-child {
+	display: block;
+	margin-bottom: 0.5em;
+}
+
+/* Reading time (inline next to post date) */
+.post-reading-time {
+	margin-left: 1em;
+	color: var(--text-color-muted);
+	font-size: 0.9em;
+}
+
+/* Table of contents for long posts (collapsed by default) */
+.toc {
+	margin: 1.5em 0;
+	font-size: 0.95em;
+}
+
+.toc > summary {
+	cursor: pointer;
+	color: var(--text-color-muted);
+	font-size: 0.85em;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	width: fit-content;
+}
+
+.toc > summary:hover {
+	color: var(--text-color);
+}
+
+.toc[open] > summary {
+	margin-bottom: 0.75em;
+}
+
+.toc ol {
+	list-style: none;
+	margin: 0;
+	padding-left: 0;
+}
+
+.toc ol ol {
+	padding-left: 1.5em;
+}
+
+.toc li {
+	margin: 0.25em 0;
+}
+
+.toc a {
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.toc a:hover {
+	text-decoration: underline;
+}
+
+/* Typography - improved hierarchy */
+h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
+	margin-top: 1.5em;
+	margin-bottom: 0.75em;
+	line-height: 1.3;
+}
+
+h1 {
+	font-size: 1.8em;
+	margin-top: 0;
+	margin-bottom: 1em;
+}
+h2 {
+	font-size: 1.4em;
+	margin-top: 2em;
+}
+h3 { font-size: 1.15em; }
+
+p {
+	margin: 1em 0;
+}
+
+/* Code blocks - always monospace */
+pre {
+	margin: 1em 0;
+	padding: 0.5em;
+	overflow-x: auto;
+	border-left: 3px solid var(--text-color);
+	font-family: "Courier New", Courier, monospace;
+	font-size: 0.9em;
+}
+
+code {
+	font-family: "Courier New", Courier, monospace;
+	font-size: 0.9em;
+}
+
+/* Inline code (not the highlighted blocks Prism owns) */
+:not(pre) > code {
+	background: var(--code-bg);
+	padding: 0.1em 0.35em;
+	border-radius: 3px;
+}
+
+/* Links - classic web style */
+a[href] {
+	color: var(--text-color-link);
+	text-decoration: underline;
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover {
+	text-decoration: none;
+}
+
+.links-nextprev {
+	list-style: none;
+	padding: 0;
+	margin: 2em 0;
+	border-top: 1px solid var(--border-color);
+	padding-top: 1em;
+}
+
+/* Footnotes */
+.footnote-ref {
+	font-size: 0.75em;
+	margin: 0 0.05em;
+}
+
+.footnote-ref a {
+	text-decoration: none;
+}
+
+.footnotes-sep {
+	margin-top: 3em;
+	border: 0;
+	border-top: 1px solid var(--border-color);
+}
+
+.footnotes {
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+	margin-top: 1.5em;
+}
+
+.footnotes-list {
+	padding-left: 1.5em;
+}
+
+.footnotes-list li {
+	margin: 0.6em 0;
+}
+
+.footnotes a {
+	color: inherit;
+}
+
+.footnote-backref {
+	text-decoration: none;
+	margin-left: 0.3em;
+}
+
+.links-nextprev li {
+	margin: 0.5em 0;
+}
+
+/* Footer */
+footer {
+	margin-top: 4em;
+	padding: 1em 0;
+	border-top: 1px solid var(--border-color);
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+}
+
+footer a {
+	color: var(--text-color-muted);
+}
+
+/* Two-column layout */
+.two-column-layout {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 4em;
+	margin: 2em 0;
+}
+
+.two-column-layout .column h2:first-child {
+	margin-top: 0;
+}
+
+@media (max-width: 768px) {
+	.two-column-layout {
+		grid-template-columns: 1fr;
+		gap: 3em;
+	}
+}
+
+/* Projects list */
+.projects-list {
+	list-style: none;
+	padding: 0;
+	margin: 2em 0;
+}
+
+.project-list-item {
+	margin: 1.5em 0;
+}
+
+.project-list-title {
+	font-weight: bold;
+	font-size: 1.1em;
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.project-list-title:hover {
+	text-decoration: underline;
+}
+
+.project-list-byline {
+	margin-top: 0.15em;
+	color: var(--text-color);
+}
+
+/* Project detail page */
+.project-back {
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+	margin: 0 0 1em;
+}
+
+.project-back a {
+	color: var(--text-color-muted);
+}
+
+.project-preview {
+	max-width: 100%;
+	height: auto;
+	border: 1px solid var(--border-color);
+	margin: 0 0 1em;
+}
+
+@media (min-width: 769px) {
+	.project-preview {
+		max-width: 300px;
+		float: right;
+		margin: 0 0 1em 1.5em;
+	}
+}
+
+.project-body {
+	margin-bottom: 1.5em;
+}
+
+.project-tech {
+	color: var(--text-color-muted);
+	margin: 0.5em 0;
+}
+
+.project-links {
+	margin-top: 1em;
+}
+
+.project-link {
+	margin-right: 1.5em;
+}
+
+
+/* Content container */
+.content-container {
+	margin: 2em 0;
+}
+
+/* Images */
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Lists */
+ul, ol {
+	margin: 1em 0;
+	padding-left: 2em;
+}
+
+blockquote {
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid var(--text-color);
+}
+
+/* Tables */
+table {
+	border-collapse: collapse;
+	margin: 1em 0;
+}
+
+th, td {
+	border: 1px solid var(--border-color);
+	padding: 0.5em;
+	text-align: left;
+}
+
+th {
+	font-weight: bold;
+}</style>
+    <script>
+      // Set theme immediately to prevent flash
+      (function() {
+        const theme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+    <script src="/js/theme-toggle.js" defer></script>
+  </head>
+  <body>
+    <a href="#skip" class="visually-hidden">Skip to content</a>
+    <header>
+      <div>
+        <div class="header-main">
+          <a href="/" class="home-link">Chris Doran</a>
+        </div>
+        <div class="nav-row">
+          <nav>
+            <ul class="nav">
+                <li class="nav-item">
+                  <a href="/" >Home</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/projects/" >Projects</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/about/" >About</a>
+                </li>
+            </ul>
+          </nav>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"></button>
+          <script>
+            // Set initial label synchronously so dark-mode loads don't flash "DARK"
+            document.getElementById('theme-toggle').textContent =
+              (localStorage.getItem('theme') || 'light') === 'light' ? 'DARK' : 'LIGHT';
+          </script>
+        </div>
+      </div>
+    </header>
+    <main id="skip">
+      
+<h1>Paying the piper</h1><ul class="post-metadata">
+	<li><time datetime="2026-07-31">31 July 2026</time><span class="post-reading-time">8 min read</span></li>
+	<li><a href="/tags/thonk/" class="post-tag">thonk</a>,</li>
+	<li><a href="/tags/stablecoins/" class="post-tag">stablecoins</a></li>
+</ul>
+
+<h2 id="grading-my-own-book" tabindex="-1">Grading my own book <a class="header-anchor" href="#grading-my-own-book">#</a></h2>
+<p>In March 2025 I made <a href="/blog/whatsgoingonstables/">a post</a> making some bold predictions about stablecoins. The cool thing about bold predictions is that they are <em>falsifiable</em>. In this post, we're going to find out exactly what type of oracle I am - hellenic information broker or natural gas enjoyer. Keep reading to find out!</p>
+<p><img src="oracle.png" alt="this is where i post from"></p>
+<h2 id="position-1-the-yield-race" tabindex="-1">Position 1: the yield race <a class="header-anchor" href="#position-1-the-yield-race">#</a></h2>
+<p><strong>The call:</strong> issuers would be forced to compete on yield, racing the money/t-bill spread toward zero.</p>
+<p><strong>The grade:</strong> miss in mechanism, hit in pressure. 0.5 points.</p>
+<p>For this one, straight up, it got banned: the GENIUS Act prohibits issuers from paying interest to holders. I still <em>think</em> I priced the economics right, but I certainly priced the legislature's willingness to simply prohibit the endgame wrong. That said, the pressure didn't dissipate entirely. The prohibition was written narrowly - issuer-paid yield banned, affiliate-paid yield unaddressed - and the market did exactly what the pressure predicted: by late 2025 Coinbase was paying roughly 4% and Kraken roughly 5% in rewards on USDC<sup class="footnote-ref"><a href="#fn1" id="fnref1">1</a></sup>, with the Fed and the ABA warning the migration could squeeze over a trillion dollars out of bank lending capacity<sup class="footnote-ref"><a href="#fn2" id="fnref2">2</a></sup>.</p>
+<p>So now Congress is chasing the yield hop by hop: the OCC's February 2026 proposed rulemaking<sup class="footnote-ref"><a href="#fn3" id="fnref3">3</a></sup> includes a rebuttable presumption that coordinated issuer-affiliate yield arrangements are prohibited - language that captures the Coinbase-Circle structure as it operates today - and a May deal would use the CLARITY Act to prohibit rewards that are &quot;economically or functionally equivalent&quot; to bank interest<sup class="footnote-ref"><a href="#fn4" id="fnref4">4</a></sup>.</p>
+<p>On this one I am reserving the right to revisit. I think this hypothesis is strong in the limit - but will have to go through many rounds of the regulatory arms race to end up in the place predicted by the post. Still! Not my worst take.</p>
+<h2 id="position-2-orderflow-is-king" tabindex="-1">Position 2: orderflow is king <a class="header-anchor" href="#position-2-orderflow-is-king">#</a></h2>
+<p><strong>The call:</strong> distribution decides; stablecoins that have a reason to be, will be.</p>
+<p><strong>The grade:</strong> Pretty clean win, and the market conceded it in the design of its newest product. 1 point.</p>
+<p>The consortium stablecoin Open USD is some of the best evidence for this one.  Considering that it is a Visa/Mastercard/Coinbase vehicle - and its model shares reserve earnings with distribution partners, it slots perfectly into the thesis. The implication here is that: The risk free rate gets handed more or less wholesale to the person who owns the distribution/orderflow<sup class="footnote-ref"><a href="#fn5" id="fnref5">5</a></sup>.</p>
+<p>Ding!</p>
+<p>PYUSD is the cautionary half of the same grade: ~680% growth to a ~$4.2B peak, driven by the YouTube creator-payout integration, Visa Direct remittances and a 4.5% rewards program - then a roughly 31% supply contraction once the incentive programs tapered<sup class="footnote-ref"><a href="#fn6" id="fnref6">6</a></sup>. Rented distribution, not owned. The coins with a reason to exist kept existing.</p>
+<p>Probably my cleanest call, and obvious to bridge war veterans, but maybe not to everyone!</p>
+<h2 id="position-3-the-vampire-attack" tabindex="-1">Position 3: the vampire attack <a class="header-anchor" href="#position-3-the-vampire-attack">#</a></h2>
+<p><strong>The call:</strong> an aggressive issuer accepts rival stables, burns them through the redemption contract, mints its own on top.</p>
+<p><strong>The grade:</strong> miss - nothing at scale materialised. 0 points. Concentration actually tightened: USDT around 59% and USDC around 24% of a roughly $316B market<sup class="footnote-ref"><a href="#fn7" id="fnref7">7</a></sup>.</p>
+<p>But there's a reportable question inside the miss: the defence the post predicted - contractual mint/burn limits with designated arbitrageurs - is now standard practice. So either the deterrent worked, which is a partial hit dressed as a miss, or the attack economics never cleared. Those are different post-mortems and I don't know which one is true.</p>
+<p>Worth mentioning, this has likely been ablated by the above point about consortium revenue sharing. It's easier to join 'em than to beat 'em for now. We may live to see the vampire return however after the consortiums settle. Miss.</p>
+<h2 id="position-4-the-cdp-renaissance" tabindex="-1">Position 4: the CDP renaissance <a class="header-anchor" href="#position-4-the-cdp-renaissance">#</a></h2>
+<p><strong>The call:</strong> CDP and LST-backed stables get their moment &quot;after the institutions do battle.&quot;</p>
+<p><strong>The grade:</strong> open position resolving early, in my favour - and ahead of my own sequencing. 0.75 points, provisionally. The battle isn't over and they're already eating share: USDe at roughly $4.4B, the largest crypto-collateralised synthetic dollar after Sky's USDS (itself grown north of $9B)<sup class="footnote-ref"><a href="#fn8" id="fnref8">8</a></sup>, sUSDe printing ~9.4% trailing APY in the spring - nearer 7% by June - with about 70% of supply staked<sup class="footnote-ref"><a href="#fn9" id="fnref9">9</a></sup>.</p>
+<p>The fresh observation hiding in the grade: the regulated lane banned yield, and savings demand went where the ban can't follow. The GENIUS yield prohibition is functioning as a subsidy to Ethena<sup class="footnote-ref"><a href="#fn10" id="fnref10">10</a></sup>. This continues as volumes grow in my opinion - potentially confounded if walled garden venues ever take flight.</p>
+<h2 id="position-5-the-flow-control-tranche" tabindex="-1">Position 5: the flow-control tranche <a class="header-anchor" href="#position-5-the-flow-control-tranche">#</a></h2>
+<p><strong>The call:</strong> a younger tranche, this one from <a href="/blog/speed-of-law-vs-blocks/">December's post on the speed of law</a>: enforcement shifts from asset control to flow control - validator pressure, frontend takedowns, wallet delisting, travel rules reaching into DeFi.</p>
+<p><strong>The grade so far:</strong> aging very well. 0.75 points, provisionally - it's only seven months old. FATF's Seventh Targeted Update (July 2026)<sup class="footnote-ref"><a href="#fn11" id="fnref11">11</a></sup> flags offshore VASPs, stablecoins and unhosted wallets for tighter supervision, and supervisors are now using functional on-chain and off-chain indicators - multisig control, fee redirection, frontend management - to identify who controls a protocol<sup class="footnote-ref"><a href="#fn12" id="fnref12">12</a></sup>. Enforcement is concentrating on exactly the layer the post named: web apps, RPC providers, hosted frontends, with geofencing and policy-gating becoming default features. MiCA has already forced exchanges to delist USDT in parts of the EU<sup class="footnote-ref"><a href="#fn13" id="fnref13">13</a></sup>.</p>
+<p>One softener to keep the grade (somewhat) honest: only about 40% of jurisdictions with Travel Rule laws have taken any supervisory or enforcement action<sup class="footnote-ref"><a href="#fn14" id="fnref14">14</a></sup>. The intent has shifted faster than the capacity - but it's early days.</p>
+<h2 id="the-net-book" tabindex="-1">The net book <a class="header-anchor" href="#the-net-book">#</a></h2>
+<p>Tallying the card: <strong>yield race</strong> 0.5, <strong>orderflow</strong> 1, <strong>vampire attack</strong> 0, <strong>CDP renaissance</strong> 0.75, <strong>flow control</strong> 0.75. Call it 3 out of 5, with two positions still open and both drifting in my favour. A reasonable book!</p>
+<p>Worth mentioning - for many of these positions, it's still early days, but we'll take it! I am particularly interested to see if the vampire attack and CDP renaissance theses play out in the limit, as both have implications for (and are moved by!) the emergent consortium meta.</p>
+<p>I'll continue watching these, and try to add some more outlandish claims to the book this year. But for now, consider the piper paid. Until next time!</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>The banks call it a loophole; Coinbase's position is that the law says what it says. <a href="https://www.coindesk.com/policy/2026/03/19/coinbase-faces-a-multibillion-dollar-threat-from-d-c-but-a-rewards-loophole-could-protect-its-stablecoin-revenue">https://www.coindesk.com/policy/2026/03/19/coinbase-faces-a-multibillion-dollar-threat-from-d-c-but-a-rewards-loophole-could-protect-its-stablecoin-revenue</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>The Fed/ABA estimate runs to $1.26 trillion in lost lending capacity. <a href="https://www.coingecko.com/learn/banks-vs-stablecoins">https://www.coingecko.com/learn/banks-vs-stablecoins</a> <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p>NPRM of February 25, 2026; the presumption treats coordinated issuer-affiliate yield as prohibited unless proven unconnected to holding the coin. <a href="https://www.gibsondunn.com/occ-proposes-comprehensive-stablecoin-regulatory-framework-to-implement-the-genius-act/">https://www.gibsondunn.com/occ-proposes-comprehensive-stablecoin-regulatory-framework-to-implement-the-genius-act/</a> <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p>The Tillis-Alsobrooks compromise: no rewards for merely holding, activity-linked rewards allowed. The ABA reportedly sent 8,000 letters. <a href="https://www.coindesk.com/policy/2026/05/01/clarity-act-text-lets-crypto-firms-offer-stablecoin-rewards-while-shielding-bank-yield">https://www.coindesk.com/policy/2026/05/01/clarity-act-text-lets-crypto-firms-offer-stablecoin-rewards-while-shielding-bank-yield</a> <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5" class="footnote-item"><p>140-odd launch partners; reserve earnings flow to partner businesses net of a management fee, with free unlimited mint/redeem. <a href="https://www.theblock.co/post/406736/visa-stripe-coinbase-join-open-usd-stablecoin-shares-reserve-revenue">https://www.theblock.co/post/406736/visa-stripe-coinbase-join-open-usd-stablecoin-shares-reserve-revenue</a> <a href="#fnref5" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn6" class="footnote-item"><p>Peaked at ~$4.2B in March 2026, closed Q2 near $2.7B - the first meaningful contraction since launch. <a href="https://stablecoininsider.org/paypals-pyusd-q2-2026-report-supply-adoption-and-key-metrics/">https://stablecoininsider.org/paypals-pyusd-q2-2026-report-supply-adoption-and-key-metrics/</a> <a href="#fnref6" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn7" class="footnote-item"><p>As of June 2026. Live figures: <a href="https://defillama.com/stablecoins">https://defillama.com/stablecoins</a> <a href="#fnref7" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn8" class="footnote-item"><p><a href="https://messari.io/project/sky-dollar">https://messari.io/project/sky-dollar</a> <a href="#fnref8" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn9" class="footnote-item"><p><a href="https://eco.com/support/en/articles/15254002-ethena-usde-and-susde-2026-delta-neutral-yield">https://eco.com/support/en/articles/15254002-ethena-usde-and-susde-2026-delta-neutral-yield</a> <a href="#fnref9" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn10" class="footnote-item"><p>The subsidy reading is mine; the mechanics - yield products structured outside the GENIUS perimeter - are laid out here. <a href="https://cryptobriefing.com/genius-act-yield-stablecoin-rules/">https://cryptobriefing.com/genius-act-yield-stablecoin-rules/</a> <a href="#fnref10" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn11" class="footnote-item"><p><a href="https://www.fatf-gafi.org/en/publications/Fatfrecommendations/targeted-updated-virtualassets-vasps-2026.html">https://www.fatf-gafi.org/en/publications/Fatfrecommendations/targeted-updated-virtualassets-vasps-2026.html</a> <a href="#fnref11" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn12" class="footnote-item"><p>The companion DeFi report - control indicators include multisig custody, fee redirection and frontend management. <a href="https://www.fatf-gafi.org/en/publications/Virtualassets/targeted-report-decentralised-finance-2026.html">https://www.fatf-gafi.org/en/publications/Virtualassets/targeted-report-decentralised-finance-2026.html</a> <a href="#fnref12" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn13" class="footnote-item"><p><a href="https://www.theblock.co/post/344182/binance-delist-tether-other-non-mica-compliant-stablecoins">https://www.theblock.co/post/344182/binance-delist-tether-other-non-mica-compliant-stablecoins</a> <a href="#fnref13" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn14" class="footnote-item"><p>Per Notabene's read of the update: 91 of 109 surveyed jurisdictions have Travel Rule legislation in force, but roughly 60% of those hadn't yet issued a single supervisory finding or directive. <a href="https://notabene.id/post/fatfs-seventh-targeted-update-on-virtual-assets">https://notabene.id/post/fatfs-seventh-targeted-update-on-virtual-assets</a> <a href="#fnref14" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+<ul class="links-nextprev"><li>Previous: <a href="/blog/moats-closed/">Moat&#39;s closed</a></li>
+</ul>
+
+    </main>
+    <footer>
+      <a href="/feed/feed.xml">RSS</a>
+      ·
+      <a href="https://github.com/cdrn/cdrn.github.io">Source</a>
+    </footer>
+    <!-- Current page: /blog/paying-the-piper/ -->
+    <!-- 100% privacy-first analytics -->
+    <script data-goatcounter="https://cdrn.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>
