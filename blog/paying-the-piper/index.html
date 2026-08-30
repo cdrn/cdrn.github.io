@@ -337,31 +337,61 @@ pre[class*="language-diff-"] {
 }
 * { box-sizing: border-box; }
 /* Minimal but readable styling */
+@font-face {
+	font-family: "Spectral";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/fonts/spectral-400.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Spectral";
+	font-style: italic;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/fonts/spectral-400i.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Spectral";
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: url("/fonts/spectral-500.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Spectral";
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: url("/fonts/spectral-700.woff2") format("woff2");
+}
+
 :root {
-	--font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+	--font-family: "Spectral", Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
+	--font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 	--font-size-base: 17px;
 	--line-height-base: 1.7;
 
 	/* Light theme */
-	--background-color: #ffffff;
-	--text-color: #000000;
-	--text-color-link: #0000ee;
-	--text-color-link-visited: #551a8b;
-	--text-color-muted: #666666;
-	--border-color: #d4d4d4;
-	--code-bg: #f2f2f2;
+	--background-color: #fdfcf8;
+	--text-color: #1c1c1c;
+	--text-color-link: #1a5296;
+	--text-color-link-visited: #6d5a8e;
+	--text-color-muted: #6b6b66;
+	--border-color: #ddd9d0;
+	--code-bg: #f2f0ea;
 
 	--max-width: 72ch;
 }
 
 [data-theme="dark"] {
-	--background-color: #1a1a1a;
-	--text-color: #e0e0e0;
-	--text-color-link: #6b9bd1;
-	--text-color-link-visited: #8a7fc4;
-	--text-color-muted: #999999;
-	--border-color: #333333;
-	--code-bg: #2a2a2a;
+	--background-color: #191a1e;
+	--text-color: #ddd9d0;
+	--text-color-link: #8fb6e8;
+	--text-color-link-visited: #a898cd;
+	--text-color-muted: #96938c;
+	--border-color: #34363c;
+	--code-bg: #26282e;
 }
 
 /* Basic reset */
@@ -378,7 +408,7 @@ body {
 	line-height: var(--line-height-base);
 	color: var(--text-color);
 	background-color: var(--background-color);
-	font-weight: 500;
+	font-weight: 400;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -657,7 +687,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-	font-size: 1.8em;
+	font-size: 2.2em;
 	margin-top: 0;
 	margin-bottom: 1em;
 }
@@ -677,13 +707,13 @@ pre {
 	padding: 0.5em;
 	overflow-x: auto;
 	border-left: 3px solid var(--text-color);
-	font-family: "Courier New", Courier, monospace;
-	font-size: 0.9em;
+	font-family: var(--font-mono);
+	font-size: 0.85em;
 }
 
 code {
-	font-family: "Courier New", Courier, monospace;
-	font-size: 0.9em;
+	font-family: var(--font-mono);
+	font-size: 0.85em;
 }
 
 /* Inline code (not the highlighted blocks Prism owns) */
@@ -1013,7 +1043,7 @@ th {
 </ol>
 </section>
 
-<ul class="links-nextprev"><li>Previous: <a href="/blog/moats-closed/">Moat&#39;s closed</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/blog/moats-closed/">Moat&#39;s closed</a></li><li>Next: <a href="/blog/slop-auction/">Slop Auction</a></li>
 </ul>
 
     </main>

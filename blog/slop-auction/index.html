@@ -1,0 +1,1371 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slop Auction</title>
+    <meta name="description" content="The most important problem on the internet">
+    <link rel="canonical" href="https://cdrn.xyz/blog/slop-auction/">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta property="og:title" content="Slop Auction">
+    <meta property="og:description" content="The most important problem on the internet">
+    <meta property="og:url" content="https://cdrn.xyz/blog/slop-auction/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Chris Doran">
+    <meta property="og:image" content="https://cdrn.xyz/blog/slop-auction/reacher-slop.png">
+    <meta property="article:published_time" content="2026-08-30">
+    <meta property="article:author" content="Chris">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Slop Auction">
+    <meta name="twitter:description" content="The most important problem on the internet">
+    <meta name="twitter:image" content="https://cdrn.xyz/blog/slop-auction/reacher-slop.png">
+    <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Chris Doran">
+    <link rel="alternate" href="/feed/feed.json" type="application/json" title="Chris Doran">
+    
+    <style>
+    /**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: black;
+	background: none;
+	text-shadow: 0 1px white;
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+@media print {
+	code[class*="language-"],
+	pre[class*="language-"] {
+		text-shadow: none;
+	}
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #f5f2f0;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: slategray;
+}
+
+.token.punctuation {
+	color: #999;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #9a6e3a;
+	/* This background color was intended by the author of this theme. */
+	background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #07a;
+}
+
+.token.function,
+.token.class-name {
+	color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #e90;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+[data-theme="dark"] {
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Minimal but readable styling */
+@font-face {
+	font-family: "Spectral";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/fonts/spectral-400.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Spectral";
+	font-style: italic;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/fonts/spectral-400i.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Spectral";
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: url("/fonts/spectral-500.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Spectral";
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: url("/fonts/spectral-700.woff2") format("woff2");
+}
+
+:root {
+	--font-family: "Spectral", Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
+	--font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+	--font-size-base: 17px;
+	--line-height-base: 1.7;
+
+	/* Light theme */
+	--background-color: #fdfcf8;
+	--text-color: #1c1c1c;
+	--text-color-link: #1a5296;
+	--text-color-link-visited: #6d5a8e;
+	--text-color-muted: #6b6b66;
+	--border-color: #ddd9d0;
+	--code-bg: #f2f0ea;
+
+	--max-width: 72ch;
+}
+
+[data-theme="dark"] {
+	--background-color: #191a1e;
+	--text-color: #ddd9d0;
+	--text-color-link: #8fb6e8;
+	--text-color-link-visited: #a898cd;
+	--text-color-muted: #96938c;
+	--border-color: #34363c;
+	--code-bg: #26282e;
+}
+
+/* Basic reset */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0;
+	font-family: var(--font-family);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
+	color: var(--text-color);
+	background-color: var(--background-color);
+	font-weight: 400;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+html.theme-transition,
+html.theme-transition body {
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+	max-width: var(--max-width);
+	margin: 0 auto;
+	padding: 1em;
+}
+
+/* Header - minimal */
+header {
+	margin-bottom: 2em;
+	padding-bottom: 1em;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.header-main {
+	margin-bottom: 0.5em;
+}
+
+.nav-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.home-link {
+	font-weight: bold;
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.home-link:hover {
+	text-decoration: underline;
+}
+
+/* Navigation - simple list */
+.nav {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline;
+	margin-right: 1em;
+}
+
+.nav-item a {
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.nav-item a:hover,
+.nav-item a[aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Theme toggle - minimal button */
+.theme-toggle {
+	font-family: var(--font-family);
+	padding: 2px 8px;
+	margin-left: 1em;
+	border: 1px solid var(--border-color);
+	background: var(--background-color);
+	color: var(--text-color);
+	cursor: pointer;
+	font-size: var(--font-size-base);
+}
+
+/* Main content */
+main {
+	padding: 0;
+}
+
+/* Visually hidden (a11y skip link, etc.) */
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.visually-hidden:focus {
+	position: static;
+	width: auto;
+	height: auto;
+	margin: 0;
+	overflow: visible;
+	clip: auto;
+	white-space: normal;
+}
+
+/* Tag filter pills */
+.tag-filter {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4em;
+	margin: 1em 0 2em;
+}
+
+.tag-pill {
+	font-family: var(--font-family);
+	font-size: 0.85em;
+	padding: 0.2em 0.7em;
+	border: 1px solid var(--border-color);
+	background: transparent;
+	color: var(--text-color-muted);
+	cursor: pointer;
+	border-radius: 999px;
+	line-height: 1.5;
+}
+
+.tag-pill:hover {
+	color: var(--text-color);
+	border-color: var(--text-color-muted);
+}
+
+.tag-pill.active {
+	background: var(--text-color);
+	color: var(--background-color);
+	border-color: var(--text-color);
+}
+
+.postlist-footer-link {
+	margin-top: 1.5em;
+}
+
+/* Post list - readable */
+.postlist {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.postlist-item {
+	margin-bottom: 2.5em;
+	padding-bottom: 1.5em;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.postlist-link {
+	font-weight: bold;
+	font-size: 1.15em;
+	color: var(--text-color);
+	text-decoration: none;
+	line-height: 1.4;
+	display: block;
+	margin-bottom: 0.5em;
+}
+
+.postlist-link:hover {
+	text-decoration: underline;
+}
+
+.postlist-meta {
+	margin: 0.5em 0;
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+}
+
+.postlist-reading-time {
+	margin-left: 1em;
+}
+
+.postlist-excerpt {
+	margin: 0.75em 0;
+	line-height: 1.6;
+}
+
+.postlist-tags {
+	margin-top: 0.75em;
+	font-size: 0.9em;
+}
+
+.post-tag {
+	text-decoration: none;
+	color: var(--text-color-muted);
+	font-size: 0.9em;
+}
+
+.post-tag:hover {
+	text-decoration: underline;
+}
+
+/* Article - minimal */
+article {
+	margin: 2em 0;
+}
+
+.post-metadata {
+	list-style: none;
+	padding: 0;
+	margin: 1em 0;
+}
+
+.post-metadata li {
+	display: inline;
+}
+
+.post-metadata li:first-child {
+	display: block;
+	margin-bottom: 0.5em;
+}
+
+/* Reading time (inline next to post date) */
+.post-reading-time {
+	margin-left: 1em;
+	color: var(--text-color-muted);
+	font-size: 0.9em;
+}
+
+/* Table of contents for long posts (collapsed by default) */
+.toc {
+	margin: 1.5em 0;
+	font-size: 0.95em;
+}
+
+.toc > summary {
+	cursor: pointer;
+	color: var(--text-color-muted);
+	font-size: 0.85em;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	width: fit-content;
+}
+
+.toc > summary:hover {
+	color: var(--text-color);
+}
+
+.toc[open] > summary {
+	margin-bottom: 0.75em;
+}
+
+.toc ol {
+	list-style: none;
+	margin: 0;
+	padding-left: 0;
+}
+
+.toc ol ol {
+	padding-left: 1.5em;
+}
+
+.toc li {
+	margin: 0.25em 0;
+}
+
+.toc a {
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.toc a:hover {
+	text-decoration: underline;
+}
+
+/* Typography - improved hierarchy */
+h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
+	margin-top: 1.5em;
+	margin-bottom: 0.75em;
+	line-height: 1.3;
+}
+
+h1 {
+	font-size: 2.2em;
+	margin-top: 0;
+	margin-bottom: 1em;
+}
+h2 {
+	font-size: 1.4em;
+	margin-top: 2em;
+}
+h3 { font-size: 1.15em; }
+
+p {
+	margin: 1em 0;
+}
+
+/* Code blocks - always monospace */
+pre {
+	margin: 1em 0;
+	padding: 0.5em;
+	overflow-x: auto;
+	border-left: 3px solid var(--text-color);
+	font-family: var(--font-mono);
+	font-size: 0.85em;
+}
+
+code {
+	font-family: var(--font-mono);
+	font-size: 0.85em;
+}
+
+/* Inline code (not the highlighted blocks Prism owns) */
+:not(pre) > code {
+	background: var(--code-bg);
+	padding: 0.1em 0.35em;
+	border-radius: 3px;
+}
+
+/* Links - classic web style */
+a[href] {
+	color: var(--text-color-link);
+	text-decoration: underline;
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover {
+	text-decoration: none;
+}
+
+.links-nextprev {
+	list-style: none;
+	padding: 0;
+	margin: 2em 0;
+	border-top: 1px solid var(--border-color);
+	padding-top: 1em;
+}
+
+/* Footnotes */
+.footnote-ref {
+	font-size: 0.75em;
+	margin: 0 0.05em;
+}
+
+.footnote-ref a {
+	text-decoration: none;
+}
+
+.footnotes-sep {
+	margin-top: 3em;
+	border: 0;
+	border-top: 1px solid var(--border-color);
+}
+
+.footnotes {
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+	margin-top: 1.5em;
+}
+
+.footnotes-list {
+	padding-left: 1.5em;
+}
+
+.footnotes-list li {
+	margin: 0.6em 0;
+}
+
+.footnotes a {
+	color: inherit;
+}
+
+.footnote-backref {
+	text-decoration: none;
+	margin-left: 0.3em;
+}
+
+.links-nextprev li {
+	margin: 0.5em 0;
+}
+
+/* Footer */
+footer {
+	margin-top: 4em;
+	padding: 1em 0;
+	border-top: 1px solid var(--border-color);
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+}
+
+footer a {
+	color: var(--text-color-muted);
+}
+
+/* Two-column layout */
+.two-column-layout {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 4em;
+	margin: 2em 0;
+}
+
+.two-column-layout .column h2:first-child {
+	margin-top: 0;
+}
+
+@media (max-width: 768px) {
+	.two-column-layout {
+		grid-template-columns: 1fr;
+		gap: 3em;
+	}
+}
+
+/* Projects list */
+.projects-list {
+	list-style: none;
+	padding: 0;
+	margin: 2em 0;
+}
+
+.project-list-item {
+	margin: 1.5em 0;
+}
+
+.project-list-title {
+	font-weight: bold;
+	font-size: 1.1em;
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.project-list-title:hover {
+	text-decoration: underline;
+}
+
+.project-list-byline {
+	margin-top: 0.15em;
+	color: var(--text-color);
+}
+
+/* Project detail page */
+.project-back {
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+	margin: 0 0 1em;
+}
+
+.project-back a {
+	color: var(--text-color-muted);
+}
+
+.project-preview {
+	max-width: 100%;
+	height: auto;
+	border: 1px solid var(--border-color);
+	margin: 0 0 1em;
+}
+
+@media (min-width: 769px) {
+	.project-preview {
+		max-width: 300px;
+		float: right;
+		margin: 0 0 1em 1.5em;
+	}
+}
+
+.project-body {
+	margin-bottom: 1.5em;
+}
+
+.project-tech {
+	color: var(--text-color-muted);
+	margin: 0.5em 0;
+}
+
+.project-links {
+	margin-top: 1em;
+}
+
+.project-link {
+	margin-right: 1.5em;
+}
+
+
+/* Content container */
+.content-container {
+	margin: 2em 0;
+}
+
+/* Images */
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Lists */
+ul, ol {
+	margin: 1em 0;
+	padding-left: 2em;
+}
+
+blockquote {
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid var(--text-color);
+}
+
+/* Tables */
+table {
+	border-collapse: collapse;
+	margin: 1em 0;
+}
+
+th, td {
+	border: 1px solid var(--border-color);
+	padding: 0.5em;
+	text-align: left;
+}
+
+th {
+	font-weight: bold;
+}</style>
+    <script>
+      // Set theme immediately to prevent flash
+      (function() {
+        const theme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+    <script src="/js/theme-toggle.js" defer></script>
+  </head>
+  <body>
+    <a href="#skip" class="visually-hidden">Skip to content</a>
+    <header>
+      <div>
+        <div class="header-main">
+          <a href="/" class="home-link">Chris Doran</a>
+        </div>
+        <div class="nav-row">
+          <nav>
+            <ul class="nav">
+                <li class="nav-item">
+                  <a href="/" >Home</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/projects/" >Projects</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/about/" >About</a>
+                </li>
+            </ul>
+          </nav>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"></button>
+          <script>
+            // Set initial label synchronously so dark-mode loads don't flash "DARK"
+            document.getElementById('theme-toggle').textContent =
+              (localStorage.getItem('theme') || 'light') === 'light' ? 'DARK' : 'LIGHT';
+          </script>
+        </div>
+      </div>
+    </header>
+    <main id="skip">
+      
+<h1>Slop Auction</h1><ul class="post-metadata">
+	<li><time datetime="2026-08-30">30 August 2026</time><span class="post-reading-time">24 min read</span></li>
+	<li><a href="/tags/thonk/" class="post-tag">thonk</a>,</li>
+	<li><a href="/tags/mev/" class="post-tag">mev</a>,</li>
+	<li><a href="/tags/orderflow/" class="post-tag">orderflow</a>,</li>
+	<li><a href="/tags/ai/" class="post-tag">AI</a></li>
+</ul>
+<details class="toc"><summary>Contents</summary><ol><li><a href="#the-spam-auction">The Spam Auction</a></li><li><a href="#slop-opera">Slop Opera</a></li><li><a href="#formal-slop-verification">Formal slop verification</a></li><li><a href="#growing-your-way-out-of-the-debt">Growing your way out of the debt</a></li><li><a href="#every-cure-is-a-new-cage">Every cure is a new cage</a></li><li><a href="#credible-neutrality-in-the-time-of-informational-cholera">Credible neutrality in the time of (informational) cholera20</a></li></ol></details>
+
+<h2 id="the-spam-auction" tabindex="-1">The Spam Auction <a class="header-anchor" href="#the-spam-auction">#</a></h2>
+<p>Not so long ago, Flashbots, the venerable institution responsible for proposer builder separation, MEV boost and fixing the first ever on chain spam auction, dropped a bombshell post. In &quot;MEV and the limits of scaling&quot;<sup class="footnote-ref"><a href="#fn1" id="fnref1">1</a></sup> (that's Maximal Extractable Value, for the uninitiated), they posited that blockchain scalability was not in fact bottlenecked by raw TPS, but instead by a race between on chain arbitrage bots. The game goes like this:</p>
+<ol>
+<li>Using a programmable blockchain, one can create sophisticated orders that execute only if certain conditions are met (buy x only if the price is below y, and it is immediately sellable into pool z)</li>
+<li>The cost of placing hundreds of these orders is substantially less than the profit of a few, or in some cases a single successful order</li>
+<li>Thus, it is profitable to place hundreds of orders which consume compute and block space on the off chance that a single order goes through</li>
+</ol>
+<p>Fans of the internet will recognise this as some version of Scott Alexander's Moloch<sup class="footnote-ref"><a href="#fn2" id="fnref2">2</a></sup> - which is to say - a situation in which each actor, acting in their self interest, creates a collective crisis. And the size of the crisis is severe! Flashbots estimate <em>40 percent</em> of blockspace on some chains is consumed by these arbitrage jockeying transactions - and on several rollups the spam eats over half the gas while paying under 10 percent of the fees<sup class="footnote-ref"><a href="#fn3" id="fnref3">3</a></sup>. We can assume the number of profitable opportunities scales with the number of underlying transactions here, which means spam is a roughly constant fraction of all activity: scale the chain and the spam scales with it. Yikes!</p>
+<h2 id="slop-opera" tabindex="-1">Slop Opera <a class="header-anchor" href="#slop-opera">#</a></h2>
+<p>In <a href="/blog/moats-closed/">Moat's closed</a> I wrote that when chat is free and chatting has upside, the stable equilibrium of chat trends toward chatting shit. Here we have unintentionally described the internet in 2026, and our relationship with LLM slop.</p>
+<p>The slop farmer is running the same strategy as the MEV searcher. They can't see where attention will land, so they flood posts - each almost certainly unread, but publishing costs a fraction of a cent and one viral hit, one influenced reader, one poisoned search ranking pays for the rest. Much like junk MEV bids, this is not substantive or productive in any meaningful sense, but both are positive EV for the participant, or at least are <em>perceived to be</em> - and so these &quot;bids&quot; will continue to be entered.</p>
+<p><img src="reacher-slop.png" alt="A slop video about the Reacher TV series">
+Notice anything about <a href="https://x.com/petros_/status/2091625926140330444">this post</a>? A hint - the video isn't about Reacher.</p>
+<p>Astute observers will notice the reward schedule for slop spam is less clear - and so worth exploring. The classics are: SEO and affiliate farming. Engagement farming, where the platform itself pays out per impression. Influence ops, where the payout is a nudged opinion rather than a click (increasingly popular with various factions<sup class="footnote-ref"><a href="#fn4" id="fnref4">4</a></sup>).</p>
+<p>Finally, I'd like to draw attention to a new, arguably much more important position to be jockeyed for: posting for the models. Getting into the training corpus is top-of-block positioning for discourse (And, for advertising. And, for the models' future perception of <em>you</em>). Amongst some, this is picking up steam - <a href="/blog/devcon2024/">It's not unusual to create footnotes addressed to AI</a>. We can even imagine there is a secret adversarial market for this, though I've yet to hear about it. One could even argue having a blog and a podcast are the memetic equivalent of a Hail Mary. I wouldn't, but <em>you</em> could.</p>
+<h2 id="formal-slop-verification" tabindex="-1">Formal slop verification <a class="header-anchor" href="#formal-slop-verification">#</a></h2>
+<p>The market structure that, in some sense, describes both MEV and the LLM spam opera that has infested every single form of online communication isn't new. It's a Tullock contest<sup class="footnote-ref"><a href="#fn5" id="fnref5">5</a></sup>. You can understand it as an auction structured like a raffle, whose parameters we can decompose and tweak.</p>
+<p>A Tullock contest goes as follows:
+N players buy tickets at cost c for a prize V, and the odds of winning scale with tickets bought. The classic result is rent dissipation - in equilibrium, aggregate spend rises until it eats the prize. Total tickets ≈ V/c.</p>
+<p>This should make sense intuitively if we think about it. Every participant's purchase of a ticket is positive expected value while the aggregate cost of all tickets is less than the cost of the prize. This is why a Tullock contest can be used to sell a house instead of donating it<sup class="footnote-ref"><a href="#fn6" id="fnref6">6</a></sup>.</p>
+<p>Notice however what's missing from the expression: capacity - call it K, the number of slots the venue can actually serve. Add blockspace (K), add feed slots (K), and spam volume doesn't care, because K never enters the equation. And notice what LLMs did: they're a shock to cost (c) more than to V (the prize). Collapse the ticket price a thousandfold and volume goes up a thousandfold for the same prize pool. (There's an argument they grew V as well, via the posting-for-the-models prize from earlier - speculative for now, but it does seem to be bearing out - in which case the flood compounds from both ends.) The flood is absolutely predictable, and its trajectory is even <em>more predictable</em> if we apply some version of Moore's law to LLM token costs. Ethereum has run a similar experiment before: the Dencun upgrade cut rollup gas costs in March 2024, and spam arbitrage took off within weeks<sup class="footnote-ref"><a href="#fn7" id="fnref7">7</a></sup> - nobody got greedier, c fell - and (raffle ticket) demand rose to fill capacity.</p>
+<p>The second piece is the all-pay structure<sup class="footnote-ref"><a href="#fn8" id="fnref8">8</a></sup>. In a spam auction you necessarily burn your bid win or lose - gas on failed arbs, token cost on unread posts. In a winner-pay auction the same rent gets transferred instead of burned. Flashbots' entire proposal compresses to: convert the all-pay contest into a sealed-bid auction, off chain, so that the jockeying doesn't cause congestion. But this is a flavour of <em>enclosure</em>, which is a theme that we will see coming up throughout this post.</p>
+<p>There is one more parameter worth knowing about. Contest theorists write the odds of winning with an exponent r - how strongly winning tracks spend. High r means the biggest spender nearly always wins; low r and it's close to a raffle. On a feed (twitter, instagram, et al.), the platform <em>chooses</em> r, because the ranking algorithm is the contest success function. Discovery feeds - For You pages, anything that hands reach to accounts with no followers - are low-r lotteries, and low-r contests maximise entry. Follow-graphs are high-r: rigged contests deter entrants. The model predicts slop concentrates in the discovery lanes, which follows what we see almost exactly.<sup class="footnote-ref"><a href="#fn9" id="fnref9">9</a></sup> Don't think too hard about why the twitter algorithm de-prioritises mutuals over a more pure algorithmic feed<sup class="footnote-ref"><a href="#fn10" id="fnref10">10</a></sup>, and what kind of behaviour that might encourage.</p>
+<p>(As more proof of the wickedness of this problem, as many know, proof-of-work was invented as anti-spam postage - Hashcash<sup class="footnote-ref"><a href="#fn11" id="fnref11">11</a></sup> - became Bitcoin, whose blockspace is now consumed by ordinal and other spam, whose proposed cure is auctions. Eternal Return.)</p>
+<h2 id="growing-your-way-out-of-the-debt" tabindex="-1">Growing your way out of the debt <a class="header-anchor" href="#growing-your-way-out-of-the-debt">#</a></h2>
+<p>So, if we add blockspace, the spam will expand to fill it because expected value per slot stays positive. The internet ran this experiment first: distribution became infinite, supply expanded until the binding constraint was attention<sup class="footnote-ref"><a href="#fn12" id="fnref12">12</a></sup>. Then LLMs collapsed the production cost, so volume expands until the marginal slop post breaks even - and at fractions of a cent, break-even volume is approximately infinite.</p>
+<p>Blockchain, however, having fought this battle for over a decade, at least meters usage with gas - EIP-1559's base fee is congestion pricing by another name<sup class="footnote-ref"><a href="#fn13" id="fnref13">13</a></sup> as pointed out by Tim Roughgarden, whose <em>Twenty Lectures on Algorithmic Game Theory</em> inspired this post. Attention has no gas - no meter, nothing that the system can price until it is entirely consumed. The viewer pays the entire externality. And based on the average person's daily screentime, it would seem even that resource has been near exhausted. Much like blockspace - as more attention is added to the system, more low c(ost) slop is invented in order to consume it (at a profit).</p>
+<p>There are a couple of things that make the LLM slop messier and more dynamic than on chain slop, and so, an imperfect analogy:</p>
+<ol>
+<li>
+<p>MEV spam wastes capacity but doesn't corrupt state. The chain is exactly as valid after the spam block. With language models, however slop becomes part of the substrate: indexed, cited, scraped, trained on. It changes the composition of the commons it floods - which is how we get to the recursive version we now find ourselves with. Models trained on slop emitting slop. There is no MEV equivalent of spam poisoning the ledger. There is no MEV equivalent to Anthropic buying millions of books to train on<sup class="footnote-ref"><a href="#fn14" id="fnref14">14</a></sup> as the low-background steel<sup class="footnote-ref"><a href="#fn15" id="fnref15">15</a></sup> of model production. Yet.</p>
+</li>
+<li>
+<p>Adverse selection<sup class="footnote-ref"><a href="#fn16" id="fnref16">16</a></sup>. Blockspace doesn't care about quality - a block full of spam is still a valid block (though ordinals skeptics may disagree<sup class="footnote-ref"><a href="#fn17" id="fnref17">17</a></sup>). Attention is more sensitive. The reader pays upfront, and may over time discover that they have been duped. When readers can't tell signal from slop before spending the attention, and slop is near-free to produce, the average quality of the open lane collapses and the high-cost genuine producers exit. This is one potential way for slop lanes to unwind.</p>
+</li>
+</ol>
+<p>With the limitations of our analogy in mind, let's review the cures.</p>
+<h2 id="every-cure-is-a-new-cage" tabindex="-1">Every cure is a new cage <a class="header-anchor" href="#every-cure-is-a-new-cage">#</a></h2>
+<p>I would like to argue that every conventional cure up until this point can be shoehorned into one of two categories: Walls and Auctions (which, on first blush, sounds like a particularly pathetic version of snakes and ladders). For readers who still remember the Tullock contest, we could say that these are cures that act on (c)ost, versus cures that act on N(umber of participants).</p>
+<p><strong>Auctions - cures that act on c.</strong> Make emission cost something, and let the contest stay open.</p>
+<ul>
+<li>Gas - every transaction pays a base fee that rises algorithmically as blocks fill and gets burned. The spammer pays the same toll as everyone else, and the toll climbs exactly when the flood arrives - congestion feeds straight back into c</li>
+<li>Hashcash - to send an email, your machine must first grind out a proof of work, a few seconds of compute. Invisible to a human sending a dozen messages a day, ruinous at a spammer's million. A c that only volume senders can feel</li>
+<li>Flashbots' sealed-bid auction - searchers submit bids off chain, only the winner lands on chain and pays, the losers' failed attempts never touch a block. The all-pay bids that used to burn as congestion become one winner-pay transfer</li>
+<li>The ad auction - every sponsored slot you see was sold in a real-time auction moments before the page loaded, at a market-clearing price per impression. Google and Meta's winner-pay market for attention already runs at planetary scale, and inspired swathes of the field</li>
+<li>Cloudflare's Pay Per Crawl<sup class="footnote-ref"><a href="#fn18" id="fnref18">18</a></sup> works like this: an AI crawler requests a page and gets an HTTP 402 Payment Required back, with a price the publisher set. This is an auction applied to LLM inputs, not outputs. LLM slop, however, is <em>produced and consumed recursively</em>.</li>
+</ul>
+<p>The common theme here is - everyone pays according to some equilibrium, and no-one cares if you're a dog on the internet (or a robot).</p>
+<p><strong>Walls - cures that act on N.</strong> Shrink the contest by shrinking the door.</p>
+<ul>
+<li>Paywalls and subscriptions</li>
+<li>Closed Discords and group chats. SomethingAwful, for those old enough to remember. Pay a fee, get a referral for access to a community.</li>
+<li>The follow-graph - a wall you build yourself</li>
+<li>Platform verification, proof-of-humanity, CAPTCHAs - identity gates of various flavours</li>
+<li>On chain: private mempools hosted in TEEs and permissioned orderflow, where the cure for spam is not letting strangers submit at all. Complete capture by a few parties.</li>
+</ul>
+<p>The common feature of all currently extant walls: someone decides. Every wall has a landlord - with all the costs a centralised arbiter incurs. Centralisation of power, ease of censorship, and so on.</p>
+<p>Which ties back to <a href="/blog/moats-closed/">the settlement story</a>. In settlement, enclosure was the winners spending their winnings. In attention, enclosure arrives as a rescue - spam filters, verification badges, walled gardens, each one reasonable on its own. In this particular case, spam is how enclosure gets consented to. This has been true of both MEV (private orderflow now outweighs the public mempool<sup class="footnote-ref"><a href="#fn19" id="fnref19">19</a></sup>) and slop (Twitter Blue, paywalls). Any system that wants to remain plausibly censorship resistant and &quot;Free&quot; must solve this problem, whether financial or informational. I'd argue that the nascent field of &quot;agentic commerce&quot; collapses the distance between the attention market and the money market - when the model that reads is also the model that buys, a position in its context is a position in the orderflow, and the slop auction stops being a metaphor for MEV and starts just becoming... actual MEV.</p>
+<h2 id="credible-neutrality-in-the-time-of-informational-cholera" tabindex="-1">Credible neutrality in the time of (informational) cholera<sup class="footnote-ref"><a href="#fn20" id="fnref20">20</a></sup> <a class="header-anchor" href="#credible-neutrality-in-the-time-of-informational-cholera">#</a></h2>
+<p>The enemy of any credibly neutral<sup class="footnote-ref"><a href="#fn21" id="fnref21">21</a></sup> system is censorship. This is what makes the spam problem so insidious when designing &quot;open&quot; systems - spam necessitates a solution, but all viable solutions involve <em>discretion</em>. Designing a system whose parameters are able to be <em>selective</em> (about what, never about whom) without being <em>discretionary</em> (i.e. requiring someone's judgment at runtime - special cases, exemptions, etc), and is plausibly autonomous or decentralised enough to operate with little assistance is the real trick here.</p>
+<p>So, what could this look like? I'm personally invested in the idea that the past decade of crypto has been one of the greatest proving grounds for adversarial economic theory in the history of humanity, so I think we can chain together several mechanisms learned from our long suffering brothers and sisters in the mechanism design space. I'm going to pull a couple of good examples and we can try to apply them to <em>nu MEV</em>.</p>
+<p><strong>1. Priced emission</strong>
+Lifted from EIP-1559. You have a tank loaded with funds you almost never think about. Posting costs a fraction of a cent, floating with congestion 1559-style (i.e. as congestion goes up, so does cost to post). A human's posting habit costs pennies a month - but a farm running 100k posts a day is suddenly paying real money just to exist, before anyone reads anything. Better than this - running a farm necessarily <em>increases the on chain congestion</em>, thus increasing the fee, thus increasing the cost to be a bad actor. We can borrow a concept from Solana's parallelisation architecture<sup class="footnote-ref"><a href="#fn22" id="fnref22">22</a></sup> here and scale the fee by both <em>lane(topic)</em> and <em>poster</em>. In fact, we can slice the lanes any way we like! Imperfectly, this will affect genuine users who want to post about hot topics, but we can also reason that if the topic is <em>hot enough</em>, this becomes a worthy outlay for a human who may only have a couple of things to say. The farm pays it 100,000 times.</p>
+<p>Here's a toy version of it running to illustrate how something like this might work. Two topic lanes, each with its own 1559-style base fee. In this model, you're the bot farmer trying to turn a profit off of your datacenter misinformation, covert hims.com advertisements, whatever. Watch how quickly cranking intended volume leads to a -EV exchange for you!</p>
+<div class="lane-sim">
+<style>
+.lane-sim { margin: 2em 0; font-family: inherit; }
+.lane-sim .ls-section { margin-bottom: 1.5em; }
+.lane-sim .ls-section-title {
+  font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--text-color-muted); margin-bottom: 0.75em; font-weight: 600;
+}
+.lane-sim .ls-control { display: flex; flex-direction: column; gap: 0.3em; margin: 0.5em 0; }
+.lane-sim .ls-control label {
+  font-size: 0.82em; color: var(--text-color-muted);
+  display: flex; justify-content: space-between; align-items: baseline; gap: 1em;
+}
+.lane-sim .ls-control label span {
+  font-family: "Courier New", Courier, monospace; font-variant-numeric: tabular-nums;
+  color: var(--text-color); font-weight: 600;
+}
+.lane-sim input[type="range"] {
+  -webkit-appearance: none; appearance: none; width: 100%; height: 3px;
+  background: var(--text-color-muted); border-radius: 2px; outline: none;
+  cursor: pointer; opacity: 0.5;
+}
+.lane-sim input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 14px; height: 14px;
+  border-radius: 50%; background: var(--text-color); cursor: pointer;
+}
+.lane-sim input[type="range"]::-moz-range-thumb {
+  width: 14px; height: 14px; border-radius: 50%; border: none;
+  background: var(--text-color); cursor: pointer;
+}
+.lane-sim .ls-lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5em; margin-bottom: 1em; }
+.lane-sim .ls-lane { border: 1px solid var(--text-color-muted); padding: 1em; }
+.lane-sim .ls-lane-name { font-size: 0.82em; font-weight: 600; margin-bottom: 0.5em; }
+.lane-sim .ls-fee {
+  font-family: "Courier New", Courier, monospace; font-size: 1.5em; font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.lane-sim .ls-verdict { font-size: 0.75em; font-weight: 600; margin: 0.25em 0 0.75em; }
+.lane-sim .ls-verdict-quiet { color: #2a9e4a; }
+.lane-sim .ls-verdict-busy { color: #cc9900; }
+.lane-sim .ls-verdict-taxing { color: #cc3333; }
+[data-theme="dark"] .lane-sim .ls-verdict-quiet { color: #4aff7a; }
+[data-theme="dark"] .lane-sim .ls-verdict-busy { color: #ffd94a; }
+[data-theme="dark"] .lane-sim .ls-verdict-taxing { color: #ff4a4a; }
+.lane-sim .ls-stat {
+  font-size: 0.75em; color: var(--text-color-muted);
+  display: flex; justify-content: space-between; margin-top: 0.3em;
+}
+.lane-sim .ls-stat span {
+  font-family: "Courier New", Courier, monospace; font-variant-numeric: tabular-nums;
+  color: var(--text-color);
+}
+.lane-sim .ls-bar-label {
+  font-size: 0.7em; color: var(--text-color-muted);
+  margin-top: 0.5em; margin-bottom: 0.2em;
+  display: flex; justify-content: space-between;
+}
+.lane-sim .ls-bar-track { height: 8px; border: 1px solid var(--text-color-muted); position: relative; overflow: hidden; }
+.lane-sim .ls-bar-fill { height: 100%; background: var(--text-color-muted); opacity: 0.6; transition: width 0.1s linear; }
+.lane-sim .ls-bar-fill.ls-bar-hot { background: #cc3333; opacity: 0.75; }
+[data-theme="dark"] .lane-sim .ls-bar-fill.ls-bar-hot { background: #ff4a4a; }
+.lane-sim button {
+  font: inherit; font-size: 0.75em; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--text-color); background: none;
+  border: 1px solid var(--text-color-muted); padding: 0.4em 0.9em;
+  cursor: pointer; margin-top: 0.75em;
+}
+.lane-sim button:hover { border-color: var(--text-color); }
+.lane-sim svg.ls-chart { width: 100%; height: auto; display: block; }
+.lane-sim .ls-chart-axis line { stroke: var(--text-color-muted); stroke-width: 1; }
+.lane-sim .ls-chart-label { font-size: 9px; fill: var(--text-color-muted); font-family: "Courier New", Courier, monospace; }
+.lane-sim .ls-chart-line { stroke-width: 2; fill: none; }
+.lane-sim .ls-chart-line-hot { stroke: #cc3333; }
+.lane-sim .ls-chart-line-quiet { stroke: #2a9e4a; }
+[data-theme="dark"] .lane-sim .ls-chart-line-hot { stroke: #ff4a4a; }
+[data-theme="dark"] .lane-sim .ls-chart-line-quiet { stroke: #4aff7a; }
+.lane-sim .ls-chart-vline { stroke: var(--text-color); stroke-width: 1; stroke-dasharray: 3,3; opacity: 0.5; }
+.lane-sim .ls-chart-legend {
+  display: flex; flex-wrap: wrap; gap: 1.25em;
+  font-size: 0.72em; color: var(--text-color-muted); margin-top: 0.5em;
+}
+.lane-sim .ls-chart-legend span::before { content: "■ "; margin-right: 0.2em; }
+.lane-sim .ls-chart-legend .ls-leg-hot::before { color: #cc3333; }
+.lane-sim .ls-chart-legend .ls-leg-quiet::before { color: #2a9e4a; }
+[data-theme="dark"] .lane-sim .ls-chart-legend .ls-leg-hot::before { color: #ff4a4a; }
+[data-theme="dark"] .lane-sim .ls-chart-legend .ls-leg-quiet::before { color: #4aff7a; }
+.lane-sim .ls-note {
+  font-size: 0.72em; color: var(--text-color-muted); line-height: 1.5;
+  font-style: italic; margin-top: 1em;
+}
+@media (max-width: 600px) { .lane-sim .ls-lanes { grid-template-columns: 1fr; } }
+</style>
+<div class="ls-section">
+  <div class="ls-section-title">The farm (targets the hot lane)</div>
+  <div class="ls-control">
+    <label>Intended volume <span id="ls-v-farm">800 posts/block</span></label>
+    <input type="range" id="ls-farm" min="0" max="2000" value="800" step="20">
+  </div>
+  <div class="ls-control">
+    <label>Expected value per landed post <span id="ls-v-ev">0.50&cent;</span></label>
+    <input type="range" id="ls-ev" min="0.05" max="5" value="0.5" step="0.05">
+  </div>
+</div>
+<div class="ls-lanes">
+  <div class="ls-lane">
+    <div class="ls-lane-name">#hot-topic</div>
+    <div class="ls-fee" id="ls-hot-fee">0.001&cent;</div>
+    <div class="ls-verdict ls-verdict-quiet" id="ls-hot-verdict">Quiet</div>
+    <div class="ls-bar-label"><span>Farm volume landing</span><span id="ls-hot-farmpct">0%</span></div>
+    <div class="ls-bar-track"><div class="ls-bar-fill" id="ls-hot-farmbar"></div></div>
+    <div class="ls-stat">Farm spend<span id="ls-farm-spend">$0/day</span></div>
+    <div class="ls-stat">Farm profit<span id="ls-farm-profit">$0/day</span></div>
+    <div class="ls-stat">A human's 20 posts/day<span id="ls-human-cost">$0.00/month</span></div>
+    <div class="ls-control" style="margin-top:0.75em">
+      <label>Genuine posters <span id="ls-v-humans">60 posts/block</span></label>
+      <input type="range" id="ls-humans" min="0" max="300" value="60" step="5">
+    </div>
+    <button id="ls-surge">Breaking news (3&times; humans, 90 blocks)</button>
+  </div>
+  <div class="ls-lane">
+    <div class="ls-lane-name">#gardening</div>
+    <div class="ls-fee" id="ls-quiet-fee">0.001&cent;</div>
+    <div class="ls-verdict ls-verdict-quiet" id="ls-quiet-verdict">Quiet</div>
+    <div class="ls-bar-label"><span>Lane utilisation</span><span id="ls-quiet-util">30%</span></div>
+    <div class="ls-bar-track"><div class="ls-bar-fill" id="ls-quiet-bar"></div></div>
+    <div class="ls-stat">A human's 20 posts/day<span id="ls-quiet-human">$0.00/month</span></div>
+    <div class="ls-stat">Burned across both lanes<span id="ls-burned">$0</span></div>
+  </div>
+</div>
+<div class="ls-section">
+  <div class="ls-section-title">Base fee per lane (last 240 blocks)</div>
+  <svg class="ls-chart" id="ls-chart" viewBox="0 0 600 200" preserveAspectRatio="xMidYMid meet"></svg>
+  <div class="ls-chart-legend">
+    <span class="ls-leg-hot">#hot-topic</span>
+    <span class="ls-leg-quiet">#gardening</span>
+  </div>
+</div>
+<p class="ls-note" id="ls-caption">
+  Toy model. Each lane runs EIP-1559's update rule (target 100 posts/block, fee &plusmn;12.5% per block by fullness, floor 0.001&cent;). The farm posts only while fee &lt; its expected value per post, so its volume shrinks as the fee climbs. Fees are burned - nobody collects them, which is the point. Real designs need sybil-resistant lane definitions and a way to price cross-posting. Just a spec, not an implementation
+</p>
+<script>
+(function() {
+  var el = function(id) { return document.getElementById(id); };
+  var TARGET = 100, FLOOR = 0.001, K = 0.125;
+  var BLOCKS_DAY = 1440, POSTS_HUMAN_DAY = 20;
+  var hotFee = FLOOR, quietFee = FLOOR;
+  var burned = 0, surge = 0;
+  var histHot = [], histQuiet = [], MAXH = 240;
+
+  function step() {
+    var farmMax = +el('ls-farm').value;
+    var ev = +el('ls-ev').value;
+    var humans = +el('ls-humans').value * (surge > 0 ? 3 : 1);
+    if (surge > 0) surge--;
+
+    // farm demand is linear in remaining margin: full volume at fee 0, zero at fee >= EV
+    var farmPosts = farmMax * Math.max(0, 1 - hotFee / ev);
+    var hotServed = humans + farmPosts;
+    var quietServed = 30;
+
+    burned += (hotServed * hotFee + quietServed * quietFee) / 100;
+
+    hotFee = Math.max(FLOOR, hotFee * (1 + K * (hotServed / TARGET - 1)));
+    quietFee = Math.max(FLOOR, quietFee * (1 + K * (quietServed / TARGET - 1)));
+
+    histHot.push(hotFee); histQuiet.push(quietFee);
+    if (histHot.length > MAXH) { histHot.shift(); histQuiet.shift(); }
+
+    render(farmMax, ev, farmPosts, humans);
+  }
+
+  function fmtFee(c) {
+    return (c < 0.01 ? c.toFixed(3) : c < 1 ? c.toFixed(2) : c.toFixed(1)) + '¢';
+  }
+  function fmtMoney(d) {
+    if (d >= 1000) return '$' + Math.round(d).toLocaleString();
+    if (d >= 1) return '$' + d.toFixed(2);
+    return d === 0 ? '$0' : '$' + d.toFixed(2);
+  }
+
+  function render(farmMax, ev, farmPosts, humans) {
+    el('ls-v-farm').textContent = farmMax + ' posts/block';
+    el('ls-v-ev').textContent = ev.toFixed(2) + '¢';
+    el('ls-v-humans').textContent = el('ls-humans').value + ' posts/block';
+
+    el('ls-hot-fee').textContent = fmtFee(hotFee);
+    el('ls-quiet-fee').textContent = fmtFee(quietFee);
+
+    var farmPct = farmMax > 0 ? (farmPosts / farmMax) * 100 : 0;
+    var bar = el('ls-hot-farmbar');
+    bar.style.width = Math.min(100, farmPct) + '%';
+    bar.className = 'ls-bar-fill' + (farmPct > 50 ? ' ls-bar-hot' : '');
+    el('ls-hot-farmpct').textContent = farmMax > 0 ? Math.round(farmPct) + '%' : '—';
+
+    var spend = farmPosts * hotFee / 100 * BLOCKS_DAY;
+    var profit = farmPosts * Math.max(0, ev - hotFee) / 100 * BLOCKS_DAY;
+    el('ls-farm-spend').textContent = fmtMoney(spend) + '/day';
+    el('ls-farm-profit').textContent = fmtMoney(profit) + '/day';
+    el('ls-human-cost').textContent = fmtMoney(POSTS_HUMAN_DAY * 30 * hotFee / 100) + '/month';
+    el('ls-quiet-human').textContent = fmtMoney(POSTS_HUMAN_DAY * 30 * quietFee / 100) + '/month';
+    el('ls-quiet-util').textContent = '30%';
+    el('ls-quiet-bar').style.width = '30%';
+    el('ls-burned').textContent = fmtMoney(burned);
+
+    var v = el('ls-hot-verdict');
+    if (farmMax > 0 && hotFee > ev * 0.8) {
+      v.textContent = 'Fee ≈ farm EV: margin gone';
+      v.className = 'ls-verdict ls-verdict-taxing';
+    } else if (farmPosts > TARGET * 0.3) {
+      v.textContent = 'Flood arriving, fee climbing';
+      v.className = 'ls-verdict ls-verdict-busy';
+    } else if (hotFee > FLOOR * 3) {
+      v.textContent = 'Surge pricing';
+      v.className = 'ls-verdict ls-verdict-busy';
+    } else {
+      v.textContent = 'Quiet';
+      v.className = 'ls-verdict ls-verdict-quiet';
+    }
+
+    drawChart();
+  }
+
+  function drawChart() {
+    var svg = el('ls-chart');
+    var W = 600, H = 200, PL = 44, PB = 16, PT = 8;
+    var max = Math.max(0.01, Math.max.apply(null, histHot.concat(histQuiet))) * 1.15;
+    var pts = function(hist, cls) {
+      var s = '';
+      for (var i = 0; i < hist.length; i++) {
+        var x = PL + (i / (MAXH - 1)) * (W - PL - 4);
+        var y = (H - PB) - (hist[i] / max) * (H - PB - PT);
+        s += (i ? ' ' : '') + x.toFixed(1) + ',' + y.toFixed(1);
+      }
+      return '<polyline class="ls-chart-line ' + cls + '" points="' + s + '"/>';
+    };
+    var gridY = function(frac, label) {
+      var y = (H - PB) - frac * (H - PB - PT);
+      return '<g class="ls-chart-axis"><line x1="' + PL + '" y1="' + y + '" x2="' + (W - 4) + '" y2="' + y + '" opacity="0.25"/></g>' +
+        '<text class="ls-chart-label" x="' + (PL - 4) + '" y="' + (y + 3) + '" text-anchor="end">' + label + '</text>';
+    };
+    svg.innerHTML =
+      gridY(0, '0') + gridY(0.5, fmtFee(max / 2)) + gridY(1, fmtFee(max)) +
+      pts(histQuiet, 'ls-chart-line-quiet') + pts(histHot, 'ls-chart-line-hot');
+  }
+
+  el('ls-surge').addEventListener('click', function() { surge = 90; });
+  setInterval(step, 100);
+})();
+</script>
+</div>
+Look at the equilibrium it finds as you're tuning the parameters: the fee doesn't outright ban the farm (because it's hard to tell!), it climbs until it _equals the farm's own expected value per post_ - at which point the farm's margin is zero and the entire prize pool it hoped to extract is being burned instead. Pure rent dissipation - while leaving the innocent bystanders in #gardening almost completely unaffected.
+<p><strong>2. Things that require a judge</strong>
+I had two more mechanisms drafted here, but both died the same death in editing.</p>
+<p>The first was staking reach: amplification requires a refundable bond - proof of stake pointed at the feed - slashed if the content is judged slop. Slashing works on Ethereum because signing two conflicting blocks is cryptographically provable, while &quot;this is slop&quot; is an opinion - so the design grew a rulebook, then a challenge game borrowed from optimistic rollups, then a randomly drawn jury of bonded users, and every patch was judgement machinery sneaking back in wearing a new hat. Every issue with judgement comes back to controlling the judge - well known to be one of the hardest problems in crypto, and why the multisig council persists despite all reasonable efforts to eliminate it. There are ways we <em>could</em> leverage this one, but we have to be careful of the failure modes of <em>mob rule</em> and <em>coercion</em> - i.e. the reddit problem (mob tyranny) and the wrench.</p>
+<p>The second was paying the victim: your attention is orderflow, so let strangers bid for access to it and route the winning bid to you rather than the platform<sup class="footnote-ref"><a href="#fn23" id="fnref23">23</a></sup> - MEV-Share for the inbox. (LinkedIn InMail proves the auction half works - recruiters happily pay per message - but note who collects: LinkedIn. The landlord runs the auction and keeps the rent, which is rather the theme of this post.) But scale it past the inbox and the obvious question kills it: what stops you accepting every bid and reading nothing? There is no proof of reading. AllAdvantage paid people for unverifiable attention in 1999 and was farmed to death inside two years. You retreat to paying for <em>responses</em>, which are at least observable - and now trivially automatable by the same models, at which point we have just created a bit grinder where LLMs farm LLMs infinitely. A verification mechanism could solve this, but all are speculative as of today.</p>
+<p>Unfortunately, both ideas die a death of measurement. Where on chain we have the anvil of cryptographic verifiability against which to swing the hammer of economic incentives, in the real world, we are required to lean on more nuanced judging functions. Without the ability to reliably generate data on <em>human judgement</em>, it is difficult for us to implement any of the above. That's why 1559 shipped and everything else in this section is a sketch with potential.</p>
+<p>So the inventory is this: the meter we know how to build prices volume, not quality. Lane fees bankrupt the million-duds strategy and do nothing about a well-funded liar who pays surge pricing gladly. An uncongested commons with some funded liars in it is, roughly, a newspaper market. I'd take that trade. I'm not saying even the buildable half would work as advertised - I frankly have no idea, but neither does anyone else, and I think it's past time to start experimenting.</p>
+<p>Which brings us to the reason none of this exists. Nobody currently positioned to deploy it wants it. It's not even clear if users want it anymore. The platforms, obviously, profit from the status quo twice over: they sell the walls, and they monetise the slop. Recall the twitter feed mutuals experiment: users were given a 48 hour trial of a feed they openly loved, and the platform itself reinstated the slop almost immediately. Much like the mechanisms posited in this post, corporations respond to profit incentive. And the meters/auctions that <em>are</em> being built - Pay Per Crawl, x402 (per-request stablecoin micropayments) - are consortiums of the biggest landlords on the internet. Whether a Coinbase-Cloudflare-Google-Visa foundation can be credibly neutral I would leave as an exercise to the reader, and I refer you to <a href="/blog/moats-closed/">the settlement post</a> for how consortiums tend to go. A well-crafted meter is a public good; a wall is a business - and everyone with distribution is in the wall business.</p>
+<p>Will it arrive before the walls finish going up? Absolutely no shot. Many have tried and failed. But this is the first moment the mechanism has been buildable at all in my opinion - pushed into feasibility by language models and on chain micropayments, and I notice the people building the agents are not yet the people who own the walls.</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p><a href="https://writings.flashbots.net/mev-and-the-limits-of-scaling">https://writings.flashbots.net/mev-and-the-limits-of-scaling</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>Scott Alexander, &quot;Meditations on Moloch&quot; (2014) - the canonical essay on multipolar traps. <a href="https://slatestarcodex.com/2014/07/30/meditations-on-moloch/">https://slatestarcodex.com/2014/07/30/meditations-on-moloch/</a> <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p><a href="https://www.theblock.co/post/358512/mev-bots-are-clogging-blockchains-faster-than-networks-can-scale-says-flashbots">https://www.theblock.co/post/358512/mev-bots-are-clogging-blockchains-faster-than-networks-can-scale-says-flashbots</a> <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p><a href="https://www.forbes.com/sites/johntamny/2026/08/29/please-conservatives-dont-blame-china-psyops-for-data-center-angst/">https://www.forbes.com/sites/johntamny/2026/08/29/please-conservatives-dont-blame-china-psyops-for-data-center-angst/</a> <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5" class="footnote-item"><p>Tullock, &quot;Efficient Rent Seeking&quot; (1980) - the original lottery model, built for lobbying. Vojnović's <em>Contest Theory</em> (2016) is the modern treatment. <a href="https://en.wikipedia.org/wiki/Tullock_contest">https://en.wikipedia.org/wiki/Tullock_contest</a> <a href="#fnref5" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn6" class="footnote-item"><p><a href="https://www.housebeautiful.com/lifestyle/entertainment/a65259428/how-one-homeowner-raffled-off-his-houseand-doubled-his-profit/">https://www.housebeautiful.com/lifestyle/entertainment/a65259428/how-one-homeowner-raffled-off-his-houseand-doubled-his-profit/</a> <a href="#fnref6" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn7" class="footnote-item"><p>Academic follow-up quantifying spam MEV across high-throughput chains - and dating the spam era to Dencun cutting L2 costs. <a href="https://arxiv.org/abs/2604.00234">https://arxiv.org/abs/2604.00234</a> <a href="#fnref7" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn8" class="footnote-item"><p><a href="https://en.wikipedia.org/wiki/All-pay_auction">https://en.wikipedia.org/wiki/All-pay_auction</a> <a href="#fnref8" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn9" class="footnote-item"><p><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5182754">https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5182754</a> <a href="#fnref9" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn10" class="footnote-item"><p>X announced it was boosting mutuals in July 2026, to universal delight. Check your feed though - it didn't last. <a href="https://techcrunch.com/2026/07/13/x-just-tweaked-its-algorithm-to-make-it-more-friendly-less-battleground/">https://techcrunch.com/2026/07/13/x-just-tweaked-its-algorithm-to-make-it-more-friendly-less-battleground/</a> <a href="#fnref10" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn11" class="footnote-item"><p><a href="https://en.wikipedia.org/wiki/Hashcash">https://en.wikipedia.org/wiki/Hashcash</a> <a href="#fnref11" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn12" class="footnote-item"><p>Simon (1971): information consumes the attention of its recipients. The observation predates the internet. <a href="https://en.wikipedia.org/wiki/Attention_economy">https://en.wikipedia.org/wiki/Attention_economy</a> <a href="#fnref12" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn13" class="footnote-item"><p>Roughgarden's economic analysis of EIP-1559 makes the congestion-pricing reading explicit. <a href="https://arxiv.org/abs/2012.00854">https://arxiv.org/abs/2012.00854</a> <a href="#fnref13" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn14" class="footnote-item"><p>Bartz v. Anthropic (N.D. Cal. 2025) - Judge Alsup's fair use order. Anthropic bought millions of print books, scanned them, and discarded the originals. <a href="https://copyrightalliance.org/wp-content/uploads/2025/06/Bartz-v.-Anthropic-Order.pdf">https://copyrightalliance.org/wp-content/uploads/2025/06/Bartz-v.-Anthropic-Order.pdf</a> <a href="#fnref14" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn15" class="footnote-item"><p>Steel smelted before the Trinity test, prized for radiation-sensitive instruments because everything since is contaminated by atmospheric fallout. Pre-2022 text is the analogue. <a href="https://en.wikipedia.org/wiki/Low-background_steel">https://en.wikipedia.org/wiki/Low-background_steel</a> <a href="#fnref15" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn16" class="footnote-item"><p><a href="https://en.wikipedia.org/wiki/The_Market_for_Lemons">https://en.wikipedia.org/wiki/The_Market_for_Lemons</a> <a href="#fnref16" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn17" class="footnote-item"><p>Inscriptions - arbitrary data smuggled into Bitcoin transactions - reignited the &quot;is spam a valid use of the chain&quot; war. Luke Dashjr maintains it's a bug to be fixed. <a href="https://www.theblock.co/post/266298/bitcoin-dev-luke-dashjr-calls-inscriptions-spam-community-members-push-back">https://www.theblock.co/post/266298/bitcoin-dev-luke-dashjr-calls-inscriptions-spam-community-members-push-back</a> <a href="#fnref17" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn18" class="footnote-item"><p>Launched in beta July 2025, with Conde Nast, TIME and AP among early adopters; Stack Overflow signed on in February 2026. <a href="https://techcrunch.com/2025/07/01/cloudflare-launches-a-marketplace-that-lets-websites-charge-ai-bots-for-scraping/">https://techcrunch.com/2025/07/01/cloudflare-launches-a-marketplace-that-lets-websites-charge-ai-bots-for-scraping/</a> <a href="#fnref18" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn19" class="footnote-item"><p>Private transactions passed half of Ethereum's gas used back in 2023 - Blocknative called it &quot;the flippening&quot; - and the share has only grown since. <a href="https://www.blocknative.com/blog/ethereum-private-transactions-the-flippening">https://www.blocknative.com/blog/ethereum-private-transactions-the-flippening</a> <a href="#fnref19" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn20" class="footnote-item"><p>Apologies to Gabriel García Márquez. <a href="https://en.wikipedia.org/wiki/Love_in_the_Time_of_Cholera">https://en.wikipedia.org/wiki/Love_in_the_Time_of_Cholera</a> <a href="#fnref20" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn21" class="footnote-item"><p>Vitalik Buterin, &quot;Credible Neutrality as a Guiding Principle&quot; (2020) - the essay that named the property: a mechanism is credibly neutral when you can look at its rules and see it doesn't discriminate for or against any specific people. <a href="https://nakamoto.com/credible-neutrality/">https://nakamoto.com/credible-neutrality/</a> <a href="#fnref21" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn22" class="footnote-item"><p>Solana executes transactions in parallel over accounts, so fees are local to the state being contested - a hot NFT mint reprices its own lane while the rest of the chain stays cheap. <a href="https://www.helius.dev/blog/solana-local-fee-markets">https://www.helius.dev/blog/solana-local-fee-markets</a> <a href="#fnref22" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn23" class="footnote-item"><p>&quot;Attention bonds&quot; - Loder, Van Alstyne and Wash designed exactly this for email spam in 2006: a refundable deposit the recipient can seize if the message wastes their time. Twenty years early. <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=504843">https://papers.ssrn.com/sol3/papers.cfm?abstract_id=504843</a> <a href="#fnref23" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+<ul class="links-nextprev"><li>Previous: <a href="/blog/paying-the-piper/">Paying the piper</a></li>
+</ul>
+
+    </main>
+    <footer>
+      <a href="/feed/feed.xml">RSS</a>
+      ·
+      <a href="https://github.com/cdrn/cdrn.github.io">Source</a>
+    </footer>
+    <!-- Current page: /blog/slop-auction/ -->
+    <!-- 100% privacy-first analytics -->
+    <script data-goatcounter="https://cdrn.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>

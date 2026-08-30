@@ -24,31 +24,61 @@
     <style>
     * { box-sizing: border-box; }
 /* Minimal but readable styling */
+@font-face {
+	font-family: "Spectral";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/fonts/spectral-400.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Spectral";
+	font-style: italic;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/fonts/spectral-400i.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Spectral";
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: url("/fonts/spectral-500.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Spectral";
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: url("/fonts/spectral-700.woff2") format("woff2");
+}
+
 :root {
-	--font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+	--font-family: "Spectral", Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
+	--font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 	--font-size-base: 17px;
 	--line-height-base: 1.7;
 
 	/* Light theme */
-	--background-color: #ffffff;
-	--text-color: #000000;
-	--text-color-link: #0000ee;
-	--text-color-link-visited: #551a8b;
-	--text-color-muted: #666666;
-	--border-color: #d4d4d4;
-	--code-bg: #f2f2f2;
+	--background-color: #fdfcf8;
+	--text-color: #1c1c1c;
+	--text-color-link: #1a5296;
+	--text-color-link-visited: #6d5a8e;
+	--text-color-muted: #6b6b66;
+	--border-color: #ddd9d0;
+	--code-bg: #f2f0ea;
 
 	--max-width: 72ch;
 }
 
 [data-theme="dark"] {
-	--background-color: #1a1a1a;
-	--text-color: #e0e0e0;
-	--text-color-link: #6b9bd1;
-	--text-color-link-visited: #8a7fc4;
-	--text-color-muted: #999999;
-	--border-color: #333333;
-	--code-bg: #2a2a2a;
+	--background-color: #191a1e;
+	--text-color: #ddd9d0;
+	--text-color-link: #8fb6e8;
+	--text-color-link-visited: #a898cd;
+	--text-color-muted: #96938c;
+	--border-color: #34363c;
+	--code-bg: #26282e;
 }
 
 /* Basic reset */
@@ -65,7 +95,7 @@ body {
 	line-height: var(--line-height-base);
 	color: var(--text-color);
 	background-color: var(--background-color);
-	font-weight: 500;
+	font-weight: 400;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -344,7 +374,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-	font-size: 1.8em;
+	font-size: 2.2em;
 	margin-top: 0;
 	margin-bottom: 1em;
 }
@@ -364,13 +394,13 @@ pre {
 	padding: 0.5em;
 	overflow-x: auto;
 	border-left: 3px solid var(--text-color);
-	font-family: "Courier New", Courier, monospace;
-	font-size: 0.9em;
+	font-family: var(--font-mono);
+	font-size: 0.85em;
 }
 
 code {
-	font-family: "Courier New", Courier, monospace;
-	font-size: 0.9em;
+	font-family: var(--font-mono);
+	font-size: 0.85em;
 }
 
 /* Inline code (not the highlighted blocks Prism owns) */
@@ -629,9 +659,51 @@ th {
       
 <div class="content-container">
   <h1>All Posts</h1>
+  <div class="tag-filter" role="group" aria-label="Filter posts by tag">
+    <button type="button" class="tag-pill" data-tag="thonk">thonk</button>
+    <button type="button" class="tag-pill" data-tag="stablecoins">stablecoins</button>
+    <button type="button" class="tag-pill" data-tag="orderflow">orderflow</button>
+    <button type="button" class="tag-pill" data-tag="ethereum">ethereum</button>
+    <button type="button" class="tag-pill" data-tag="indexing">indexing</button>
+    <button type="button" class="tag-pill" data-tag="settlement">settlement</button>
+    <button type="button" class="tag-pill" data-tag="compliance">compliance</button>
+    <button type="button" class="tag-pill" data-tag="mev">mev</button>
+    <button type="button" class="tag-pill" data-tag="AI">AI</button>
+  </div>
 
   
   <ul class="postlist">
+  <li class="postlist-item" data-tags="thonk mev orderflow AI">
+      <a href="/blog/slop-auction/" class="postlist-link">
+        
+          Slop Auction
+        
+      </a>
+      <div class="postlist-meta">
+        <time class="postlist-date" datetime="2026-08-30">30 August 2026</time>
+        
+          <span class="postlist-reading-time">24 min read</span>
+        
+      </div>
+      
+        <p class="postlist-excerpt">The most important problem on the internet</p>
+      
+      <div class="postlist-tags">
+        
+          
+          <a href="/tags/thonk/" class="post-tag">thonk</a>
+        
+          
+          <a href="/tags/mev/" class="post-tag">mev</a>
+        
+          
+          <a href="/tags/orderflow/" class="post-tag">orderflow</a>
+        
+          
+          <a href="/tags/ai/" class="post-tag">AI</a>
+        
+      </div>
+    </li>
   <li class="postlist-item" data-tags="thonk stablecoins">
       <a href="/blog/paying-the-piper/" class="postlist-link">
         
@@ -1003,6 +1075,38 @@ th {
   
 </ul>
 </div>
+
+<script>
+  (function () {
+    const list = document.querySelector('.postlist');
+    const pills = document.querySelectorAll('.tag-pill');
+    const items = list ? list.querySelectorAll('.postlist-item') : [];
+    if (!list || !pills.length || !items.length) return;
+
+    let active = null;
+
+    function apply() {
+      if (active === null) {
+        list.classList.remove('filtered');
+        items.forEach(li => { li.hidden = false; });
+      } else {
+        list.classList.add('filtered');
+        items.forEach(li => {
+          const tags = (li.dataset.tags || '').split(' ');
+          li.hidden = !tags.includes(active);
+        });
+      }
+      pills.forEach(p => p.classList.toggle('active', p.dataset.tag === active));
+    }
+
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        active = active === pill.dataset.tag ? null : pill.dataset.tag;
+        apply();
+      });
+    });
+  })();
+</script>
 
 
     </main>
