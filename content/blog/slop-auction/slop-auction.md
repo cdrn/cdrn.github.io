@@ -52,9 +52,9 @@ There is one more parameter worth knowing about. Contest theorists write the odd
 
 ## Growing your way out of the debt
 
-So, if we add blockspace, the spam will expand to fill it because expected value per slot stays positive. The internet ran this experiment first: distribution became infinite, supply expanded until the binding constraint was attention[^simon]. Then LLMs collapsed the production cost, so volume expands until the marginal slop post breaks even - and at fractions of a cent, break-even volume is approximately infinite.
+So, if we add blockspace, the spam will expand to fill it because expected value per slot stays positive. The internet ran this experiment first: distribution became infinite, supply expanded until the binding constraint was attention[^simon]. Then LLMs collapsed the production cost, so volume expands until the marginal slop post breaks even - and at a cost per post of fractions of a cent, break-even volume is approximately infinite.
 
-Blockchain, however, having fought this battle for over a decade, at least meters usage with gas - EIP-1559's base fee is congestion pricing by another name[^1559] as pointed out by Tim Roughgarden, whose _Twenty Lectures on Algorithmic Game Theory_ inspired this post. Attention has no gas - no meter, nothing that the system can price until it is entirely consumed. The viewer pays the entire externality. And based on the average person's daily screentime, it would seem even that resource has been near exhausted. Much like blockspace - as more attention is added to the system, more low c(ost) slop is invented in order to consume it (at a profit).
+Blockchain, however, having fought this battle for over a decade, at least meters usage with gas - EIP-1559's base fee is congestion pricing by another name[^1559] as pointed out by Tim Roughgarden, whose _Twenty Lectures on Algorithmic Game Theory_ inspired this post. Attention has no gas - no meter, nothing that the system can price until it is entirely consumed. The viewer pays the entire externality. Much like blockspace - as more attention is added to the system, more low c(ost) slop is invented in order to consume it (at a profit).
 
 There are a couple of things that make the LLM slop messier and more dynamic than on chain slop, and so, an imperfect analogy:
 
