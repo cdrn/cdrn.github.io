@@ -2,6 +2,7 @@
 title: Slop Auction
 description: The most important problem on the internet
 date: 2026-08-30
+ogimage: slop-header.png
 tags:
   - thonk
   - mev
@@ -57,7 +58,7 @@ Blockchain, however, having fought this battle for over a decade, at least meter
 
 There are a couple of things that make the LLM slop messier and more dynamic than on chain slop, and so, an imperfect analogy:
 
-1. MEV spam wastes capacity but doesn't corrupt state. The chain is exactly as valid after the spam block. With language models, however slop becomes part of the substrate: indexed, cited, scraped, trained on. It changes the composition of the commons it floods - which is how we get to the recursive version we now find ourselves with. Models trained on slop emitting slop. There is no MEV equivalent of spam poisoning the ledger. There is no MEV equivalent to Anthropic buying millions of books to train on[^bartz] as the low-background steel[^lowsteel] of model production. Yet.
+1. MEV spam wastes capacity but doesn't corrupt state. The chain is exactly as valid after the spam block. Transactions not executed are reverted, and life goes on. With language models, however slop becomes part of the substrate: indexed, cited, scraped, trained on. It changes the composition of the commons it floods - which is how we get to the recursive version we now find ourselves with. Models trained on slop emitting slop. There is no MEV equivalent of spam poisoning the ledger. There is no MEV equivalent to Anthropic buying millions of books to train on[^bartz] as the low-background steel[^lowsteel] of model production. Yet.
 
 2. Adverse selection[^lemons]. Blockspace doesn't care about quality - a block full of spam is still a valid block (though ordinals skeptics may disagree[^ordinals]). Attention is more sensitive. The reader pays upfront, and may over time discover that they have been duped. When readers can't tell signal from slop before spending the attention, and slop is near-free to produce, the average quality of the open lane collapses and the high-cost genuine producers exit. This is one potential way for slop lanes to unwind.
 
@@ -365,7 +366,7 @@ The first was staking reach: amplification requires a refundable bond - proof of
 
 The second was paying the victim: your attention is orderflow, so let strangers bid for access to it and route the winning bid to you rather than the platform[^bonds] - MEV-Share for the inbox. (LinkedIn InMail proves the auction half works - recruiters happily pay per message - but note who collects: LinkedIn. The landlord runs the auction and keeps the rent, which is rather the theme of this post.) But scale it past the inbox and the obvious question kills it: what stops you accepting every bid and reading nothing? There is no proof of reading. AllAdvantage paid people for unverifiable attention in 1999 and was farmed to death inside two years. You retreat to paying for _responses_, which are at least observable - and now trivially automatable by the same models, at which point we have just created a bit grinder where LLMs farm LLMs infinitely. A verification mechanism could solve this, but all are speculative as of today.
 
-Unfortunately, both ideas die a death of measurement. Where on chain we have the anvil of cryptographic verifiability against which to swing the hammer of economic incentives, in the real world, we are required to lean on more nuanced judging functions. Without the ability to reliably generate data on _human judgement_, it is difficult for us to implement any of the above. That's why 1559 shipped and everything else in this section is a sketch with potential.
+Unfortunately, both ideas die a death of measurement. Where on-chain we have the anvil of cryptographic verifiability against which to swing the hammer of economic incentives, in the real world, we are required to lean on more nuanced judging functions. Without the ability to reliably generate data on _human judgement_, it is difficult for us to implement any of the above. That's why 1559 shipped and everything else in this section is a sketch with potential.
 
 So the inventory is this: the meter we know how to build prices volume, not quality. Lane fees bankrupt the million-duds strategy and do nothing about a well-funded liar who pays surge pricing gladly. An uncongested commons with some funded liars in it is, roughly, a newspaper market. I'd take that trade. I'm not saying even the buildable half would work as advertised - I frankly have no idea, but neither does anyone else, and I think it's past time to start experimenting.
 

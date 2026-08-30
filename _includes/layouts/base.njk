@@ -3,6 +3,7 @@
 {%- set absoluteUrl = (page.url | htmlBaseUrl(metadata.url)) -%}
 {%- set isPost = (tags and 'posts' in tags) -%}
 {%- set postImage = content | firstImage(metadata.url, page.url) -%}
+{%- if ogimage -%}{%- set postImage = metadata.url + page.url + ogimage -%}{%- endif -%}
 {%- set ogImage = postImage or (metadata.url + '/apple-touch-icon.png') -%}
 <!doctype html>
 <html lang="{{ metadata.language }}">
