@@ -2,7 +2,7 @@
 title: Slop Auction
 description: The most important problem on the internet
 date: 2026-08-30
-ogimage: slop-header.png
+ogimage: slop-card.jpg
 tags:
   - thonk
   - mev
