@@ -70,8 +70,12 @@ module.exports = function(eleventyConfig) {
 	// Copy content images alongside posts
 	eleventyConfig.addPassthroughCopy("content/**/*.{svg,webp,png,jpeg,jpg,gif}");
 
-	// Copy provenance artefacts alongside posts
+	// Copy provenance artefacts alongside posts. provenance/ dirs hold archived
+	// attested revisions (pre-image + ots + statement per revision) - publish
+	// them verbatim, never render them as pages.
 	eleventyConfig.addPassthroughCopy("content/**/*.{ots,txt}");
+	eleventyConfig.addPassthroughCopy("content/**/provenance/*.md");
+	eleventyConfig.ignores.add("content/**/provenance/**");
 
 	// Publish the markdown source of attested posts, so the sha256 in each
 	// attestation resolves to fetchable bytes at the post's own URL. Only
