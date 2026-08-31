@@ -17,9 +17,13 @@ module.exports = function(eleventyConfig) {
 		if (!content) {
 			return 0;
 		}
-		// Strip <script> and <style> blocks — they're inline UI/code, not prose.
-		const stripped = content.toString().replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, "");
-		const wordsPerMinute = 180;
+		// Strip <script> and <style> blocks — they're inline UI/code, not prose —
+		// then tags and entities, so markup doesn't count as words.
+		const stripped = content.toString()
+			.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, "")
+			.replace(/<[^>]+>/g, " ")
+			.replace(/&[a-z#0-9]+;/gi, " ");
+		const wordsPerMinute = 230;
 		const words = stripped.trim().split(/\s+/).filter(Boolean).length;
 		const minutes = Math.ceil(words / wordsPerMinute);
 		return minutes;
