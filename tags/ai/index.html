@@ -424,6 +424,68 @@ a[href]:hover {
 	text-decoration: none;
 }
 
+/* Keep the chrome quiet: header, nav, and tag links stay ink/muted even
+   when visited (these come after the generic a[href] rules so they win) */
+a.home-link,
+a.home-link:visited {
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+a.home-link:hover {
+	text-decoration: underline;
+}
+
+.nav-item a[href],
+.nav-item a[href]:visited {
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.nav-item a[href]:hover,
+.nav-item a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+a.post-tag,
+a.post-tag:visited {
+	color: var(--text-color-muted);
+	text-decoration: none;
+}
+
+a.post-tag:hover {
+	text-decoration: underline;
+}
+
+/* Heading anchors: hidden until the heading is hovered */
+a.header-anchor,
+a.header-anchor:visited {
+	color: var(--text-color-muted);
+	text-decoration: none;
+	opacity: 0;
+	transition: opacity 0.15s ease;
+}
+
+h1:hover .header-anchor,
+h2:hover .header-anchor,
+h3:hover .header-anchor,
+h4:hover .header-anchor,
+h5:hover .header-anchor,
+h6:hover .header-anchor,
+a.header-anchor:focus {
+	opacity: 1;
+}
+
+.toc a[href],
+.toc a[href]:visited {
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.toc a[href]:hover {
+	text-decoration: underline;
+}
+
 .links-nextprev {
 	list-style: none;
 	padding: 0;
@@ -484,7 +546,8 @@ footer {
 	color: var(--text-color-muted);
 }
 
-footer a {
+footer a[href],
+footer a[href]:visited {
 	color: var(--text-color-muted);
 }
 
