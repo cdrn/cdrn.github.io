@@ -26,8 +26,10 @@ In [Moat's closed](/blog/moats-closed/) I wrote that when chat is free and chatt
 
 The slop farmer is running the same strategy as the MEV searcher. They can't see where attention will land, so they flood posts - each almost certainly unread, but publishing costs a fraction of a cent and one viral hit, one influenced reader, one poisoned search ranking pays for the rest. Much like junk MEV bids, this is not substantive or productive in any meaningful sense, but both are positive EV for the participant, or at least are _perceived to be_ - and so these "bids" will continue to be entered.
 
-![A slop video about the Reacher TV series](reacher-slop.png)
-Notice anything about [this post](https://x.com/petros_/status/2091625926140330444)? A hint - the video isn't about Reacher.
+<figure>
+  <img src="reacher-slop.png" alt="A slop video about the Reacher TV series">
+  <figcaption>Notice anything about <a href="https://x.com/petros_/status/2091625926140330444">this post</a>? A hint - the video isn't about Reacher.</figcaption>
+</figure>
 
 Astute observers will notice the reward schedule for slop spam is less clear - and so worth exploring. The classics are: SEO and affiliate farming. Engagement farming, where the platform itself pays out per impression. Influence ops, where the payout is a nudged opinion rather than a click (increasingly popular with various factions[^psyops]). 
 
