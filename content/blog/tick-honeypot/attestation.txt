@@ -1,0 +1,18 @@
+Authorship attestation for "A tick shaped honeypot"
+https://cdrn.xyz/blog/tick-honeypot/
+
+Statement (signed exactly as the lines between the markers, EIP-191 personal_sign):
+
+-----BEGIN STATEMENT-----
+I am the author of "A tick shaped honeypot" (https://cdrn.xyz/blog/tick-honeypot/).
+sha256: 29c325cf136110c543cb441894fcd8d70f6034f2a4b210bffbf2e5bf1c4e48b6
+Published 2026-05-18. - cdrn / cdrn.xyz
+-----END STATEMENT-----
+
+Signer:    ***REMOVED***
+Signature: ***REMOVED***
+
+Verification:
+- The sha256 is of tick-honeypot.md (the post markdown source, in this directory) as of the attestation date (2026-08-30). Later edits change the hash; the attestation binds this revision.
+- The same hash is anchored into Bitcoin via OpenTimestamps: tick-honeypot.md.ots (verify with ots verify).
+- The signature verifies with any EIP-191 personal_sign verifier (ethers verifyMessage, viem, cast wallet verify).

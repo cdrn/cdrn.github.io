@@ -1,0 +1,18 @@
+Authorship attestation for "Gauloi Part 3: disputes"
+https://cdrn.xyz/blog/gauloi-pt3/
+
+Statement (signed exactly as the lines between the markers, EIP-191 personal_sign):
+
+-----BEGIN STATEMENT-----
+I am the author of "Gauloi Part 3: disputes" (https://cdrn.xyz/blog/gauloi-pt3/).
+sha256: ae2dd0cf9ca971a31cea77cc886d54e10de198261d32a119325f7e3308830f16
+Published 2026-03-19. - cdrn / cdrn.xyz
+-----END STATEMENT-----
+
+Signer:    ***REMOVED***
+Signature: ***REMOVED***
+
+Verification:
+- The sha256 is of gauloi-pt3.md (the post markdown source, in this directory) as of the attestation date (2026-08-30). Later edits change the hash; the attestation binds this revision.
+- The same hash is anchored into Bitcoin via OpenTimestamps: gauloi-pt3.md.ots (verify with ots verify).
+- The signature verifies with any EIP-191 personal_sign verifier (ethers verifyMessage, viem, cast wallet verify).

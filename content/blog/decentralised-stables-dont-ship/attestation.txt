@@ -1,0 +1,18 @@
+Authorship attestation for "Decentralised stables don't ship"
+https://cdrn.xyz/blog/decentralised-stables-dont-ship/
+
+Statement (signed exactly as the lines between the markers, EIP-191 personal_sign):
+
+-----BEGIN STATEMENT-----
+I am the author of "Decentralised stables don't ship" (https://cdrn.xyz/blog/decentralised-stables-dont-ship/).
+sha256: 52fb2eb06bdc63fd3aa5d841bfd189ee5216d9532e052b5c21e214fcbe6eb333
+Published 2026-06-08. - cdrn / cdrn.xyz
+-----END STATEMENT-----
+
+Signer:    ***REMOVED***
+Signature: ***REMOVED***
+
+Verification:
+- The sha256 is of decentralised-stables-dont-ship.md (the post markdown source, in this directory) as of the attestation date (2026-08-30). Later edits change the hash; the attestation binds this revision.
+- The same hash is anchored into Bitcoin via OpenTimestamps: decentralised-stables-dont-ship.md.ots (verify with ots verify).
+- The signature verifies with any EIP-191 personal_sign verifier (ethers verifyMessage, viem, cast wallet verify).

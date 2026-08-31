@@ -70,6 +70,9 @@ module.exports = function(eleventyConfig) {
 	// Copy content images alongside posts
 	eleventyConfig.addPassthroughCopy("content/**/*.{svg,webp,png,jpeg,jpg,gif}");
 
+	// Copy provenance artefacts alongside posts
+	eleventyConfig.addPassthroughCopy("content/**/*.{ots,txt}");
+
 	// Run Eleventy when these files change:
 	// https://www.11ty.dev/docs/watch-serve/#add-your-own-watch-targets
 
@@ -98,6 +101,20 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addFilter('htmlDateString', (dateObj) => {
 		// dateObj input: https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-date-string
 		return DateTime.fromJSDate(dateObj, {zone: 'utc'}).toFormat('yyyy-LL-dd');
+	});
+
+	// Provenance: parse a post's attestation.txt (if present) for the footer line
+	eleventyConfig.addFilter("attestation", (inputPath) => {
+		const fs = require("fs");
+		const path = require("path");
+		const dir = path.dirname(inputPath);
+		const attPath = path.join(dir, "attestation.txt");
+		if (!fs.existsSync(attPath)) return null;
+		const txt = fs.readFileSync(attPath, "utf8");
+		const hashMatch = txt.match(/sha256:\s*([0-9a-f]{64})/);
+		if (!hashMatch) return null;
+		const ots = fs.readdirSync(dir).find((f) => f.endsWith(".ots")) || null;
+		return { hash: hashMatch[1], hashShort: hashMatch[1].slice(0, 8), ots };
 	});
 
 	// First image in rendered content as an absolute URL, for og:image cards

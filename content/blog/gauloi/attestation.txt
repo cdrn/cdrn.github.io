@@ -1,0 +1,18 @@
+Authorship attestation for "Gauloi: compliant cross-chain settlement"
+https://cdrn.xyz/blog/gauloi/
+
+Statement (signed exactly as the lines between the markers, EIP-191 personal_sign):
+
+-----BEGIN STATEMENT-----
+I am the author of "Gauloi: compliant cross-chain settlement" (https://cdrn.xyz/blog/gauloi/).
+sha256: 15e0c0559d49348407c6199d1aa6fbbe1fbb39a05727e880d306c0ce5b72f0b8
+Published 2026-02-10. - cdrn / cdrn.xyz
+-----END STATEMENT-----
+
+Signer:    ***REMOVED***
+Signature: ***REMOVED***
+
+Verification:
+- The sha256 is of gauloi.md (the post markdown source, in this directory) as of the attestation date (2026-08-30). Later edits change the hash; the attestation binds this revision.
+- The same hash is anchored into Bitcoin via OpenTimestamps: gauloi.md.ots (verify with ots verify).
+- The signature verifies with any EIP-191 personal_sign verifier (ethers verifyMessage, viem, cast wallet verify).
