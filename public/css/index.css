@@ -385,25 +385,22 @@ code {
 	border-radius: 3px;
 }
 
-/* Links - classic web style.
-   :where() keeps these at zero specificity so any component rule
-   (.home-link, .postlist-link, .project-list-title, .toc a, …) wins
-   without needing overrides. Prose links still pick these up. */
-:where(a[href]) {
+/* Links - classic web style, everywhere: links look like links */
+a[href] {
 	color: var(--text-color-link);
 	text-decoration: underline;
 }
 
-:where(a[href]:visited) {
+a[href]:visited {
 	color: var(--text-color-link-visited);
 }
 
-:where(a[href]:hover) {
+a[href]:hover {
 	text-decoration: none;
 }
 
 /* Heading anchors: hidden until the heading is hovered */
-.header-anchor {
+a.header-anchor {
 	color: var(--text-color-muted);
 	text-decoration: none;
 	opacity: 0;
