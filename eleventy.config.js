@@ -73,6 +73,25 @@ module.exports = function(eleventyConfig) {
 	// Copy provenance artefacts alongside posts
 	eleventyConfig.addPassthroughCopy("content/**/*.{ots,txt}");
 
+	// Publish the markdown source of attested posts, so the sha256 in each
+	// attestation resolves to fetchable bytes at the post's own URL. Only
+	// attested dirs are copied - drafts stay unpublished.
+	{
+		const fs = require("fs");
+		const path = require("path");
+		const blogDir = "content/blog";
+		for (const entry of fs.readdirSync(blogDir, { withFileTypes: true })) {
+			if (!entry.isDirectory()) continue;
+			const postDir = path.join(blogDir, entry.name);
+			if (!fs.existsSync(path.join(postDir, "attestation.txt"))) continue;
+			for (const f of fs.readdirSync(postDir)) {
+				if (f.endsWith(".md")) {
+					eleventyConfig.addPassthroughCopy({ [path.join(postDir, f)]: path.join("blog", entry.name, f) });
+				}
+			}
+		}
+	}
+
 	// Run Eleventy when these files change:
 	// https://www.11ty.dev/docs/watch-serve/#add-your-own-watch-targets
 
@@ -114,7 +133,7 @@ module.exports = function(eleventyConfig) {
 		const hashMatch = txt.match(/sha256:\s*([0-9a-f]{64})/);
 		if (!hashMatch) return null;
 		const ots = fs.readdirSync(dir).find((f) => f.endsWith(".ots")) || null;
-		return { hash: hashMatch[1], hashShort: hashMatch[1].slice(0, 8), ots };
+		return { hash: hashMatch[1], hashShort: hashMatch[1].slice(0, 8), ots, src: path.basename(inputPath) };
 	});
 
 	// First image in rendered content as an absolute URL, for og:image cards

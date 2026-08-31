@@ -28,7 +28,7 @@ layout: layouts/base.njk
 
 {%- set att = page.inputPath | attestation %}
 {%- if att %}
-<p class="post-attestation">provenance: <code>sha256 {{ att.hashShort }}…</code> · <a href="attestation.txt">signed</a>{% if att.ots %} · <a href="{{ att.ots }}">timestamped</a>{% endif %}</p>
+<p class="post-attestation">provenance: <code>sha256 {{ att.hashShort }}…</code> · <a href="{{ att.src }}">source</a> · <a href="attestation.txt">signed</a>{% if att.ots %} · <a href="{{ att.ots }}">timestamped</a>{% endif %}</p>
 {%- endif %}
 
 {%- if collections.posts %}
