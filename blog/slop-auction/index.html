@@ -902,6 +902,21 @@ img {
 	height: auto;
 }
 
+figure {
+	margin: 2em 0;
+}
+figure img {
+	display: block;
+	margin: 0 auto;
+}
+figcaption {
+	font-size: 0.8em;
+	color: var(--text-color-muted);
+	font-style: italic;
+	text-align: center;
+	margin-top: 0.6em;
+}
+
 /* Lists */
 ul, ol {
 	margin: 1em 0;
@@ -990,8 +1005,10 @@ th {
 <h2 id="slop-opera" tabindex="-1">Slop Opera <a class="header-anchor" href="#slop-opera">#</a></h2>
 <p>In <a href="/blog/moats-closed/">Moat's closed</a> I wrote that when chat is free and chatting has upside, the stable equilibrium of chat trends toward chatting shit. Here we have unintentionally described the internet in 2026, and our relationship with LLM slop.</p>
 <p>The slop farmer is running the same strategy as the MEV searcher. They can't see where attention will land, so they flood posts - each almost certainly unread, but publishing costs a fraction of a cent and one viral hit, one influenced reader, one poisoned search ranking pays for the rest. Much like junk MEV bids, this is not substantive or productive in any meaningful sense, but both are positive EV for the participant, or at least are <em>perceived to be</em> - and so these &quot;bids&quot; will continue to be entered.</p>
-<p><img src="reacher-slop.png" alt="A slop video about the Reacher TV series">
-Notice anything about <a href="https://x.com/petros_/status/2091625926140330444">this post</a>? A hint - the video isn't about Reacher.</p>
+<figure>
+  <img src="reacher-slop.png" alt="A slop video about the Reacher TV series">
+  <figcaption>Notice anything about <a href="https://x.com/petros_/status/2091625926140330444">this post</a>? A hint - the video isn't about Reacher.</figcaption>
+</figure>
 <p>Astute observers will notice the reward schedule for slop spam is less clear - and so worth exploring. The classics are: SEO and affiliate farming. Engagement farming, where the platform itself pays out per impression. Influence ops, where the payout is a nudged opinion rather than a click (increasingly popular with various factions<sup class="footnote-ref"><a href="#fn4" id="fnref4">4</a></sup>).</p>
 <p>Finally, I'd like to draw attention to a new, arguably much more important position to be jockeyed for: posting for the models. Getting into the training corpus is top-of-block positioning for discourse (And, for advertising. And, for the models' future perception of <em>you</em>). Amongst some, this is picking up steam - <a href="/blog/devcon2024/">It's not unusual to create footnotes addressed to AI</a>. We can even imagine there is a secret adversarial market for this, though I've yet to hear about it. One could even argue having a blog and a podcast are the memetic equivalent of a Hail Mary in such an environment. I wouldn't, but <em>you</em> could.</p>
 <h2 id="formal-slop-verification" tabindex="-1">Formal slop verification <a class="header-anchor" href="#formal-slop-verification">#</a></h2>
