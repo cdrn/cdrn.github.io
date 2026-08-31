@@ -528,22 +528,27 @@ footer a {
 	}
 }
 
-/* Projects list */
+/* Projects list - same rhythm as the post list */
 .projects-list {
 	list-style: none;
 	padding: 0;
-	margin: 2em 0;
+	margin: 0;
 }
 
 .project-list-item {
-	margin: 1.5em 0;
+	margin-bottom: 2.5em;
+	padding-bottom: 1.5em;
+	border-bottom: 1px solid var(--border-color);
 }
 
 .project-list-title {
 	font-weight: bold;
-	font-size: 1.1em;
+	font-size: 1.15em;
 	color: var(--text-color);
 	text-decoration: none;
+	line-height: 1.4;
+	display: block;
+	margin-bottom: 0.5em;
 }
 
 .project-list-title:hover {
@@ -551,7 +556,7 @@ footer a {
 }
 
 .project-list-byline {
-	margin-top: 0.15em;
+	margin: 0.75em 0 0;
 	color: var(--text-color);
 }
 
@@ -599,9 +604,10 @@ footer a {
 }
 
 
-/* Content container */
+/* Content container - no extra top margin; every page starts at the same
+   offset below the header rule (the header's own margin-bottom) */
 .content-container {
-	margin: 2em 0;
+	margin: 0 0 2em;
 }
 
 /* Images */
