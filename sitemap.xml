@@ -48,17 +48,22 @@
       </url>
       
       <url>
+        <loc>https://cdrn.xyz/tags/projects/</loc>
+        <lastmod>2026-08-31</lastmod>
+      </url>
+      
+      <url>
         <loc>https://cdrn.xyz/tags/thonk/</loc>
         <lastmod>2026-08-31</lastmod>
       </url>
       
       <url>
-        <loc>https://cdrn.xyz/tags/orderflow/</loc>
+        <loc>https://cdrn.xyz/tags/stablecoins/</loc>
         <lastmod>2026-08-31</lastmod>
       </url>
       
       <url>
-        <loc>https://cdrn.xyz/tags/stablecoins/</loc>
+        <loc>https://cdrn.xyz/tags/orderflow/</loc>
         <lastmod>2026-08-31</lastmod>
       </url>
       
@@ -78,22 +83,17 @@
       </url>
       
       <url>
+        <loc>https://cdrn.xyz/tags/indexing/</loc>
+        <lastmod>2026-08-31</lastmod>
+      </url>
+      
+      <url>
         <loc>https://cdrn.xyz/tags/mev/</loc>
         <lastmod>2026-08-31</lastmod>
       </url>
       
       <url>
         <loc>https://cdrn.xyz/tags/ai/</loc>
-        <lastmod>2026-08-31</lastmod>
-      </url>
-      
-      <url>
-        <loc>https://cdrn.xyz/tags/indexing/</loc>
-        <lastmod>2026-08-31</lastmod>
-      </url>
-      
-      <url>
-        <loc>https://cdrn.xyz/tags/projects/</loc>
         <lastmod>2026-08-31</lastmod>
       </url>
 </urlset>
