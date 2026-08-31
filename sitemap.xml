@@ -83,17 +83,17 @@
       </url>
       
       <url>
-        <loc>https://cdrn.xyz/tags/indexing/</loc>
-        <lastmod>2026-08-31</lastmod>
-      </url>
-      
-      <url>
         <loc>https://cdrn.xyz/tags/mev/</loc>
         <lastmod>2026-08-31</lastmod>
       </url>
       
       <url>
         <loc>https://cdrn.xyz/tags/ai/</loc>
+        <lastmod>2026-08-31</lastmod>
+      </url>
+      
+      <url>
+        <loc>https://cdrn.xyz/tags/indexing/</loc>
         <lastmod>2026-08-31</lastmod>
       </url>
 </urlset>

@@ -917,6 +917,21 @@ figcaption {
 	margin-top: 0.6em;
 }
 
+.post-attestation {
+	font-size: 0.72em;
+	color: var(--text-color-muted);
+	margin-top: 3em;
+}
+.post-attestation code {
+	font-size: 1em;
+	background: none;
+	padding: 0;
+	color: var(--text-color-muted);
+}
+.post-attestation a {
+	color: var(--text-color-muted);
+}
+
 /* Lists */
 ul, ol {
 	margin: 1em 0;
@@ -1046,6 +1061,7 @@ th {
 <h2 id="and-so" tabindex="-1">And so... <a class="header-anchor" href="#and-so">#</a></h2>
 <p>Podcasters talk a lot on twitter. &quot;Where are the builders&quot;, I hear them saying. &quot;no-one is building apps&quot;. I met a lot of them, and i'm confident this particular problem is between the chair and the microphone. I'm excited to see what happens between now and the next devcon. Ethereum has a lot of work to do, and a long way to go, but to paraphrase Josh Stark; &quot;Ethereum hits the hard problems first because it has gone the furthest&quot;. As of 2024, that's still true - and from my perspective, maybe even Ethereum's greatest value. 5/5.</p>
 
+<p class="post-attestation">provenance: <code>sha256 5ed05b06…</code> · <a href="attestation.txt">signed</a> · <a href="devcon2024.md.ots">timestamped</a></p>
 <ul class="links-nextprev"><li>Previous: <a href="/blog/slurpingcontractdatapt3/">Eth contract data pt 3. How to run your own graph node</a></li><li>Next: <a href="/blog/whatsgoingonstables/">Stablecoins: What happens when the risk free rate is money</a></li>
 </ul>
 
@@ -1054,6 +1070,8 @@ th {
       <a href="/feed/feed.xml">RSS</a>
       ·
       <a href="https://github.com/cdrn/cdrn.github.io">Source</a>
+      ·
+      <a href="https://etherscan.io/address/0x22783ad2faf48f93cf8b509bfe2e4e00484a931c" title="Posts are signed by this address - see each post's attestation.txt">signed: 0x2278…931c</a>
     </footer>
     <!-- Current page: /blog/devcon2024/ -->
     <!-- 100% privacy-first analytics -->

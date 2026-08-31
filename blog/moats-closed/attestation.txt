@@ -1,0 +1,18 @@
+Authorship attestation for "Moat's closed"
+https://cdrn.xyz/blog/moats-closed/
+
+Statement (signed exactly as the lines between the markers, EIP-191 personal_sign):
+
+-----BEGIN STATEMENT-----
+I am the author of "Moat's closed" (https://cdrn.xyz/blog/moats-closed/).
+sha256: 06ac1dee3428fd2ff8dbe79c6f9e28cef90d0bcfbe7321fdce6e12476add28db
+Published 2026-07-19. - cdrn / cdrn.xyz
+-----END STATEMENT-----
+
+Signer:    0x22783ad2fAF48F93CF8B509BFE2e4e00484a931c
+Signature: 0x272dbe8d79a519428bf2f73fce5791ec4315b1f9bfb268e421f5afb31f7802b41b4942304e2ac180566212ae554a0546f6da2bc14c2e27f1e58ef41b00edc2391c
+
+Verification:
+- The sha256 is of moats-closed.md (the post markdown source, in this directory) as of the attestation date (2026-08-30). Later edits change the hash; the attestation binds this revision.
+- The same hash is anchored into Bitcoin via OpenTimestamps: moats-closed.md.ots (verify with ots verify).
+- The signature verifies with any EIP-191 personal_sign verifier (ethers verifyMessage, viem, cast wallet verify).

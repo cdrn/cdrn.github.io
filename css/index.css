@@ -579,6 +579,21 @@ figcaption {
 	margin-top: 0.6em;
 }
 
+.post-attestation {
+	font-size: 0.72em;
+	color: var(--text-color-muted);
+	margin-top: 3em;
+}
+.post-attestation code {
+	font-size: 1em;
+	background: none;
+	padding: 0;
+	color: var(--text-color-muted);
+}
+.post-attestation a {
+	color: var(--text-color-muted);
+}
+
 /* Lists */
 ul, ol {
 	margin: 1em 0;

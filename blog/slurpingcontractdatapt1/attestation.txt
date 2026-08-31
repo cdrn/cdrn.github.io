@@ -1,0 +1,18 @@
+Authorship attestation for "Eth contract data pt 1."
+https://cdrn.xyz/blog/slurpingcontractdatapt1/
+
+Statement (signed exactly as the lines between the markers, EIP-191 personal_sign):
+
+-----BEGIN STATEMENT-----
+I am the author of "Eth contract data pt 1." (https://cdrn.xyz/blog/slurpingcontractdatapt1/).
+sha256: c6e0144f5197b4d4becd7693aefc2c39a949e0a0fbfc1ea4bd2a1a523d1fd2d9
+Published 2023-08-03. - cdrn / cdrn.xyz
+-----END STATEMENT-----
+
+Signer:    0x22783ad2fAF48F93CF8B509BFE2e4e00484a931c
+Signature: 0xfd11f15b956f71449f9b6866a8164c0e5ed9f937e30f854cb7c3eff11aaa9aca10325e0346eb859e76280404858f8e544e182f44d4d6894fab81bf975a8656e21b
+
+Verification:
+- The sha256 is of slurpingcontractdatapt1.md (the post markdown source, in this directory) as of the attestation date (2026-08-30). Later edits change the hash; the attestation binds this revision.
+- The same hash is anchored into Bitcoin via OpenTimestamps: slurpingcontractdatapt1.md.ots (verify with ots verify).
+- The signature verifies with any EIP-191 personal_sign verifier (ethers verifyMessage, viem, cast wallet verify).

@@ -1,0 +1,21 @@
+Authorship attestation for "Slop Auction"
+https://cdrn.xyz/blog/slop-auction/
+
+Statement (signed exactly as the five lines between the markers, EIP-191 personal_sign):
+
+-----BEGIN STATEMENT-----
+I am the author of "Slop Auction" (https://cdrn.xyz/blog/slop-auction/).
+sha256: a623d1a671a3a82266305ace938d181a2cea6db8d2abef5cadedb24ffcbbfea9
+Published 2026-08-30. - cdrn / cdrn.xyz
+-----END STATEMENT-----
+
+Signer:    0x22783ad2fAF48F93CF8B509BFE2e4e00484a931c
+Signature: 0x300f1ec55227bb842899fb68b4eb9b40419e9e4c79ebab53474151d5377c1d5e560626303c4675be435093b8117343f5618c846a5d8b4032d3967d652be7620f1b
+
+Verification:
+- The sha256 is of slop-auction.md (the post's markdown source, in this directory).
+- The same hash is anchored into Bitcoin via OpenTimestamps: slop-auction.md.ots (verify with `ots verify`).
+- The signature verifies with any EIP-191 personal_sign verifier, e.g.:
+    ethers:  verifyMessage(statement, signature) === signer
+    viem:    verifyMessage({ address, message: statement, signature })
+    foundry: cast wallet verify --address <signer> <statement> <signature>

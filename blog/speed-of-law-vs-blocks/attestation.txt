@@ -1,0 +1,18 @@
+Authorship attestation for "On the speed of law versus the speed of blocks"
+https://cdrn.xyz/blog/speed-of-law-vs-blocks/
+
+Statement (signed exactly as the lines between the markers, EIP-191 personal_sign):
+
+-----BEGIN STATEMENT-----
+I am the author of "On the speed of law versus the speed of blocks" (https://cdrn.xyz/blog/speed-of-law-vs-blocks/).
+sha256: 92e5c85fd2afd1bb929e8a527c9c91cce342af7feea1ed2d3034414cc1408b58
+Published 2025-12-27. - cdrn / cdrn.xyz
+-----END STATEMENT-----
+
+Signer:    0x22783ad2fAF48F93CF8B509BFE2e4e00484a931c
+Signature: 0xa64904b201b716b6eaaf9a6aa908c20958e599b30d758992c3e028f145651c680b4b668d8997adef47ef4295ef3308349fe78331a2c182203c60aa563842f6131c
+
+Verification:
+- The sha256 is of speed-of-law-vs-blocks.md (the post markdown source, in this directory) as of the attestation date (2026-08-30). Later edits change the hash; the attestation binds this revision.
+- The same hash is anchored into Bitcoin via OpenTimestamps: speed-of-law-vs-blocks.md.ots (verify with ots verify).
+- The signature verifies with any EIP-191 personal_sign verifier (ethers verifyMessage, viem, cast wallet verify).

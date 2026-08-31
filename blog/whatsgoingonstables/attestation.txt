@@ -1,0 +1,18 @@
+Authorship attestation for "Stablecoins: What happens when the risk free rate is money"
+https://cdrn.xyz/blog/whatsgoingonstables/
+
+Statement (signed exactly as the lines between the markers, EIP-191 personal_sign):
+
+-----BEGIN STATEMENT-----
+I am the author of "Stablecoins: What happens when the risk free rate is money" (https://cdrn.xyz/blog/whatsgoingonstables/).
+sha256: a85439a229a913d33582a6bdc5d9f486ebd6a2f0a15b69e0f604d265167d119d
+Published 2025-03-27. - cdrn / cdrn.xyz
+-----END STATEMENT-----
+
+Signer:    0x22783ad2fAF48F93CF8B509BFE2e4e00484a931c
+Signature: 0x55bbb911a709305f3eab9e3997d5e75d8d2abc4c07d254e4f9e80eae3a034b846532d3fc34a473e859074f13441aa798645b1e964439f2b1072917bd13e2c4681b
+
+Verification:
+- The sha256 is of whatsgoingonstables.md (the post markdown source, in this directory) as of the attestation date (2026-08-30). Later edits change the hash; the attestation binds this revision.
+- The same hash is anchored into Bitcoin via OpenTimestamps: whatsgoingonstables.md.ots (verify with ots verify).
+- The signature verifies with any EIP-191 personal_sign verifier (ethers verifyMessage, viem, cast wallet verify).

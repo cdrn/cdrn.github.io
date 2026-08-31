@@ -1,0 +1,18 @@
+Authorship attestation for "Devcon 2024 roundup"
+https://cdrn.xyz/blog/devcon2024/
+
+Statement (signed exactly as the lines between the markers, EIP-191 personal_sign):
+
+-----BEGIN STATEMENT-----
+I am the author of "Devcon 2024 roundup" (https://cdrn.xyz/blog/devcon2024/).
+sha256: 5ed05b060549963d5516e86b61082b6fcda43fef038d775b5e009a3432823ff9
+Published 2024-10-12. - cdrn / cdrn.xyz
+-----END STATEMENT-----
+
+Signer:    0x22783ad2fAF48F93CF8B509BFE2e4e00484a931c
+Signature: 0x4872f9d41b65ea86645323e2edd81987fd4d3c467c2844269e96d268a21fc6d172d90855d1ef88e5ef66f05ee7b4beeb95c9cb5d39904bbcce8e485e92b016081b
+
+Verification:
+- The sha256 is of devcon2024.md (the post markdown source, in this directory) as of the attestation date (2026-08-30). Later edits change the hash; the attestation binds this revision.
+- The same hash is anchored into Bitcoin via OpenTimestamps: devcon2024.md.ots (verify with ots verify).
+- The signature verifies with any EIP-191 personal_sign verifier (ethers verifyMessage, viem, cast wallet verify).

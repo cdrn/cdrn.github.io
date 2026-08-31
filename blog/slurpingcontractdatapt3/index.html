@@ -917,6 +917,21 @@ figcaption {
 	margin-top: 0.6em;
 }
 
+.post-attestation {
+	font-size: 0.72em;
+	color: var(--text-color-muted);
+	margin-top: 3em;
+}
+.post-attestation code {
+	font-size: 1em;
+	background: none;
+	padding: 0;
+	color: var(--text-color-muted);
+}
+.post-attestation a {
+	color: var(--text-color-muted);
+}
+
 /* Lists */
 ul, ol {
 	margin: 1em 0;
@@ -1005,6 +1020,7 @@ th {
 <p>Indexing contract data is, at this point, old news. As someone who has done it more than a few times, I'd say: Try to use a prerolled solution like TheGraph or Cryo. Failing that - it's easy to have a look at these projects for a liberal dose of inpsiration. These problems have been solved before and it will greatly expedite your efforts.</p>
 <p>Feel free to check out the <a href="https://drive.google.com/file/d/16ZzEvUlselU3xdTWhfhJU8rvaB7umlRW/view">slide deck</a> if you're still curious. Hope it helps!</p>
 
+<p class="post-attestation">provenance: <code>sha256 11a3cd9e…</code> · <a href="attestation.txt">signed</a> · <a href="slurpingcontractdatapt3.md.ots">timestamped</a></p>
 <ul class="links-nextprev"><li>Previous: <a href="/blog/slurpingcontractdatapt2/">Eth contract data pt 2. Storage tree, cast and RPC</a></li><li>Next: <a href="/blog/devcon2024/">Devcon 2024 roundup</a></li>
 </ul>
 
@@ -1013,6 +1029,8 @@ th {
       <a href="/feed/feed.xml">RSS</a>
       ·
       <a href="https://github.com/cdrn/cdrn.github.io">Source</a>
+      ·
+      <a href="https://etherscan.io/address/0x22783ad2faf48f93cf8b509bfe2e4e00484a931c" title="Posts are signed by this address - see each post's attestation.txt">signed: 0x2278…931c</a>
     </footer>
     <!-- Current page: /blog/slurpingcontractdatapt3/ -->
     <!-- 100% privacy-first analytics -->

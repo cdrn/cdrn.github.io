@@ -1,0 +1,18 @@
+Authorship attestation for "Paying the piper"
+https://cdrn.xyz/blog/paying-the-piper/
+
+Statement (signed exactly as the lines between the markers, EIP-191 personal_sign):
+
+-----BEGIN STATEMENT-----
+I am the author of "Paying the piper" (https://cdrn.xyz/blog/paying-the-piper/).
+sha256: 4ad8e2f8114af1ef99f92828f78fa9c182e0971fb7011bb639a45940789b837c
+Published 2026-07-31. - cdrn / cdrn.xyz
+-----END STATEMENT-----
+
+Signer:    0x22783ad2fAF48F93CF8B509BFE2e4e00484a931c
+Signature: 0xd6f8ea845a886c26b02c288afa61d412431d85a5d99bb5ed7c2b6c384cf36ab767180f51f3f08b944dc39eb9c0491f3ea74154e222ac83d82c13e44a573f351e1b
+
+Verification:
+- The sha256 is of paying-the-piper.md (the post markdown source, in this directory) as of the attestation date (2026-08-30). Later edits change the hash; the attestation binds this revision.
+- The same hash is anchored into Bitcoin via OpenTimestamps: paying-the-piper.md.ots (verify with ots verify).
+- The signature verifies with any EIP-191 personal_sign verifier (ethers verifyMessage, viem, cast wallet verify).

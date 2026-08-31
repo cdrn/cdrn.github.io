@@ -1,0 +1,18 @@
+Authorship attestation for "Eth contract data pt 3. How to run your own graph node"
+https://cdrn.xyz/blog/slurpingcontractdatapt3/
+
+Statement (signed exactly as the lines between the markers, EIP-191 personal_sign):
+
+-----BEGIN STATEMENT-----
+I am the author of "Eth contract data pt 3. How to run your own graph node" (https://cdrn.xyz/blog/slurpingcontractdatapt3/).
+sha256: 11a3cd9e65819024eb9d6241fc414da5c1dc32b22a09df1e523cb4c9e9d276af
+Published 2023-09-05. - cdrn / cdrn.xyz
+-----END STATEMENT-----
+
+Signer:    0x22783ad2fAF48F93CF8B509BFE2e4e00484a931c
+Signature: 0x44f2e8771d5e66f89aa72bf26de60b18316faaf3495534bb4d3d3b8c8c5bd10536ef5b95df7cc144e13e1545b31ddaa0afee296350aad240415eda2c17040cd21c
+
+Verification:
+- The sha256 is of slurpingcontractdatapt3.md (the post markdown source, in this directory) as of the attestation date (2026-08-30). Later edits change the hash; the attestation binds this revision.
+- The same hash is anchored into Bitcoin via OpenTimestamps: slurpingcontractdatapt3.md.ots (verify with ots verify).
+- The signature verifies with any EIP-191 personal_sign verifier (ethers verifyMessage, viem, cast wallet verify).

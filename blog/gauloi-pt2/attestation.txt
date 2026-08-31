@@ -1,0 +1,18 @@
+Authorship attestation for "Gauloi Part 2: mechanism design"
+https://cdrn.xyz/blog/gauloi-pt2/
+
+Statement (signed exactly as the lines between the markers, EIP-191 personal_sign):
+
+-----BEGIN STATEMENT-----
+I am the author of "Gauloi Part 2: mechanism design" (https://cdrn.xyz/blog/gauloi-pt2/).
+sha256: ab80a437dc27ce060fb50fa548a2ef0eff9667d0a8ff9d4520ff3188c5b93812
+Published 2026-02-20. - cdrn / cdrn.xyz
+-----END STATEMENT-----
+
+Signer:    0x22783ad2fAF48F93CF8B509BFE2e4e00484a931c
+Signature: 0x7d4f867b0b773a5c5875752eba6ed4b9a7200edd2f635915fe7502710aaf95b24d06503fe1eb1ffd9c7fd3239054be800936828f8bff8effe43ded02e80b2da81c
+
+Verification:
+- The sha256 is of gauloi-pt2.md (the post markdown source, in this directory) as of the attestation date (2026-08-30). Later edits change the hash; the attestation binds this revision.
+- The same hash is anchored into Bitcoin via OpenTimestamps: gauloi-pt2.md.ots (verify with ots verify).
+- The signature verifies with any EIP-191 personal_sign verifier (ethers verifyMessage, viem, cast wallet verify).

@@ -1,0 +1,18 @@
+Authorship attestation for "Company scrip, company store"
+https://cdrn.xyz/blog/company-scrip/
+
+Statement (signed exactly as the lines between the markers, EIP-191 personal_sign):
+
+-----BEGIN STATEMENT-----
+I am the author of "Company scrip, company store" (https://cdrn.xyz/blog/company-scrip/).
+sha256: d05bdf51815e0f31481947d876bbd8dda74c39bb47c1a95dc92456dbcc031355
+Published 2026-06-08. - cdrn / cdrn.xyz
+-----END STATEMENT-----
+
+Signer:    0x22783ad2fAF48F93CF8B509BFE2e4e00484a931c
+Signature: 0x9eeaf385e300f10b7dc3d2ae60cbd918b92d5aa23291b9a771e4306a5dd476d03cd18eb9a86bc4accd4266d7da088d4b39f5baf742e86a068e9395605963d23a1b
+
+Verification:
+- The sha256 is of company-scrip.md (the post markdown source, in this directory) as of the attestation date (2026-08-30). Later edits change the hash; the attestation binds this revision.
+- The same hash is anchored into Bitcoin via OpenTimestamps: company-scrip.md.ots (verify with ots verify).
+- The signature verifies with any EIP-191 personal_sign verifier (ethers verifyMessage, viem, cast wallet verify).

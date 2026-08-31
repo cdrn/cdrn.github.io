@@ -1,0 +1,18 @@
+Authorship attestation for "The bridge is not the product"
+https://cdrn.xyz/blog/bridgenotproduct/
+
+Statement (signed exactly as the lines between the markers, EIP-191 personal_sign):
+
+-----BEGIN STATEMENT-----
+I am the author of "The bridge is not the product" (https://cdrn.xyz/blog/bridgenotproduct/).
+sha256: 0c6d44e4615842231edc52a89bb6a8f40c0917577363073c8c18fc1fcfb10c39
+Published 2025-12-30. - cdrn / cdrn.xyz
+-----END STATEMENT-----
+
+Signer:    0x22783ad2fAF48F93CF8B509BFE2e4e00484a931c
+Signature: 0x3c31f3567e47f35413924b3749ee9e36612e384d3c8d20433508a2342af0979858c365d5bf3fc0bd20f44eed6a11621e4e56a0c07127fb862276ac70f966c6621c
+
+Verification:
+- The sha256 is of bridgenotproduct.md (the post markdown source, in this directory) as of the attestation date (2026-08-30). Later edits change the hash; the attestation binds this revision.
+- The same hash is anchored into Bitcoin via OpenTimestamps: bridgenotproduct.md.ots (verify with ots verify).
+- The signature verifies with any EIP-191 personal_sign verifier (ethers verifyMessage, viem, cast wallet verify).
