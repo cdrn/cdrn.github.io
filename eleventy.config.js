@@ -80,6 +80,8 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("content/**/*.{ots,txt}");
 	eleventyConfig.addPassthroughCopy("content/**/provenance/*.md");
 	eleventyConfig.ignores.add("content/**/provenance/**");
+	// Stray build output (e.g. a build run from inside a post folder) must never become pages
+	eleventyConfig.ignores.add("content/**/_site/**");
 
 	// Publish the markdown source of attested posts, so the sha256 in each
 	// attestation resolves to fetchable bytes at the post's own URL. Only
