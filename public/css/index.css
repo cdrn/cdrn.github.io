@@ -220,7 +220,7 @@ main {
 
 .postlist-link {
 	font-weight: bold;
-	font-size: 1.15em;
+	font-size: 1.3em;
 	color: var(--text-color);
 	text-decoration: none;
 	line-height: 1.4;
@@ -346,7 +346,14 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
 	font-size: 2.2em;
 	margin-top: 0;
-	margin-bottom: 1em;
+	margin-bottom: 0.5em;
+}
+
+/* Index pages: the h1 is a section label, not content - content
+   (post/project titles) should outrank it */
+.content-container > h1 {
+	font-size: 1.6em;
+	margin-bottom: 1.25em;
 }
 h2 {
 	font-size: 1.4em;
@@ -510,7 +517,7 @@ footer a {
 
 .project-list-title {
 	font-weight: bold;
-	font-size: 1.15em;
+	font-size: 1.3em;
 	color: var(--text-color);
 	text-decoration: none;
 	line-height: 1.4;
