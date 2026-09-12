@@ -1,9 +1,8 @@
 ---
 title: Permanent Underpod
 date: 2026-07-15
-byline: AI, stablecoins, Bitcoin, and the future of tech. Just three fellas on a couch.
+byline: AI, stablecoins, Bitcoin, and the future of tech.
 preview: /img/permanent-underpod.jpg
-tech: A couch, three mics, and too many hot takes
 tags: projects
 links:
   - text: YouTube
@@ -14,6 +13,4 @@ links:
     url: https://podcasts.apple.com/us/podcast/permanent-underpod/id6785056241
 ---
 
-A podcast I make with Jackson and Tyler, three tech (crypto? bitcoin?) veterans on a couch. Technical deep dives on the contentious protocols and events shaping AI and crypto.
-
-The name is the thesis. It ends up being the conversational companion to a lot of what I write here.
+A podcast I do with Jackson and Tyler.
