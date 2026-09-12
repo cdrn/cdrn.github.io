@@ -14,3 +14,5 @@ links:
 ---
 
 A podcast I do with Jackson and Tyler.
+
+The name is the thesis. It ends up being the conversational companion to a lot of what I write here.
