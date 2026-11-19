@@ -1,0 +1,30 @@
+---
+# The feed the mailing list watches. Only attested posts, a day after signing,
+# as title + description + link - see the emailFeed filter in eleventy.config.js
+permalink: /feed/email.xml
+---
+<?xml version="1.0" encoding="utf-8"?>
+{%- set entries = collections.posts | emailFeed(metadata.newsletter.delayHours, metadata.url) %}
+<feed xmlns="http://www.w3.org/2005/Atom" xml:base="{{ metadata.language }}">
+	<title>{{ metadata.title }}</title>
+	<subtitle>{{ metadata.description }}</subtitle>
+	<link href="{{ permalink | htmlBaseUrl(metadata.url) }}" rel="self"/>
+	<link href="{{ metadata.url | addPathPrefixToFullUrl }}"/>
+	{%- if entries.length %}
+	<updated>{{ (entries | last).released | dateToRfc3339 }}</updated>
+	{%- endif %}
+	<id>{{ permalink | htmlBaseUrl(metadata.url) }}</id>
+	<author>
+		<name>{{ metadata.author.name }}</name>
+	</author>
+	{%- for entry in entries | reverse %}
+	<entry>
+		<title>{{ entry.title }}</title>
+		<link href="{{ entry.url }}"/>
+		<published>{{ entry.released | dateToRfc3339 }}</published>
+		<updated>{{ entry.released | dateToRfc3339 }}</updated>
+		<id>{{ entry.url }}</id>
+		<content type="html">{{ entry.html }}</content>
+	</entry>
+	{%- endfor %}
+</feed>

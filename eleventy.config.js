@@ -146,6 +146,47 @@ module.exports = function(eleventyConfig) {
 		return { hash: hashMatch[1], hashShort: hashMatch[1].slice(0, 8), ots, src: path.basename(inputPath) };
 	});
 
+	// Email feed: posts that are attested and past the send delay, oldest first.
+	// A post is released `delayHours` after the later of its first attestation
+	// commit and its frontmatter date, so nothing is mailed while it's still
+	// being tightened. Release times come from git, not the build clock, so the
+	// feed only changes when a post crosses the line.
+	const attestedAtCache = new Map();
+	const attestedAt = (attPath) => {
+		if (attestedAtCache.has(attPath)) return attestedAtCache.get(attPath);
+		const { execFileSync } = require("child_process");
+		const git = (...args) => execFileSync("git", args, { encoding: "utf8" }).trim();
+		// A shallow clone reports every file as added in its root commit, which
+		// would pull long-sent posts out of the feed and re-release them.
+		if (git("rev-parse", "--is-shallow-repository") === "true") {
+			throw new Error("email feed needs full git history (checkout with fetch-depth: 0)");
+		}
+		const first = git("log", "--diff-filter=A", "--format=%ct", "--", attPath).split("\n").pop();
+		const when = first ? new Date(Number(first) * 1000) : null; // null: attestation not committed yet
+		attestedAtCache.set(attPath, when);
+		return when;
+	};
+	eleventyConfig.addFilter("emailFeed", (posts, delayHours, baseUrl) => {
+		const fs = require("fs");
+		const path = require("path");
+		const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+		const now = Date.now();
+		const out = [];
+		for (const post of posts || []) {
+			const attPath = path.join(path.dirname(post.inputPath), "attestation.txt");
+			if (!fs.existsSync(attPath)) continue;
+			const signed = attestedAt(attPath);
+			if (!signed) continue;
+			const released = new Date(Math.max(signed.getTime(), post.date.getTime()) + delayHours * 3600 * 1000);
+			if (released.getTime() > now) continue;
+			const url = baseUrl + post.url;
+			const html = (post.data.description ? `<p>${esc(post.data.description)}</p>` : "")
+				+ `<p><a href="${esc(url)}">Read the post</a></p>`;
+			out.push({ title: post.data.title, url, released, html });
+		}
+		return out.sort((a, b) => a.released - b.released);
+	});
+
 	// First image in rendered content as an absolute URL, for og:image cards
 	eleventyConfig.addFilter("firstImage", (content, baseUrl, pageUrl) => {
 		if (typeof content !== "string") return null;

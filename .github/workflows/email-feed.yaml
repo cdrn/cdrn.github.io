@@ -1,0 +1,56 @@
+name: Release email feed
+
+# A post enters /feed/email.xml a day after it's attested, but the site only
+# rebuilds on push. This rebuilds on a timer and redeploys when a post has
+# crossed the line. It skips the IPFS pin and ENS update - the mirror catches
+# up on the next push, and a timer shouldn't spend gas.
+
+on:
+  schedule:
+    - cron: '17 */3 * * *'
+  workflow_dispatch:
+
+concurrency: deploy
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Any post touched recently enough to be waiting?
+        id: pending
+        run: |
+          recent=$(git log --since='4 days ago' --format=%h -1 -- content/blog)
+          echo "recent=${recent:+true}" >> "$GITHUB_OUTPUT"
+
+      - name: Use Node.js
+        if: steps.pending.outputs.recent == 'true' || github.event_name == 'workflow_dispatch'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Build and compare with the live feed
+        id: feed
+        if: steps.pending.outputs.recent == 'true' || github.event_name == 'workflow_dispatch'
+        run: |
+          npm ci
+          npm run build
+          if curl -fsS https://cdrn.xyz/feed/email.xml -o live.xml && cmp -s live.xml _site/feed/email.xml; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy
+        if: steps.feed.outputs.changed == 'true'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          publish_dir: ./_site
+          github_token: ${{ secrets.GITHUB_TOKEN }}
