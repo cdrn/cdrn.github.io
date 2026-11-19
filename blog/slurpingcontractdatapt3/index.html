@@ -808,6 +808,62 @@ h6:hover .header-anchor,
 	margin: 0.5em 0;
 }
 
+/* Subscribe form */
+.subscribe {
+	margin-top: 3em;
+	padding-top: 1.2em;
+	border-top: 1px solid var(--border-color);
+	font-size: 0.9em;
+	color: var(--text-color-muted);
+}
+
+.subscribe label {
+	color: var(--text-color);
+}
+
+.subscribe-note {
+	margin: 0.2em 0 0;
+	font-size: 0.85em;
+}
+
+.subscribe-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	margin-top: 0.6em;
+}
+
+.subscribe input,
+.subscribe button {
+	font-family: var(--font-family);
+	font-size: 1em;
+	line-height: 1.5;
+	padding: 0.3em 0.8em;
+	border: 1px solid var(--border-color);
+	border-radius: 4px;
+	background: transparent;
+	color: var(--text-color);
+}
+
+.subscribe input {
+	flex: 1 1 16em;
+	min-width: 0;
+}
+
+.subscribe button {
+	cursor: pointer;
+	color: var(--text-color-muted);
+}
+
+.subscribe button:hover {
+	color: var(--text-color);
+	border-color: var(--text-color-muted);
+}
+
+.post-attestation + .subscribe {
+	margin-top: 1.5em;
+}
+
 /* Footer */
 footer {
 	margin-top: 4em;
@@ -1047,12 +1103,25 @@ th {
 <p>Feel free to check out the <a href="https://drive.google.com/file/d/16ZzEvUlselU3xdTWhfhJU8rvaB7umlRW/view">slide deck</a> if you're still curious. Hope it helps!</p>
 
 <p class="post-attestation">provenance: <code>sha256 11a3cd9e…</code> · <a href="slurpingcontractdatapt3.md">source</a> · <a href="attestation.txt">signed</a> · <a href="slurpingcontractdatapt3.md.ots">timestamped</a></p>
+
+
+<form class="subscribe" action="https://buttondown.com/api/emails/embed-subscribe/cdrn" method="post">
+  <label for="subscribe-email">Get new posts by email</label>
+  <p class="subscribe-note">One email per post, about a day after it goes up. Nothing else, and you can unsubscribe any time.</p>
+  <div class="subscribe-row">
+    <input type="email" name="email" id="subscribe-email" placeholder="you@example.com" autocomplete="email" required>
+    <button type="submit">Subscribe</button>
+  </div>
+</form>
+
 <ul class="links-nextprev"><li>Previous: <a href="/blog/slurpingcontractdatapt2/">Eth contract data pt 2. Storage tree, cast and RPC</a></li><li>Next: <a href="/blog/devcon2024/">Devcon 2024 roundup</a></li>
 </ul>
 
     </main>
     <footer>
       <a href="/feed/feed.xml">RSS</a>
+      ·
+      <a href="/#subscribe">Email</a>
       ·
       <a href="https://github.com/cdrn/cdrn.github.io">Source</a>
       ·

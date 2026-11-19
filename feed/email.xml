@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:base="en">
+	<title>Chris Doran</title>
+	<subtitle>Notes on stablecoins, cross-chain settlement, orderflow, and the protocol design underneath.</subtitle>
+	<link href="https://cdrn.xyz/feed/email.xml" rel="self"/>
+	<link href="https://cdrn.xyz/"/>
+	<updated>2026-09-01T00:17:29Z</updated>
+	<id>https://cdrn.xyz/feed/email.xml</id>
+	<author>
+		<name>Chris</name>
+	</author>
+	<entry>
+		<title>Paying the piper</title>
+		<link href="https://cdrn.xyz/blog/paying-the-piper/"/>
+		<published>2026-09-01T00:17:29Z</published>
+		<updated>2026-09-01T00:17:29Z</updated>
+		<id>https://cdrn.xyz/blog/paying-the-piper/</id>
+		<content type="html">&lt;p&gt;unter allerlei Ausflüchten&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://cdrn.xyz/blog/paying-the-piper/&quot;&gt;Read the post&lt;/a&gt;&lt;/p&gt;</content>
+	</entry>
+	<entry>
+		<title>Moat&#39;s closed</title>
+		<link href="https://cdrn.xyz/blog/moats-closed/"/>
+		<published>2026-09-01T00:17:29Z</published>
+		<updated>2026-09-01T00:17:29Z</updated>
+		<id>https://cdrn.xyz/blog/moats-closed/</id>
+		<content type="html">&lt;p&gt;If you&#39;re brave enough, everything&#39;s a polymarket&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://cdrn.xyz/blog/moats-closed/&quot;&gt;Read the post&lt;/a&gt;&lt;/p&gt;</content>
+	</entry>
+	<entry>
+		<title>Company scrip, company store</title>
+		<link href="https://cdrn.xyz/blog/company-scrip/"/>
+		<published>2026-09-01T00:17:29Z</published>
+		<updated>2026-09-01T00:17:29Z</updated>
+		<id>https://cdrn.xyz/blog/company-scrip/</id>
+		<content type="html">&lt;p&gt;Same coin, same issuer, different chain, different price.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://cdrn.xyz/blog/company-scrip/&quot;&gt;Read the post&lt;/a&gt;&lt;/p&gt;</content>
+	</entry>
+	<entry>
+		<title>A tick shaped honeypot</title>
+		<link href="https://cdrn.xyz/blog/tick-honeypot/"/>
+		<published>2026-09-01T00:17:29Z</published>
+		<updated>2026-09-01T00:17:29Z</updated>
+		<id>https://cdrn.xyz/blog/tick-honeypot/</id>
+		<content type="html">&lt;p&gt;A Uniswap V3 honeypot that leaves the ERC20 contract completely untouched.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://cdrn.xyz/blog/tick-honeypot/&quot;&gt;Read the post&lt;/a&gt;&lt;/p&gt;</content>
+	</entry>
+	<entry>
+		<title>Gauloi Part 3: disputes</title>
+		<link href="https://cdrn.xyz/blog/gauloi-pt3/"/>
+		<published>2026-09-01T00:17:29Z</published>
+		<updated>2026-09-01T00:17:29Z</updated>
+		<id>https://cdrn.xyz/blog/gauloi-pt3/</id>
+		<content type="html">&lt;p&gt;Cross-chain dispute resolution, collusion resistance, and the path from committee attestation to storage proofs&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://cdrn.xyz/blog/gauloi-pt3/&quot;&gt;Read the post&lt;/a&gt;&lt;/p&gt;</content>
+	</entry>
+	<entry>
+		<title>Gauloi Part 2: mechanism design</title>
+		<link href="https://cdrn.xyz/blog/gauloi-pt2/"/>
+		<published>2026-09-01T00:17:29Z</published>
+		<updated>2026-09-01T00:17:29Z</updated>
+		<id>https://cdrn.xyz/blog/gauloi-pt2/</id>
+		<content type="html">&lt;p&gt;Escrow state machines, dispute resolution, and the economics of optimistic stablecoin settlement&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://cdrn.xyz/blog/gauloi-pt2/&quot;&gt;Read the post&lt;/a&gt;&lt;/p&gt;</content>
+	</entry>
+	<entry>
+		<title>Gauloi: compliant cross-chain settlement</title>
+		<link href="https://cdrn.xyz/blog/gauloi/"/>
+		<published>2026-09-01T00:17:29Z</published>
+		<updated>2026-09-01T00:17:29Z</updated>
+		<id>https://cdrn.xyz/blog/gauloi/</id>
+		<content type="html">&lt;p&gt;Intent-based optimistic settlement for stablecoins with maker-side compliance&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://cdrn.xyz/blog/gauloi/&quot;&gt;Read the post&lt;/a&gt;&lt;/p&gt;</content>
+	</entry>
+	<entry>
+		<title>The bridge is not the product</title>
+		<link href="https://cdrn.xyz/blog/bridgenotproduct/"/>
+		<published>2026-09-01T00:17:29Z</published>
+		<updated>2026-09-01T00:17:29Z</updated>
+		<id>https://cdrn.xyz/blog/bridgenotproduct/</id>
+		<content type="html">&lt;p&gt;Or why value accrues to orderflow&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://cdrn.xyz/blog/bridgenotproduct/&quot;&gt;Read the post&lt;/a&gt;&lt;/p&gt;</content>
+	</entry>
+	<entry>
+		<title>On the speed of law versus the speed of blocks</title>
+		<link href="https://cdrn.xyz/blog/speed-of-law-vs-blocks/"/>
+		<published>2026-09-01T00:17:29Z</published>
+		<updated>2026-09-01T00:17:29Z</updated>
+		<id>https://cdrn.xyz/blog/speed-of-law-vs-blocks/</id>
+		<content type="html">&lt;p&gt;Freeze functions, fast exits, and the limits of on-chain compliance&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://cdrn.xyz/blog/speed-of-law-vs-blocks/&quot;&gt;Read the post&lt;/a&gt;&lt;/p&gt;</content>
+	</entry>
+	<entry>
+		<title>Stablecoins: What happens when the risk free rate is money</title>
+		<link href="https://cdrn.xyz/blog/whatsgoingonstables/"/>
+		<published>2026-09-01T00:17:29Z</published>
+		<updated>2026-09-01T00:17:29Z</updated>
+		<id>https://cdrn.xyz/blog/whatsgoingonstables/</id>
+		<content type="html">&lt;p&gt;a quick run down on the coming war for your yield&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://cdrn.xyz/blog/whatsgoingonstables/&quot;&gt;Read the post&lt;/a&gt;&lt;/p&gt;</content>
+	</entry>
+	<entry>
+		<title>Devcon 2024 roundup</title>
+		<link href="https://cdrn.xyz/blog/devcon2024/"/>
+		<published>2026-09-01T00:17:29Z</published>
+		<updated>2026-09-01T00:17:29Z</updated>
+		<id>https://cdrn.xyz/blog/devcon2024/</id>
+		<content type="html">&lt;p&gt;Just the highlights&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://cdrn.xyz/blog/devcon2024/&quot;&gt;Read the post&lt;/a&gt;&lt;/p&gt;</content>
+	</entry>
+	<entry>
+		<title>Eth contract data pt 3. How to run your own graph node</title>
+		<link href="https://cdrn.xyz/blog/slurpingcontractdatapt3/"/>
+		<published>2026-09-01T00:17:29Z</published>
+		<updated>2026-09-01T00:17:29Z</updated>
+		<id>https://cdrn.xyz/blog/slurpingcontractdatapt3/</id>
+		<content type="html">&lt;p&gt;Why buy when you can fork?&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://cdrn.xyz/blog/slurpingcontractdatapt3/&quot;&gt;Read the post&lt;/a&gt;&lt;/p&gt;</content>
+	</entry>
+	<entry>
+		<title>Eth contract data pt 2. Storage tree, cast and RPC</title>
+		<link href="https://cdrn.xyz/blog/slurpingcontractdatapt2/"/>
+		<published>2026-09-01T00:17:29Z</published>
+		<updated>2026-09-01T00:17:29Z</updated>
+		<id>https://cdrn.xyz/blog/slurpingcontractdatapt2/</id>
+		<content type="html">&lt;p&gt;Let&#39;s investigate a command line tool to help us understand the storage tree&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://cdrn.xyz/blog/slurpingcontractdatapt2/&quot;&gt;Read the post&lt;/a&gt;&lt;/p&gt;</content>
+	</entry>
+	<entry>
+		<title>Eth contract data pt 1.</title>
+		<link href="https://cdrn.xyz/blog/slurpingcontractdatapt1/"/>
+		<published>2026-09-01T00:17:29Z</published>
+		<updated>2026-09-01T00:17:29Z</updated>
+		<id>https://cdrn.xyz/blog/slurpingcontractdatapt1/</id>
+		<content type="html">&lt;p&gt;Basic overview of where contract data lives in ethereum&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://cdrn.xyz/blog/slurpingcontractdatapt1/&quot;&gt;Read the post&lt;/a&gt;&lt;/p&gt;</content>
+	</entry>
+	<entry>
+		<title>Slop Auction</title>
+		<link href="https://cdrn.xyz/blog/slop-auction/"/>
+		<published>2026-09-01T00:08:00Z</published>
+		<updated>2026-09-01T00:08:00Z</updated>
+		<id>https://cdrn.xyz/blog/slop-auction/</id>
+		<content type="html">&lt;p&gt;The most important problem on the internet&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://cdrn.xyz/blog/slop-auction/&quot;&gt;Read the post&lt;/a&gt;&lt;/p&gt;</content>
+	</entry>
+</feed>
