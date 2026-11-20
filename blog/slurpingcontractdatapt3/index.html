@@ -823,7 +823,8 @@ h6:hover .header-anchor,
 }
 
 .subscribe input[type="email"],
-.subscribe button {
+.subscribe button,
+.list-action button {
 	font-family: var(--font-family);
 	font-size: 1em;
 	line-height: 1.5;
@@ -844,14 +845,25 @@ h6:hover .header-anchor,
 	opacity: 0.7;
 }
 
-.subscribe button {
+.subscribe button,
+.list-action button {
 	cursor: pointer;
 	color: var(--text-color-muted);
 }
 
-.subscribe button:hover {
+.subscribe button:hover,
+.list-action button:hover {
 	color: var(--text-color);
 	border-color: var(--text-color-muted);
+}
+
+/* Mailing list landing pages (content/email/) */
+.problem-reason {
+	display: none;
+}
+
+.problem-reason:target {
+	display: block;
 }
 
 .subscribe-note {
@@ -1108,16 +1120,10 @@ th {
 <form class="subscribe" id="subscribe" action="https://cdrn-mail.cdrn.workers.dev/subscribe" method="post">
   <label for="subscribe-email">New posts by email</label>
   <div hidden><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
-  <input type="hidden" name="theme">
   <input type="email" name="email" id="subscribe-email" placeholder="you@example.com" autocomplete="email" required>
   <button type="submit">Subscribe</button>
   <p class="subscribe-note">One email per post, about a day after it goes up. Unsubscribe any time.</p>
 </form>
-<script>
-  document.getElementById('subscribe').addEventListener('submit', function () {
-    this.elements.theme.value = localStorage.getItem('theme') || 'light';
-  });
-</script>
 
       <a href="/feed/feed.xml">RSS</a>
       ·

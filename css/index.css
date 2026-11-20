@@ -485,7 +485,8 @@ h6:hover .header-anchor,
 }
 
 .subscribe input[type="email"],
-.subscribe button {
+.subscribe button,
+.list-action button {
 	font-family: var(--font-family);
 	font-size: 1em;
 	line-height: 1.5;
@@ -506,14 +507,25 @@ h6:hover .header-anchor,
 	opacity: 0.7;
 }
 
-.subscribe button {
+.subscribe button,
+.list-action button {
 	cursor: pointer;
 	color: var(--text-color-muted);
 }
 
-.subscribe button:hover {
+.subscribe button:hover,
+.list-action button:hover {
 	color: var(--text-color);
 	border-color: var(--text-color-muted);
+}
+
+/* Mailing list landing pages (content/email/) */
+.problem-reason {
+	display: none;
+}
+
+.problem-reason:target {
+	display: block;
 }
 
 .subscribe-note {
