@@ -1,0 +1,24 @@
+# The mailing list for cdrn.xyz: a Cloudflare Worker that takes sign-ups from the
+# subscribe form and mails each new entry of /feed/email.xml. See README.md.
+name = "cdrn-mail"
+main = "src/worker.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+preview_urls = false
+send_metrics = false
+
+[triggers]
+crons = ["7 * * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "cdrn-mail"
+database_id = "36e62298-8e87-45fd-add8-50866f989729" # set by `wrangler d1 create cdrn-mail`
+
+[vars]
+SITE_URL = "https://cdrn.xyz"
+FEED_URL = "https://cdrn.xyz/feed/email.xml"
+MAIL_FROM = "Chris Doran <posts@mail.cdrn.xyz>"
+# This Worker's own address, used in confirm and unsubscribe links
+PUBLIC_URL = "https://cdrn-mail.cdrn.workers.dev"
+# Secret, set with `wrangler secret put RESEND_API_KEY`
