@@ -1,17 +1,10 @@
-{%- if metadata.newsletter.subscribeUrl %}
-<form class="subscribe" id="subscribe" action="{{ metadata.newsletter.subscribeUrl }}" method="post">
+{%- if metadata.newsletter.worker and not hideSubscribe %}
+<form class="subscribe" id="subscribe" action="{{ metadata.newsletter.worker }}/subscribe" method="post">
   <label for="subscribe-email">New posts by email</label>
   {#- Honeypot: people never see it, form-filling bots do, and the Worker drops anything that fills it #}
   <div hidden><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
-  {#- So the Worker's pages come back in the theme the reader is using here #}
-  <input type="hidden" name="theme">
   <input type="email" name="email" id="subscribe-email" placeholder="you@example.com" autocomplete="email" required>
   <button type="submit">Subscribe</button>
   <p class="subscribe-note">One email per post, about a day after it goes up. Unsubscribe any time.</p>
 </form>
-<script>
-  document.getElementById('subscribe').addEventListener('submit', function () {
-    this.elements.theme.value = localStorage.getItem('theme') || 'light';
-  });
-</script>
 {%- endif %}

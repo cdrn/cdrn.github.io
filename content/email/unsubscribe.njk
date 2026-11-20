@@ -1,0 +1,28 @@
+---
+title: Unsubscribe
+permalink: /email/unsubscribe/
+---
+<h1>Unsubscribe</h1>
+
+<p>You'll stop getting new posts by email.</p>
+
+{#- The token rides in the URL fragment, so it never reaches the web server or analytics #}
+<form class="list-action" id="unsubscribe" method="post" action="{{ metadata.newsletter.worker }}/unsubscribe">
+  <input type="hidden" name="t">
+  <button type="submit">Unsubscribe</button>
+</form>
+<p id="unsubscribe-broken" hidden>That link is incomplete. Use the unsubscribe link from one of the emails.</p>
+<noscript><p>This page needs JavaScript. Your mail app's own unsubscribe button works without it.</p></noscript>
+
+<script>
+  (function () {
+    const form = document.getElementById('unsubscribe');
+    const token = location.hash.match(/t=([0-9a-f]{32})/);
+    if (token) {
+      form.elements.t.value = token[1];
+    } else {
+      form.hidden = true;
+      document.getElementById('unsubscribe-broken').hidden = false;
+    }
+  })();
+</script>

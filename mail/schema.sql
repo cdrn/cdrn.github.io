@@ -4,8 +4,7 @@ CREATE TABLE IF NOT EXISTS subscribers (
 	status TEXT NOT NULL, -- pending | confirmed
 	created_at INTEGER NOT NULL,
 	confirm_sent_at INTEGER NOT NULL,
-	confirmed_at INTEGER,
-	theme TEXT -- light | dark, the site theme at sign-up, so our pages match it
+	confirmed_at INTEGER
 );
 
 -- One row per post per subscriber, so a retried run never mails anyone twice

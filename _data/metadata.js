@@ -9,7 +9,7 @@ module.exports = {
 		url: "https://cdrn.xyz/about/"
 	},
 	newsletter: {
-		subscribeUrl: "https://cdrn-mail.cdrn.workers.dev/subscribe", // the mail/ Worker's /subscribe address; empty hides the subscribe form
+		worker: "https://cdrn-mail.cdrn.workers.dev", // the mail/ Worker; empty hides the subscribe form
 		delayHours: 24 // wait after attestation before a post enters /feed/email.xml
 	}
 }

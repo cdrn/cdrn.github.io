@@ -1,9 +1,12 @@
 // Mailing list for cdrn.xyz.
 //
 //   POST /subscribe     the form on the site; stores the address as pending and mails a confirm link
-//   GET/POST /confirm   the link shows a button, the button confirms (so mail scanners can't confirm for you)
-//   GET/POST /unsubscribe  same shape; POST also serves one-click List-Unsubscribe
+//   GET  /confirm       the mailed link; confirms straight away
+//   POST /unsubscribe   the button on the site's /email/unsubscribe/ page, and one-click List-Unsubscribe
 //   cron                reads FEED_URL and mails each entry to everyone who confirmed before it was released
+//
+// This Worker has no pages of its own. Every answer a person sees is a redirect to a page under
+// SITE_URL/email/, so it renders like the rest of the site, in the reader's theme.
 //
 // The feed decides what goes out and when (attested posts, a day after signing - see emailFeed in
 // eleventy.config.js). There is no "sent" flag per post: a subscriber is owed an entry if it was
@@ -12,6 +15,7 @@
 const CONFIRM_COOLDOWN_MS = 24 * 3600 * 1000; // one confirm mail per address per day
 const CONFIRM_HOURLY_CAP = 30; // across all addresses, so the form can't be used to spray mail
 const BATCH = 100; // Resend's batch limit
+const TOKEN = /^[0-9a-f]{32}$/;
 
 export default {
 	async fetch(request, env) {
@@ -19,15 +23,15 @@ export default {
 		const route = `${request.method} ${url.pathname}`;
 		try {
 			if (route === "POST /subscribe") return await subscribe(request, env);
-			if (route === "GET /confirm") return await tokenPage(url, env, "confirm");
-			if (route === "POST /confirm") return await confirm(url, env);
-			if (route === "GET /unsubscribe") return await tokenPage(url, env, "unsubscribe");
-			if (route === "POST /unsubscribe") return await unsubscribe(url, env);
+			if (route === "GET /confirm") return await confirm(url, env);
+			if (route === "POST /unsubscribe") return await unsubscribe(request, url, env);
+			// The List-Unsubscribe address opened in a browser: hand over to the page with the button
+			if (route === "GET /unsubscribe") return to(env, `unsubscribe/#t=${url.searchParams.get("t") || ""}`);
 			if (route === "GET /") return Response.redirect(env.SITE_URL, 302);
-			return page(env, "Not found", "<p>Nothing here.</p>", 404);
+			return new Response("Not found\n", { status: 404 });
 		} catch (err) {
 			console.error(err);
-			return page(env, "Something went wrong", "<p>That didn't work. Try again in a bit.</p>", 500);
+			return to(env, "problem/#busy");
 		}
 	},
 
@@ -36,32 +40,32 @@ export default {
 	},
 };
 
+// 303 so a form POST lands on the site page as a GET
+function to(env, page) {
+	return new Response(null, { status: 303, headers: { location: `${env.SITE_URL}/email/${page}`, "cache-control": "no-store" } });
+}
+
 async function subscribe(request, env) {
 	const form = await request.formData();
 	const email = String(form.get("email") || "").trim().toLowerCase();
-	const theme = ["light", "dark"].includes(form.get("theme")) ? form.get("theme") : null;
 	// The same answer whatever happens next, so the form can't be used to probe who is on the list
-	const done = () => page(env, "Check your inbox", `<p>If that address isn't already subscribed, a confirmation link is on its way. Nothing is sent to you until you click it.</p>`, 200, theme);
+	const done = () => to(env, "check/");
 
 	if (form.get("website")) return done(); // honeypot field, hidden from people
-	if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-		return page(env, "That doesn't look right", "<p>That doesn't look like an email address. Go back and try again.</p>", 400, theme);
-	}
+	if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return to(env, "problem/#address");
 
 	const now = Date.now();
 	const existing = await env.DB.prepare("SELECT token, status, confirm_sent_at FROM subscribers WHERE email = ?").bind(email).first();
 	if (existing && (existing.status === "confirmed" || now - existing.confirm_sent_at < CONFIRM_COOLDOWN_MS)) return done();
 
 	const recent = await env.DB.prepare("SELECT COUNT(*) AS n FROM subscribers WHERE confirm_sent_at > ?").bind(now - 3600 * 1000).first();
-	if (recent.n >= CONFIRM_HOURLY_CAP) {
-		return page(env, "Try again later", "<p>Too many sign-ups in the last hour. Try again later.</p>", 429, theme);
-	}
+	if (recent.n >= CONFIRM_HOURLY_CAP) return to(env, "problem/#busy");
 
 	const token = existing ? existing.token : newToken();
 	await env.DB.prepare(
-		`INSERT INTO subscribers (email, token, status, created_at, confirm_sent_at, theme) VALUES (?, ?, 'pending', ?, ?, ?)
-		 ON CONFLICT (email) DO UPDATE SET confirm_sent_at = excluded.confirm_sent_at, theme = excluded.theme`
-	).bind(email, token, now, now, theme).run();
+		`INSERT INTO subscribers (email, token, status, created_at, confirm_sent_at) VALUES (?, ?, 'pending', ?, ?)
+		 ON CONFLICT (email) DO UPDATE SET confirm_sent_at = excluded.confirm_sent_at`
+	).bind(email, token, now, now).run();
 
 	const link = `${env.PUBLIC_URL}/confirm?t=${token}`;
 	await sendConfirm(env, email, link).catch(async (err) => {
@@ -82,40 +86,30 @@ function sendConfirm(env, email, link) {
 	});
 }
 
-// GET on a mailed link only shows a button; the button's POST does the thing
-async function tokenPage(url, env, action) {
-	const token = url.searchParams.get("t") || "";
-	if (!/^[0-9a-f]{32}$/.test(token)) return page(env, "Link not recognised", "<p>That link is incomplete or has expired.</p>", 400);
-	const theme = await themeFor(env, token);
-	const copy = action === "confirm"
-		? ["Confirm your subscription", "One email per post, about a day after it goes up.", "Confirm"]
-		: ["Unsubscribe", "You'll stop getting new posts by email.", "Unsubscribe"];
-	return page(env, copy[0], `<p>${copy[1]}</p><form method="post" action="/${action}?t=${token}"><button type="submit">${copy[2]}</button></form>`, 200, theme);
-}
-
+// Opening the mailed link is the confirmation. A mail scanner that follows links can confirm an
+// address too; the cost is that address getting post emails it can unsubscribe from.
 async function confirm(url, env) {
 	const token = url.searchParams.get("t") || "";
+	if (!TOKEN.test(token)) return to(env, "problem/#link");
 	const res = await env.DB.prepare("UPDATE subscribers SET status = 'confirmed', confirmed_at = COALESCE(confirmed_at, ?) WHERE token = ?").bind(Date.now(), token).run();
-	if (!res.meta.changes) return page(env, "Link not recognised", "<p>That link is incomplete or has expired.</p>", 400);
-	return page(env, "You're subscribed", "<p>You'll get an email when the next post goes up.</p>", 200, await themeFor(env, token));
+	return to(env, res.meta.changes ? "confirmed/" : "problem/#link");
 }
 
-async function unsubscribe(url, env) {
-	const token = url.searchParams.get("t") || "";
-	const row = await env.DB.prepare("SELECT email, theme FROM subscribers WHERE token = ?").bind(token).first();
+// Unsubscribing stays a POST: a scanner following links must not be able to take someone off the list
+async function unsubscribe(request, url, env) {
+	const form = await request.formData().catch(() => new FormData());
+	const token = String(form.get("t") || url.searchParams.get("t") || "");
+	const row = TOKEN.test(token) && await env.DB.prepare("SELECT email FROM subscribers WHERE token = ?").bind(token).first();
 	if (row) {
 		await env.DB.batch([
 			env.DB.prepare("DELETE FROM deliveries WHERE email = ?").bind(row.email),
 			env.DB.prepare("DELETE FROM subscribers WHERE email = ?").bind(row.email),
 		]);
 	}
-	// Same answer for an unknown token: an unsubscribe link should never look broken
-	return page(env, "Unsubscribed", "<p>Your address has been deleted from the list.</p>", 200, row && row.theme);
-}
-
-async function themeFor(env, token) {
-	const row = await env.DB.prepare("SELECT theme FROM subscribers WHERE token = ?").bind(token).first();
-	return row && row.theme;
+	// A mail client's one-click request wants a plain answer, a person wants the page. Same answer
+	// for an unknown token either way: an unsubscribe link should never look broken.
+	if (form.get("List-Unsubscribe")) return new Response("Unsubscribed\n");
+	return to(env, "unsubscribed/");
 }
 
 async function sendNewPosts(env) {
@@ -134,14 +128,15 @@ async function sendNewPosts(env) {
 			if (!results.length) break;
 
 			const mails = results.map((sub) => {
-				const unsub = `${env.PUBLIC_URL}/unsubscribe?t=${sub.token}`;
+				const oneClick = `${env.PUBLIC_URL}/unsubscribe?t=${sub.token}`;
+				const unsub = `${env.SITE_URL}/email/unsubscribe/#t=${sub.token}`;
 				return {
 					from: env.MAIL_FROM,
 					to: [sub.email],
 					subject: entry.title,
 					html: `${entry.html}<hr><p style="font-size:12px;color:#6b6b66">You subscribed at <a href="${env.SITE_URL}">cdrn.xyz</a>. <a href="${unsub}">Unsubscribe</a></p>`,
 					text: `${entry.title}\n\n${entry.text}\n\n${entry.url}\n\n--\nYou subscribed at cdrn.xyz. Unsubscribe: ${unsub}`,
-					headers: { "List-Unsubscribe": `<${unsub}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" },
+					headers: { "List-Unsubscribe": `<${oneClick}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" },
 				};
 			});
 			// If the insert below fails after a successful send, the retry carries the same key and Resend drops it
@@ -195,46 +190,4 @@ function newToken() {
 async function sha256(s) {
 	const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
 	return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
-}
-
-// Dressed like the site: same type, colours, masthead and footer. The site keeps its theme in
-// localStorage, which we can't see from here, so the form sends it along and we store it; with
-// no stored theme the reader's system setting decides.
-function page(env, title, body, status = 200, theme = null) {
-	const dark = "--bg: #191a1e; --ink: #ddd9d0; --muted: #96938c; --link: #8fb6e8; --rule: #34363c;";
-	return new Response(`<!doctype html>
-<html lang="en"${theme ? ` data-theme="${theme}"` : ""}>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex">
-<title>${title}</title>
-<link rel="icon" type="image/png" href="${env.SITE_URL}/favicon.png">
-<style>
-@font-face { font-family: "Spectral"; font-weight: 400; font-display: swap; src: url("${env.SITE_URL}/fonts/spectral-400.woff2") format("woff2"); }
-@font-face { font-family: "Spectral"; font-weight: 700; font-display: swap; src: url("${env.SITE_URL}/fonts/spectral-700.woff2") format("woff2"); }
-:root { --bg: #fdfcf8; --ink: #2b2926; --muted: #6b6b66; --link: #1a5296; --rule: #ddd9d0; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { ${dark} } }
-:root[data-theme="dark"] { ${dark} }
-* { box-sizing: border-box; }
-body { max-width: 72ch; margin: 0 auto; padding: 1em; background: var(--bg); color: var(--ink); font: 18px/1.7 "Spectral", Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif; -webkit-font-smoothing: antialiased; }
-header { margin-bottom: 2em; padding-bottom: 1em; border-bottom: 1px solid var(--rule); font-weight: bold; }
-header a { color: var(--ink); text-decoration: none; }
-h1 { font-size: 1.6em; line-height: 1.25; margin: 0 0 0.6em; }
-a { color: var(--link); }
-button { font: inherit; padding: 0.15em 0.9em; border: 1px solid var(--rule); border-radius: 4px; background: transparent; color: var(--ink); cursor: pointer; }
-button:hover { border-color: var(--muted); }
-footer { margin-top: 4em; padding: 1em 0; border-top: 1px solid var(--rule); font-size: 0.9em; }
-footer a { color: var(--muted); }
-</style>
-</head>
-<body>
-<header><a href="${env.SITE_URL}">Chris Doran</a></header>
-<main>
-<h1>${title}</h1>
-${body}
-</main>
-<footer><a href="${env.SITE_URL}">Back to cdrn.xyz</a></footer>
-</body>
-</html>`, { status, headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store", "referrer-policy": "no-referrer" } });
 }
