@@ -808,46 +808,40 @@ h6:hover .header-anchor,
 	margin: 0.5em 0;
 }
 
-/* Subscribe form */
+/* Subscribe form - one quiet line at the top of the footer */
 .subscribe {
-	margin-top: 3em;
-	padding-top: 1.2em;
-	border-top: 1px solid var(--border-color);
-	font-size: 0.9em;
-	color: var(--text-color-muted);
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.4em 0.6em;
+	margin: 0 0 1.2em;
 }
 
 .subscribe label {
 	color: var(--text-color);
+	margin-right: 0.2em;
 }
 
-.subscribe-note {
-	margin: 0.2em 0 0;
-	font-size: 0.85em;
-}
-
-.subscribe-row {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.5em;
-	margin-top: 0.6em;
-}
-
-.subscribe input,
+.subscribe input[type="email"],
 .subscribe button {
 	font-family: var(--font-family);
 	font-size: 1em;
 	line-height: 1.5;
-	padding: 0.3em 0.8em;
+	padding: 0.15em 0.7em;
 	border: 1px solid var(--border-color);
 	border-radius: 4px;
 	background: transparent;
 	color: var(--text-color);
 }
 
-.subscribe input {
-	flex: 1 1 16em;
+.subscribe input[type="email"] {
+	flex: 0 1 15em;
 	min-width: 0;
+}
+
+.subscribe input[type="email"]::placeholder {
+	color: var(--text-color-muted);
+	opacity: 0.7;
 }
 
 .subscribe button {
@@ -860,8 +854,10 @@ h6:hover .header-anchor,
 	border-color: var(--text-color-muted);
 }
 
-.post-attestation + .subscribe {
-	margin-top: 1.5em;
+.subscribe-note {
+	flex-basis: 100%;
+	margin: 0;
+	font-size: 0.85em;
 }
 
 /* Footer */
@@ -1133,26 +1129,27 @@ For this reason, storage in eth is more or less treated as a hashmap which is es
 <p>Woof, that was a lot! In the next post i'll quickly go over your best and quickest ways to index ethereum contract data at scale. I'll also upload the slide deck from the talk.</p>
 
 <p class="post-attestation">provenance: <code>sha256 9c4afee0…</code> · <a href="slurpingcontractdatapt2.md">source</a> · <a href="attestation.txt">signed</a> · <a href="slurpingcontractdatapt2.md.ots">timestamped</a></p>
-
-
-<form class="subscribe" action="https://cdrn-mail.cdrn.workers.dev/subscribe" method="post">
-  <label for="subscribe-email">Get new posts by email</label>
-  <p class="subscribe-note">One email per post, about a day after it goes up. Nothing else, and you can unsubscribe any time.</p>
-  <div hidden><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
-  <div class="subscribe-row">
-    <input type="email" name="email" id="subscribe-email" placeholder="you@example.com" autocomplete="email" required>
-    <button type="submit">Subscribe</button>
-  </div>
-</form>
-
 <ul class="links-nextprev"><li>Previous: <a href="/blog/slurpingcontractdatapt1/">Eth contract data pt 1.</a></li><li>Next: <a href="/blog/slurpingcontractdatapt3/">Eth contract data pt 3. How to run your own graph node</a></li>
 </ul>
 
     </main>
     <footer>
+      
+<form class="subscribe" id="subscribe" action="https://cdrn-mail.cdrn.workers.dev/subscribe" method="post">
+  <label for="subscribe-email">New posts by email</label>
+  <div hidden><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+  <input type="hidden" name="theme">
+  <input type="email" name="email" id="subscribe-email" placeholder="you@example.com" autocomplete="email" required>
+  <button type="submit">Subscribe</button>
+  <p class="subscribe-note">One email per post, about a day after it goes up. Unsubscribe any time.</p>
+</form>
+<script>
+  document.getElementById('subscribe').addEventListener('submit', function () {
+    this.elements.theme.value = localStorage.getItem('theme') || 'light';
+  });
+</script>
+
       <a href="/feed/feed.xml">RSS</a>
-      ·
-      <a href="/#subscribe">Email</a>
       ·
       <a href="https://github.com/cdrn/cdrn.github.io">Source</a>
       ·
