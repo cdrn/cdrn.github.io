@@ -36,7 +36,9 @@ assert.equal((await mails()).length, 0, "honeypot and bad address send nothing")
 // a failed send must not lock the address out for a day
 await fetch(S + "/fail-next");
 assert.equal((await sub({ email: "ada@example.com" })).status, 500);
-assert.equal((await sub({ email: " Ada@Example.com " })).status, 200);
+const first = await sub({ email: " Ada@Example.com ", theme: "dark" });
+assert.equal(first.status, 200);
+assert.match(await first.text(), /<html lang="en" data-theme="dark">/);
 assert.equal((await sub({ email: "ada@example.com" })).status, 200);
 let m = await mails();
 assert.equal(m.length, 1, "one confirm mail despite two sign-ups");
@@ -44,7 +46,9 @@ assert.deepEqual(m[0].to, ["ada@example.com"]);
 const confirmLink = linkIn(m[0], "confirm");
 
 // a GET (mail scanner) must not confirm
-assert.equal((await fetch(confirmLink)).status, 200);
+const confirmPage = await fetch(confirmLink);
+assert.equal(confirmPage.status, 200);
+assert.match(await confirmPage.text(), /<html lang="en" data-theme="dark">/, "confirm page keeps the theme from sign-up");
 await fetch(S + "/set-feed", { method: "POST", body: feed(old, entry("scan", "While pending", new Date().toISOString())) });
 await cron();
 assert.equal((await mails()).length, 1, "pending subscriber gets no posts");
